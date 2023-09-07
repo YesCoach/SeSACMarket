@@ -1,0 +1,10 @@
+excluded:
+- SeSACMarket/*/AppDelegate.swift
+- SeSACMarket/*/SceneDelegate.swift
+
+disabled_rules:
+- xctfail_message
+- function_parameter_count
+- legacy_constructor
+
+line_length: 99
