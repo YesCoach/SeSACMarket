@@ -57,7 +57,7 @@ private extension TabBarController {
 
     func configureViewControllers() {
         let viewControllers: [UIViewController] = ContentViewControllers.allCases.map {
-            let viewController = $0.initiate
+            let viewController = UINavigationController(rootViewController: $0.initiate)
             viewController.tabBarItem = $0.tabBarItem
             return viewController
         }
