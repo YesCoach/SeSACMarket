@@ -22,6 +22,7 @@
 		896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AAF2AA9BC8B00D8A1E9 /* Constants.swift */; };
 		896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */; };
 		896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */; };
+		896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		896E4AAF2AA9BC8B00D8A1E9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */,
+				896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
 				896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */,
+				896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */,
 				896E4AA92AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
 				896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */,
