@@ -21,6 +21,7 @@
 		896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AAA2AA9BA7B00D8A1E9 /* TabBarController.swift */; };
 		896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AAF2AA9BC8B00D8A1E9 /* Constants.swift */; };
 		896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */; };
+		896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		896E4AAA2AA9BA7B00D8A1E9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		896E4AAF2AA9BC8B00D8A1E9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		896E4AAD2AA9BBF300D8A1E9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				896E4AB82AA9C95D00D8A1E9 /* Extension */,
 				896E4AB12AA9BCAA00D8A1E9 /* Constants */,
 			);
 			path = Common;
@@ -151,6 +154,14 @@
 				896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */,
 			);
 			path = Favorite;
+			sourceTree = "<group>";
+		};
+		896E4AB82AA9C95D00D8A1E9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +275,7 @@
 				896E4AA92AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
 				896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */,
+				896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

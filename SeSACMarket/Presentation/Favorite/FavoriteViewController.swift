@@ -12,6 +12,7 @@ final class FavoriteViewController: BaseViewController {
     override func configureUI() {
         super.configureUI()
         view.backgroundColor = .systemOrange
+
     }
 
 }

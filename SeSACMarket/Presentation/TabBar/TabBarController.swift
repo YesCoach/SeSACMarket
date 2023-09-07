@@ -52,8 +52,7 @@ private extension TabBarController {
 
     func configureUI() {
         self.view.backgroundColor = .systemBackground
-        self.view.tintColor = .black
-
+        self.view.tintColor = .systemBlack
     }
 
     func configureViewControllers() {
