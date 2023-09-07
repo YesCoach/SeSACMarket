@@ -12,6 +12,10 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     private lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .lightGray
+        imageView.image = .init(systemName: "home")
+        imageView.layer.cornerRadius = Constants.Design.cornerRadius
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -21,8 +25,9 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         button.setImage(.init(systemName: "heart.fill"), for: .selected)
         button.tintColor = .black
         button.backgroundColor = .white
-        button.layer.cornerRadius = button.frame.width / 2
-        button.layer.masksToBounds = true
+        // todo: 버튼 cornerRadius를 원으로 적용하기
+        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
         return button
     }()
 
@@ -31,6 +36,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.textColor = .secondaryLabel
         label.backgroundColor = .systemBackground
+        label.text = "새싹몰"
         return label
     }()
 
@@ -40,6 +46,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         label.textColor = .tertiaryLabel
         label.backgroundColor = .systemBackground
         label.numberOfLines = 2
+        label.text = "맥북"
         return label
     }()
 
@@ -48,12 +55,13 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         label.font = .systemFont(ofSize: 15, weight: .bold)
         label.textColor = .label
         label.backgroundColor = .systemBackground
+        label.text = "10000000원"
         return label
     }()
 
     override func configureUI() {
         super.configureUI()
-        contentView.backgroundColor = .systemBackground
+        contentView.clipsToBounds = true
     }
 
     override func configureLayout() {
@@ -75,13 +83,22 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
             $0.horizontalEdges.equalToSuperview()
         }
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(mallNameLabel)
+            $0.top.equalTo(mallNameLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
         }
         priceLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.greaterThanOrEqualTo(contentView)
+            $0.bottom.lessThanOrEqualTo(contentView)
         }
+    }
+}
+
+extension SearchCollectionViewCell {
+    func configureMock() {
+        thumbnailImageView.image = .init(systemName: "house")!
+        mallNameLabel.text = "새싹몰"
+        titleLabel.text = "상품명"
+        priceLabel.text = "1233141242142141421"
     }
 }

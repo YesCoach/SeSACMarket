@@ -7,4 +7,13 @@
 
 import Foundation
 
-enum Constants { }
+enum Constants {
+
+    enum Design {
+
+        static let commonInset: CGFloat = 20.0
+        static let cornerRadius: CGFloat = 10.0
+
+    }
+
+}
