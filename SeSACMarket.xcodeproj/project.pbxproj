@@ -26,6 +26,8 @@
 		896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */; };
 		896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */; };
 		896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC42AA9FB2000D8A1E9 /* APIError.swift */; };
+		896E4AD02AAADE8C00D8A1E9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 896E4ACF2AAADE8C00D8A1E9 /* .gitignore */; };
+		896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD32AAAE12500D8A1E9 /* APIKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
 		896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+.swift"; sourceTree = "<group>"; };
 		896E4AC42AA9FB2000D8A1E9 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		896E4ACF2AAADE8C00D8A1E9 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		896E4AD32AAAE12500D8A1E9 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				896E4A952AA9AE3A00D8A1E9 /* .swiftlint.yml */,
+				896E4ACF2AAADE8C00D8A1E9 /* .gitignore */,
 				896E4A7F2AA99C5600D8A1E9 /* SeSACMarket */,
 				896E4A7E2AA99C5600D8A1E9 /* Products */,
 			);
@@ -188,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				896E4AC42AA9FB2000D8A1E9 /* APIError.swift */,
+				896E4AD32AAAE12500D8A1E9 /* APIKey.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				896E4AD02AAADE8C00D8A1E9 /* .gitignore in Resources */,
 				896E4A962AA9AE3A00D8A1E9 /* .swiftlint.yml in Resources */,
 				896E4A8D2AA99C5A00D8A1E9 /* LaunchScreen.storyboard in Resources */,
 				896E4A8A2AA99C5A00D8A1E9 /* Assets.xcassets in Resources */,
@@ -298,6 +305,7 @@
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
 				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
+				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
