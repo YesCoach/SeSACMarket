@@ -35,7 +35,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     private lazy var mallNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .secondaryLabel
+        label.textColor = .tertiaryLabel
         label.backgroundColor = .systemBackground
         label.text = "새싹몰"
         return label
@@ -44,7 +44,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .tertiaryLabel
+        label.textColor = .secondaryLabel
         label.backgroundColor = .systemBackground
         label.numberOfLines = 2
         label.text = "맥북"
