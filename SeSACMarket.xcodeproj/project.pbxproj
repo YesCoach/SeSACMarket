@@ -28,6 +28,7 @@
 		896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC42AA9FB2000D8A1E9 /* APIError.swift */; };
 		896E4AD02AAADE8C00D8A1E9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 896E4ACF2AAADE8C00D8A1E9 /* .gitignore */; };
 		896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD32AAAE12500D8A1E9 /* APIKey.swift */; };
+		896E4AD62AAAE1AD00D8A1E9 /* APIURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD52AAAE1AD00D8A1E9 /* APIURL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		896E4AC42AA9FB2000D8A1E9 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		896E4ACF2AAADE8C00D8A1E9 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		896E4AD32AAAE12500D8A1E9 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		896E4AD52AAAE1AD00D8A1E9 /* APIURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 			children = (
 				896E4AC42AA9FB2000D8A1E9 /* APIError.swift */,
 				896E4AD32AAAE12500D8A1E9 /* APIKey.swift */,
+				896E4AD52AAAE1AD00D8A1E9 /* APIURL.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
 				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
+				896E4AD62AAAE1AD00D8A1E9 /* APIURL.swift in Sources */,
 				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
