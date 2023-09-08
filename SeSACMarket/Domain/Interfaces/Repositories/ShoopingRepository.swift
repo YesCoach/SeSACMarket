@@ -10,9 +10,7 @@ import Foundation
 protocol ShoppingRepository {
     func searchShoppingItems(
         with keyword: String,
-        display: Int,
-        start: Int,
-        sort: APIEndPoint.NaverAPI.QueryType.SortType,
+        query: [APIEndPoint.NaverAPI.QueryType]?,
         completion: @escaping (Result<NaverSearchResult<Goods>, APIError>) -> Void
     )
 }

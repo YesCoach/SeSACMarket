@@ -20,20 +20,14 @@ final class DefaultShoppingRepository {
 extension DefaultShoppingRepository: ShoppingRepository {
     func searchShoppingItems(
         with keyword: String,
-        display: Int,
-        start: Int,
-        sort: APIEndPoint.NaverAPI.QueryType.SortType,
+        query: [APIEndPoint.NaverAPI.QueryType]?,
         completion: @escaping (Result<NaverSearchResult<Goods>, APIError>) -> Void
     ) {
         networkManager.request(
             api: .search(
                 type: .shop,
                 searchKeyword: keyword,
-                query: [
-                    .display(count: display),
-                    .start(idx: start),
-                    .sort(type: sort)
-                ]
+                query: query ?? []
             )
         ) { (result: Result<NaverSearchResultDTO<GoodsDTO>, APIError>) in
             switch result {

@@ -36,7 +36,8 @@ extension DefaultFetchShoppingUseCase: FetchShoppingUseCase {
         completion: @escaping (Result<NaverSearchResult<Goods>, APIError>) -> Void
     ) {
         shoppingRepository.searchShoppingItems(
-            with: keyword, display: display, start: start, sort: sort
+            with: keyword,
+            query: [.display(count: display), .start(idx: start), .sort(type: sort)]
         ) { result in
             completion(result)
         }

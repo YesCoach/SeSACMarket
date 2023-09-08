@@ -10,7 +10,7 @@ import Foundation
 enum APIEndPoint {
 
     enum NaverAPI {
-        case search(type: SearchType, searchKeyword: String, query: [QueryType])
+        case search(type: SearchType, searchKeyword: String, query: [QueryType]?)
     }
 
 }
@@ -64,8 +64,10 @@ extension APIEndPoint.NaverAPI {
 
         switch self {
         case let .search( _, _, query):
-            urlQueryItems = query.map {
-                URLQueryItem(name: "\($0)", value: $0.description)
+            if let query {
+                urlQueryItems = query.map {
+                    URLQueryItem(name: "\($0)", value: $0.description)
+                }
             }
         }
         urlQueryItems.forEach {
