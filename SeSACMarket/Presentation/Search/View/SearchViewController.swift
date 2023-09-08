@@ -71,6 +71,7 @@ final class SearchViewController: BaseViewController {
         )
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
 
         return collectionView
     }()
@@ -207,4 +208,20 @@ extension SearchViewController: UICollectionViewDataSource {
 
 extension SearchViewController: UICollectionViewDelegate {
 
+}
+
+extension SearchViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        prefetchItemsAt indexPaths: [IndexPath]
+    ) {
+        viewModel.prefetchItemsAt(indexPaths: indexPaths)
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cancelPrefetchingForItemsAt indexPaths: [IndexPath]
+    ) {
+
+    }
 }

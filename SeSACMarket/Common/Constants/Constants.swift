@@ -16,4 +16,9 @@ enum Constants {
 
     }
 
+    enum API {
+
+        static let searchIdxLimit = 1000
+    }
+
 }
