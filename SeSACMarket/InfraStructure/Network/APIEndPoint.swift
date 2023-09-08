@@ -53,7 +53,7 @@ extension APIEndPoint.NaverAPI {
         switch self {
         case let .search(type, searchKeyword, _):
             return URLComponents(
-                string: Self.baseURL + "search/\(type)?query=\(searchKeyword)"
+                string: Self.baseURL + "search/\(type).json?query=\(searchKeyword)"
             )
         }
     }

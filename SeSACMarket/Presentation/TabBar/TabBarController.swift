@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
 
         var initiate: UIViewController {
             switch self {
-            case .search: return SearchViewController()
+            case .search: return AppDIContainer().makeDIContainer().makeSearchViewController()
             case .favorite: return FavoriteViewController()
             }
         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SearchCollectionViewCell: BaseCollectionViewCell {
 
@@ -59,6 +60,11 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        thumbnailImageView.image = nil
+    }
+
     override func configureUI() {
         super.configureUI()
         contentView.clipsToBounds = true
@@ -100,5 +106,14 @@ extension SearchCollectionViewCell {
         mallNameLabel.text = "새싹몰"
         titleLabel.text = "상품명"
         priceLabel.text = "1233141242142141421"
+    }
+
+    func configure(with data: Goods) {
+        if let imageURLString = data.image, let imageURL = URL(string: imageURLString) {
+            thumbnailImageView.kf.setImage(with: imageURL)
+        }
+        mallNameLabel.text = data.mallName
+        titleLabel.text = data.title
+        priceLabel.text = data.lowPrice
     }
 }

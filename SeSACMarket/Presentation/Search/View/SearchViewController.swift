@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import RxSwift
+import RxRelay
 
 final class SearchViewController: BaseViewController {
+
+    // MARK: - UI Components
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -73,6 +77,27 @@ final class SearchViewController: BaseViewController {
 
     private let spacing = Constants.Design.commonInset
 
+    // MARK: - ViewModel
+
+    private let viewModel: SearchViewModel
+    private let disposeBag = DisposeBag()
+
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Methods
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindViewModel()
+    }
+
     override func configureUI() {
         super.configureUI()
         view.backgroundColor = .systemBackground
@@ -101,6 +126,25 @@ final class SearchViewController: BaseViewController {
 
 }
 
+private extension SearchViewController {
+
+    func bindViewModel() {
+        viewModel.itemList
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] _ in
+                guard let self else { return }
+                collectionView.reloadData()
+            } onError: { error in
+                debugPrint(error)
+            }
+            .disposed(by: disposeBag)
+    }
+
+    func searchShoppingItem(with keyword: String) {
+        viewModel.searchShoppingItem(with: keyword)
+    }
+}
+
 // MARK: - UISearchBarDelegate 구현부
 
 extension SearchViewController: UISearchBarDelegate {
@@ -119,6 +163,7 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        searchShoppingItem(with: searchBar.text!)
     }
 }
 
@@ -134,7 +179,8 @@ extension SearchViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 10
+        let count = try? viewModel.itemList.value().count
+        return count ?? 0
     }
 
     func collectionView(
@@ -147,7 +193,11 @@ extension SearchViewController: UICollectionViewDataSource {
         ) as? SearchCollectionViewCell
         else { return UICollectionViewCell() }
 
-        cell.configureMock()
+        guard let data = try? viewModel.itemList.value()
+        else { return UICollectionViewCell() }
+
+        cell.configure(with: data[indexPath.item])
+
         return cell
     }
 

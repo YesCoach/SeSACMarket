@@ -10,24 +10,28 @@ import Foundation
 struct GoodsDTO: DTOMapping {
     typealias DomainType = Goods
 
-    let productID: String?
+    let productId: String?
     let title: String
     let link: String?
     let image: String?
-    let lowPrice: String?
-    let highPrice: String?
+    let lprice: String?
+    let hprice: String?
     let mallName: String?
     let brand: String?
     let maker: String?
 
     func toDomain() -> DomainType {
+        let adjustedTitle = title
+            .replacingOccurrences(of: "<b>", with: "")
+            .replacingOccurrences(of: "</b>", with: "")
+
         return .init(
-            productID: productID,
-            title: title,
+            productID: productId,
+            title: adjustedTitle,
             link: link,
             image: image,
-            lowPrice: lowPrice,
-            highPrice: highPrice,
+            lowPrice: lprice,
+            highPrice: hprice,
             mallName: mallName,
             brand: brand,
             maker: maker
