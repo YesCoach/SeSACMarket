@@ -37,22 +37,20 @@ final class SearchViewController: BaseViewController {
             )
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: spacing)
 
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
-                subitems: [item]
-            )
-            group.contentInsets = .init(
-                top: spacing,
-                leading: spacing,
-                bottom: spacing,
-                trailing: 0
-            )
+            var group: NSCollectionLayoutGroup
+
+            if #available(iOS 16.0, *) {
+                group = .horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+                group.interItemSpacing = .fixed(spacing)
+            } else {
+                group = .horizontal(layoutSize: groupSize, subitem: item, count: 2)
+                group.interItemSpacing = .fixed(spacing)
+            }
+            group.contentInsets = .init(top: spacing, leading: spacing, bottom: 0, trailing: spacing)
 
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 0
-            section.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
 
             return section
         }
@@ -153,6 +151,5 @@ extension SearchViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate 구현부
 
 extension SearchViewController: UICollectionViewDelegate {
-
 
 }

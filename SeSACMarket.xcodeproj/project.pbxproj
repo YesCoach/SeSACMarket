@@ -23,6 +23,9 @@
 		896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */; };
 		896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */; };
 		896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */; };
+		896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */; };
+		896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */; };
+		896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AC42AA9FB2000D8A1E9 /* APIError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		896E4AB62AA9C26900D8A1E9 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+.swift"; sourceTree = "<group>"; };
+		896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+.swift"; sourceTree = "<group>"; };
+		896E4AC42AA9FB2000D8A1E9 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,7 @@
 			children = (
 				896E4A972AA9B08B00D8A1E9 /* Application */,
 				896E4A9E2AA9B63700D8A1E9 /* Presentation */,
+				896E4ABD2AA9F9ED00D8A1E9 /* InfraStructure */,
 				896E4AAD2AA9BBF300D8A1E9 /* Common */,
 				896E4A892AA99C5A00D8A1E9 /* Assets.xcassets */,
 				896E4A8B2AA99C5A00D8A1E9 /* LaunchScreen.storyboard */,
@@ -128,8 +135,8 @@
 		896E4AAD2AA9BBF300D8A1E9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				896E4AB82AA9C95D00D8A1E9 /* Extension */,
 				896E4AB12AA9BCAA00D8A1E9 /* Constants */,
+				896E4AB82AA9C95D00D8A1E9 /* Extension */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -163,8 +170,26 @@
 			isa = PBXGroup;
 			children = (
 				896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */,
+				896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */,
+				896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		896E4ABD2AA9F9ED00D8A1E9 /* InfraStructure */ = {
+			isa = PBXGroup;
+			children = (
+				896E4ABF2AA9FA1000D8A1E9 /* Network */,
+			);
+			path = InfraStructure;
+			sourceTree = "<group>";
+		};
+		896E4ABF2AA9FA1000D8A1E9 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				896E4AC42AA9FB2000D8A1E9 /* APIError.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +296,8 @@
 			files = (
 				896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */,
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
+				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
+				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
@@ -280,6 +307,7 @@
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
 				896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */,
 				896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */,
+				896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
