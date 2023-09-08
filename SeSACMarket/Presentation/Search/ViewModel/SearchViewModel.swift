@@ -33,7 +33,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
 
     private var searchDisplayCount = 30
-    private var searchStartIndex = 0
+    private var searchStartIndex = 1
     private var sortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
 
 }

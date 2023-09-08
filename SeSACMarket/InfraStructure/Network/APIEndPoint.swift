@@ -38,11 +38,19 @@ extension APIEndPoint.NaverAPI {
             case dsc
         }
 
-        var description: String {
+        var queryValue: String {
             switch self {
             case .display(let count): return String(count)
             case .start(let idx): return String(idx)
             case .sort(let type): return "\(type)"
+            }
+        }
+
+        var queryName: String {
+            switch self {
+            case .display: return "display"
+            case .sort: return "sort"
+            case .start: return "start"
             }
         }
     }
@@ -66,7 +74,7 @@ extension APIEndPoint.NaverAPI {
         case let .search( _, _, query):
             if let query {
                 urlQueryItems = query.map {
-                    URLQueryItem(name: "\($0)", value: $0.description)
+                    URLQueryItem(name: $0.queryName, value: $0.queryValue)
                 }
             }
         }
