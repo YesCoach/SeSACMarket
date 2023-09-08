@@ -31,6 +31,7 @@
 		896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD52AAAE1AD00D8A1E9 /* APIEndPoint.swift */; };
 		896E4AD82AAAEB9900D8A1E9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */; };
 		896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */; };
+		896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4ADE2AAAF73700D8A1E9 /* Goods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		896E4AD52AAAE1AD00D8A1E9 /* APIEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndPoint.swift; sourceTree = "<group>"; };
 		896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHeader.swift; sourceTree = "<group>"; };
+		896E4ADE2AAAF73700D8A1E9 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				896E4A972AA9B08B00D8A1E9 /* Application */,
+				896E4ADD2AAAF71300D8A1E9 /* Domain */,
 				896E4A9E2AA9B63700D8A1E9 /* Presentation */,
 				896E4ABD2AA9F9ED00D8A1E9 /* InfraStructure */,
 				896E4AAD2AA9BBF300D8A1E9 /* Common */,
@@ -198,13 +201,21 @@
 		896E4ABF2AA9FA1000D8A1E9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */,
 				896E4AC42AA9FB2000D8A1E9 /* APIError.swift */,
 				896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */,
 				896E4AD32AAAE12500D8A1E9 /* APIKey.swift */,
 				896E4AD52AAAE1AD00D8A1E9 /* APIEndPoint.swift */,
-				896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		896E4ADD2AAAF71300D8A1E9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				896E4ADE2AAAF73700D8A1E9 /* Goods.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,6 +324,7 @@
 				896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */,
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
+				896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */,
 				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
 				896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */,
 				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
