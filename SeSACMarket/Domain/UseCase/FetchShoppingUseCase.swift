@@ -12,22 +12,33 @@ protocol FetchShoppingUseCase {
         with keyword: String,
         display: Int,
         start: Int,
-        sort: String
-    ) -> GoodsSearchResult
+        sort: APIEndPoint.NaverAPI.QueryType.SortType,
+        completion: @escaping (Result<NaverSearchResult<Goods>, APIError>) -> Void
+    )
 }
 
 final class DefaultFetchShoppingUseCase {
+
+    private let shoppingRepository: ShoppingRepository
+
+    init(shoppingRepository: ShoppingRepository) {
+        self.shoppingRepository = shoppingRepository
+    }
 
 }
 
 extension DefaultFetchShoppingUseCase: FetchShoppingUseCase {
     func fetchShoppingList(
         with keyword: String,
-        display: Int,
+        display: Int = 30,
         start: Int,
-        sort: String
-    ) -> GoodsSearchResult {
-        let result = GoodsSearchResult(lastBuildDate: nil, total: nil, start: nil, display: nil, items: nil)
-        return result
+        sort: APIEndPoint.NaverAPI.QueryType.SortType,
+        completion: @escaping (Result<NaverSearchResult<Goods>, APIError>) -> Void
+    ) {
+        shoppingRepository.searchShoppingItems(
+            with: keyword, display: display, start: start, sort: sort
+        ) { result in
+            completion(result)
+        }
     }
 }

@@ -7,17 +7,8 @@
 
 import Foundation
 
-// MARK: - GoodsSearchResult
-
-struct GoodsSearchResult {
-    let lastBuildDate: String?
-    let total: Int?
-    let start: Int?
-    let display: Int?
-    let items: [Goods]?
-}
-
 // MARK: - Goods
+
 struct Goods {
     let productID: String?
     let title: String
