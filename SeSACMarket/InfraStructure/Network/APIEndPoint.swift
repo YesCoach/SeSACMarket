@@ -1,5 +1,5 @@
 //
-//  APIURL.swift
+//  APIEndPoint.swift
 //  SeSACMarket
 //
 //  Created by 박태현 on 2023/09/08.
@@ -7,14 +7,15 @@
 
 import Foundation
 
-enum APIURL {
+enum APIEndPoint {
 
     enum NaverAPI {
         case search(type: SearchType, searchKeyword: String, query: [QueryType])
     }
+
 }
 
-extension APIURL.NaverAPI {
+extension APIEndPoint.NaverAPI {
 
     enum SearchType {
         case shop
@@ -57,7 +58,7 @@ extension APIURL.NaverAPI {
         }
     }
 
-    var url: URL? {
+    var requestURL: URL? {
         var urlComponents = self.urlComponents
         var urlQueryItems: [URLQueryItem] = []
 
@@ -71,6 +72,5 @@ extension APIURL.NaverAPI {
             urlComponents?.queryItems?.append($0)
         }
         return urlComponents?.url
-
     }
 }

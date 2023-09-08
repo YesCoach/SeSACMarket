@@ -47,7 +47,12 @@ final class SearchViewController: BaseViewController {
                 group = .horizontal(layoutSize: groupSize, subitem: item, count: 2)
                 group.interItemSpacing = .fixed(spacing)
             }
-            group.contentInsets = .init(top: spacing, leading: spacing, bottom: 0, trailing: spacing)
+            group.contentInsets = .init(
+                top: spacing,
+                leading: spacing,
+                bottom: 0,
+                trailing: spacing
+            )
 
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 0
