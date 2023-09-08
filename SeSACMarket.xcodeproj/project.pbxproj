@@ -32,6 +32,7 @@
 		896E4AD82AAAEB9900D8A1E9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */; };
 		896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */; };
 		896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4ADE2AAAF73700D8A1E9 /* Goods.swift */; };
+		896E4AE32AAAF95400D8A1E9 /* FetchShoppingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		896E4AD72AAAEB9900D8A1E9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHeader.swift; sourceTree = "<group>"; };
 		896E4ADE2AAAF73700D8A1E9 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
+		896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchShoppingUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				896E4A972AA9B08B00D8A1E9 /* Application */,
 				896E4ADD2AAAF71300D8A1E9 /* Domain */,
 				896E4A9E2AA9B63700D8A1E9 /* Presentation */,
+				896E4AE62AAAFB6200D8A1E9 /* Data */,
 				896E4ABD2AA9F9ED00D8A1E9 /* InfraStructure */,
 				896E4AAD2AA9BBF300D8A1E9 /* Common */,
 				896E4A892AA99C5A00D8A1E9 /* Assets.xcassets */,
@@ -213,9 +216,49 @@
 		896E4ADD2AAAF71300D8A1E9 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				896E4ADE2AAAF73700D8A1E9 /* Goods.swift */,
+				896E4AE02AAAF91D00D8A1E9 /* Entities */,
+				896E4AE12AAAF93E00D8A1E9 /* UseCase */,
+				896E4AE52AAAFB1300D8A1E9 /* Interfaces */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		896E4AE02AAAF91D00D8A1E9 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				896E4ADE2AAAF73700D8A1E9 /* Goods.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		896E4AE12AAAF93E00D8A1E9 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		896E4AE42AAAFAFC00D8A1E9 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		896E4AE52AAAFB1300D8A1E9 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				896E4AE42AAAFAFC00D8A1E9 /* Repositories */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		896E4AE62AAAFB6200D8A1E9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,6 +376,7 @@
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
 				896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */,
 				896E4AD82AAAEB9900D8A1E9 /* NetworkManager.swift in Sources */,
+				896E4AE32AAAF95400D8A1E9 /* FetchShoppingUseCase.swift in Sources */,
 				896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */,
 				896E4AA92AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
