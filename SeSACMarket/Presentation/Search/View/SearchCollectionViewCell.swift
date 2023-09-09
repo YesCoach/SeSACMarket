@@ -63,6 +63,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         thumbnailImageView.image = nil
+        thumbnailImageView.kf.cancelDownloadTask()
     }
 
     override func configureUI() {
@@ -111,6 +112,16 @@ extension SearchCollectionViewCell {
     func configure(with data: Goods) {
         if let imageURLString = data.image, let imageURL = URL(string: imageURLString) {
             thumbnailImageView.kf.setImage(with: imageURL)
+            thumbnailImageView.kf.setImage(
+                with: imageURL,
+                placeholder: UIImage(),
+                options: [
+                    .processor(DownsamplingImageProcessor(size: CGSize(width: 200, height: 200))),
+                    .scaleFactor(UIScreen.main.scale),
+                    .cacheOriginalImage
+                ],
+                completionHandler: nil
+            )
         }
         mallNameLabel.text = data.mallName
         titleLabel.text = data.title
