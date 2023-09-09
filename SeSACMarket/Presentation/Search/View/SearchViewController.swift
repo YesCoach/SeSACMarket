@@ -37,7 +37,7 @@ final class SearchViewController: BaseViewController {
             )
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(0.45)
+                heightDimension: .fractionalHeight(0.5)
             )
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -54,7 +54,7 @@ final class SearchViewController: BaseViewController {
             group.contentInsets = .init(
                 top: spacing,
                 leading: spacing,
-                bottom: 0,
+                bottom: spacing,
                 trailing: spacing
             )
 
@@ -73,6 +73,11 @@ final class SearchViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.prefetchDataSource = self
 
+        return collectionView
+    }()
+
+    private lazy var searchFilterView: UIView = {
+        let collectionView = SearchFilterView(frame: .zero)
         return collectionView
     }()
 
@@ -109,14 +114,19 @@ final class SearchViewController: BaseViewController {
         super.configureLayout()
 
         [
-            searchBar, collectionView
+            searchBar, searchFilterView, collectionView
         ].forEach { view.addSubview($0) }
 
         searchBar.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
-        collectionView.snp.makeConstraints {
+        searchFilterView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(60)
+        }
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(searchFilterView.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -215,6 +225,7 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
         _ collectionView: UICollectionView,
         prefetchItemsAt indexPaths: [IndexPath]
     ) {
+        print(#function)
         viewModel.prefetchItemsAt(indexPaths: indexPaths)
     }
 
@@ -222,6 +233,6 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
         _ collectionView: UICollectionView,
         cancelPrefetchingForItemsAt indexPaths: [IndexPath]
     ) {
-
+        print(#function)
     }
 }

@@ -64,7 +64,7 @@ extension DefaultSearchViewModel {
         else { return }
 
         for indexpath in indexPaths {
-            if itemList.count - 1 == indexpath.item {
+            if itemList.count - 2 == indexpath.item {
                 searchStartIndex += searchDisplayCount
                 fetchShoppingList()
             }
@@ -81,11 +81,11 @@ private extension DefaultSearchViewModel {
             start: searchStartIndex,
             sort: sortType
         ) { [weak self] result in
+            print(#function)
             guard let self else { return }
             switch result {
             case let .success(searchResult):
                 if let items = searchResult.items {
-                    dump(items)
                     dataSourceItemList.append(contentsOf: items)
                     searchTotalCount = searchResult.total
                     itemList.onNext(dataSourceItemList)

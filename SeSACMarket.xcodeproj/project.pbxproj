@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		895A20AD2AACA37700173626 /* SearchFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */; };
+		895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AE2AACAD5A00173626 /* SearchFilterView.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		895A20AE2AACAD5A00173626 /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 			children = (
 				896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */,
 				896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */,
+				895A20AE2AACAD5A00173626 /* SearchFilterView.swift */,
+				895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
 				896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */,
 				896E4AD82AAAEB9900D8A1E9 /* NetworkManager.swift in Sources */,
+				895A20AD2AACA37700173626 /* SearchFilterCollectionViewCell.swift in Sources */,
 				896E4AF32AAB00F300D8A1E9 /* DTOMapping.swift in Sources */,
 				896E4AE32AAAF95400D8A1E9 /* FetchShoppingUseCase.swift in Sources */,
 				896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */,
@@ -473,6 +480,7 @@
 				896E4AF52AAB037600D8A1E9 /* GoodsDTO+Mapping.swift in Sources */,
 				896E4AEC2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift in Sources */,
 				896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */,
+				895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */,
 				896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */,
 				896E4AF72AAB03DF00D8A1E9 /* NaverSearchResult.swift in Sources */,
 				896E4B022AAB213B00D8A1E9 /* SearchViewModel.swift in Sources */,
