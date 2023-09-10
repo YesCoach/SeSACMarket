@@ -46,4 +46,8 @@ extension RealmGoodsStorage: GoodsStorage {
         }
     }
 
+    func checkContains(goodsEntity: GoodsEntity) -> Bool {
+        return realmStorage.contains(GoodsEntity.self, primaryKey: goodsEntity.productID)
+    }
+
 }

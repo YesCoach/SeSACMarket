@@ -27,10 +27,13 @@ final class RealmStorage {
 extension RealmStorage {
 
     func checkSchemaVersion() {
-        guard let realm else { return }
+        guard let realm,
+              let fileURL = realm.configuration.fileURL
+        else { return }
         do {
-            let version = try schemaVersionAtURL(realm.configuration.fileURL!)
+            let version = try schemaVersionAtURL(fileURL)
             print("Schema Version: \(version)")
+            print("Schema direction: \(fileURL)")
         } catch {
             print(error)
         }
@@ -40,6 +43,7 @@ extension RealmStorage {
 
     func createData<T: Object>(data: T) {
         guard let realm else { return }
+
         do {
             try realm.write {
                 realm.add(data)
@@ -54,7 +58,14 @@ extension RealmStorage {
         guard let realm else { throw RealmError.invalidInitialize }
         return realm
             .objects(object)
-            .sorted(byKeyPath: "title", ascending: true)
+            .sorted(byKeyPath: "date", ascending: true)
+    }
+
+    func contains<T: Object>(_ object: T.Type, primaryKey: String) -> Bool {
+        guard let realm,
+              let _ = realm.object(ofType: object, forPrimaryKey: primaryKey)
+        else { return false }
+        return true
     }
 
     func updateData<T: Object>(data: T, completion: ((T) -> Void)) {

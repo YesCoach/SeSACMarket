@@ -11,6 +11,7 @@ protocol FavoriteShoppingUseCase {
     func enrollFavoriteGoods(goods: Goods)
     func readFavoriteGoodsData() -> [Goods]
     func removeFavoriteGoods(goods: Goods)
+    func isFavoriteEnrolled(goods: Goods) -> Bool
 }
 
 final class DefaultFavoriteShoppingUseCase {
@@ -31,5 +32,8 @@ extension DefaultFavoriteShoppingUseCase: FavoriteShoppingUseCase {
     }
     func removeFavoriteGoods(goods: Goods) {
         return localShoppingRepository.deleteGoodsData(goods: goods)
+    }
+    func isFavoriteEnrolled(goods: Goods) -> Bool {
+        return localShoppingRepository.isFavoriteEnrolled(goods: goods)
     }
 }

@@ -227,7 +227,10 @@ extension SearchViewController: UICollectionViewDataSource {
         guard let data = try? viewModel.itemList.value()
         else { return UICollectionViewCell() }
 
-        cell.configure(with: data[indexPath.item])
+        cell.configure(with: data[indexPath.item]) { [weak self] (data, isFavorite) in
+            guard let self else { return }
+            viewModel.likeButtonDidTouched(with: data, isFavorite: isFavorite)
+        }
 
         return cell
     }

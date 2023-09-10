@@ -31,6 +31,10 @@ extension DefaultLocalShoppingRepository: LocalShoppingRepository {
         goodsStorage.deleteGoodsData(goodsEntity: goods.toEntity())
     }
 
+    func isFavoriteEnrolled(goods: Goods) -> Bool {
+        return goodsStorage.checkContains(goodsEntity: goods.toEntity())
+    }
+
 }
 
 extension Goods {

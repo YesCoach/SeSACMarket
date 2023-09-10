@@ -11,4 +11,5 @@ protocol LocalShoppingRepository {
     func createGoodsData(goods: Goods)
     func readGoodsData() -> [Goods]
     func deleteGoodsData(goods: Goods)
+    func isFavoriteEnrolled(goods: Goods) -> Bool
 }

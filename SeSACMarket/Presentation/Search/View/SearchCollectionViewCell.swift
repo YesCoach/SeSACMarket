@@ -10,6 +10,8 @@ import Kingfisher
 
 final class SearchCollectionViewCell: BaseCollectionViewCell {
 
+    // MARK: - UI Components
+
     private lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -29,6 +31,8 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         // todo: 버튼 cornerRadius를 원으로 적용하기
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
+
+        button.addTarget(self, action: #selector(likeButtonDidTouched(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -60,10 +64,18 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         return label
     }()
 
+    private var completion: ((Goods, Bool) -> Void)?
+    private var data: Goods?
+
+    // MARK: - Methods
+
     override func prepareForReuse() {
         super.prepareForReuse()
         thumbnailImageView.image = nil
         thumbnailImageView.kf.cancelDownloadTask()
+        completion = nil
+        data = nil
+        likeButton.isSelected = false
     }
 
     override func configureUI() {
@@ -99,19 +111,26 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
             $0.bottom.lessThanOrEqualTo(contentView)
         }
     }
+
+    // MARK: - Action
+
+    @objc private func likeButtonDidTouched(_ sender: UIButton) {
+        guard let data else { return }
+        sender.isSelected.toggle()
+        completion?(data, sender.isSelected)
+    }
+
 }
 
 extension SearchCollectionViewCell {
-    func configureMock() {
-        thumbnailImageView.image = .init(systemName: "house")!
-        mallNameLabel.text = "새싹몰"
-        titleLabel.text = "상품명"
-        priceLabel.text = "1233141242142141421"
-    }
 
-    func configure(with data: Goods) {
+    func configure(with data: Goods, likeButtonDidTouched: @escaping (Goods, Bool) -> Void) {
+        self.data = data
+        mallNameLabel.text = data.mallName
+        titleLabel.text = data.title
+        likeButton.isSelected = data.favorite
+
         if let imageURLString = data.image, let imageURL = URL(string: imageURLString) {
-            thumbnailImageView.kf.setImage(with: imageURL)
             thumbnailImageView.kf.setImage(
                 with: imageURL,
                 placeholder: UIImage(),
@@ -123,8 +142,7 @@ extension SearchCollectionViewCell {
                 completionHandler: nil
             )
         }
-        mallNameLabel.text = data.mallName
-        titleLabel.text = data.title
+
         if let lowPrice = data.lowPrice, let price = Int(lowPrice) {
             if #available(iOS 15.0, *) {
                 priceLabel.text = price.formatted()
@@ -134,5 +152,7 @@ extension SearchCollectionViewCell {
         } else {
             priceLabel.text = ""
         }
+
+        completion = likeButtonDidTouched
     }
 }

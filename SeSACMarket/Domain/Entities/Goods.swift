@@ -19,4 +19,5 @@ struct Goods {
     let mallName: String?
     let brand: String?
     let maker: String?
+    var favorite: Bool = false
 }
