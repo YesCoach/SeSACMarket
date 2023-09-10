@@ -14,6 +14,7 @@ protocol SearchViewModelInput {
     func prefetchItemsAt(indexPaths: [IndexPath])
     func filterDidSelected(with type: APIEndPoint.NaverAPI.QueryType.SortType)
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
+    func refreshViewController()
 }
 
 protocol SearchViewModelOutput {
@@ -100,6 +101,14 @@ extension DefaultSearchViewModel {
         } else {
             favoriteShoppingUseCase.removeFavoriteGoods(goods: data)
         }
+        if let index = dataSourceItemList.firstIndex(where: { $0.productID == data.productID }) {
+            dataSourceItemList[index].favorite = isFavorite
+            itemList.onNext(dataSourceItemList)
+        }
+    }
+
+    func refreshViewController() {
+        fetchShoppingList()
     }
 
 }
@@ -125,7 +134,7 @@ private extension DefaultSearchViewModel {
             switch result {
             case let .success(searchResult):
                 if let items = searchResult.items {
-                    var itemlist = items.map { [self] in
+                    let itemlist = items.map { [self] in
                         var item = $0
                         if self.favoriteShoppingUseCase.isFavoriteEnrolled(goods: $0) {
                             item.favorite = true

@@ -116,6 +116,11 @@ final class SearchViewController: BaseViewController {
         bindViewModel()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.refreshViewController()
+    }
+
     override func configureUI() {
         super.configureUI()
         view.backgroundColor = .systemBackground

@@ -22,7 +22,7 @@ final class GoodsDetailViewController: BaseViewController {
         let button = UIButton()
         button.setImage(.init(systemName: "heart.fill"), for: .selected)
         button.setImage(.init(systemName: "heart"), for: .normal)
-        button.isSelected = true
+        button.isSelected = viewModel.goods.favorite
         button.addTarget(self, action: #selector(likeButtonDidTouched(_:)), for: .touchUpInside)
         return UIBarButtonItem(customView: button)
     }()
