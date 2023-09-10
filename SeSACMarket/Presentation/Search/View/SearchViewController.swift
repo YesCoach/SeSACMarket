@@ -84,6 +84,14 @@ final class SearchViewController: BaseViewController {
         return view
     }()
 
+    private lazy var emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "검색 결과가 없어요!"
+        label.font = .systemFont(ofSize: 15.0, weight: .regular)
+        label.textColor = .systemGray
+        return label
+    }()
+
     // MARK: - Properties
 
     private let viewModel: SearchViewModel
@@ -118,7 +126,7 @@ final class SearchViewController: BaseViewController {
         super.configureLayout()
 
         [
-            searchBar, searchFilterView, collectionView
+            searchBar, searchFilterView, collectionView, emptyLabel
         ].forEach { view.addSubview($0) }
 
         searchBar.snp.makeConstraints {
@@ -132,6 +140,9 @@ final class SearchViewController: BaseViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchFilterView.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        emptyLabel.snp.makeConstraints {
+            $0.center.equalTo(collectionView)
         }
     }
 
@@ -149,8 +160,12 @@ private extension SearchViewController {
             .subscribe { [weak self] _ in
                 guard let self else { return }
                 collectionView.reloadData()
-            } onError: { error in
-                debugPrint(error)
+            }
+            .disposed(by: disposeBag)
+        viewModel.isEmptyLabelHidden
+            .subscribe { [weak self] in
+                guard let self else { return }
+                emptyLabel.isHidden = $0
             }
             .disposed(by: disposeBag)
     }

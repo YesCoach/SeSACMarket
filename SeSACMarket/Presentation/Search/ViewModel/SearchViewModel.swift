@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 protocol SearchViewModelInput {
     func searchShoppingItem(with keyword: String)
@@ -16,6 +17,7 @@ protocol SearchViewModelInput {
 
 protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
+    var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
@@ -33,6 +35,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     // MARK: - SearchViewModel Output
 
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
 
     private var dataSourceItemList: [Goods] = []
 
@@ -114,12 +117,12 @@ private extension DefaultSearchViewModel {
                     }
                     searchTotalCount = searchResult.total
                     itemList.onNext(dataSourceItemList)
-                    print(#function, "success!!")
+                    isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
+                    print("✅", #function, "success!!")
                 }
             case let .failure(error):
                 // TODO: - Network Error Handling
                 debugPrint(error)
-                itemList.onError(error)
                 return
             }
         }
