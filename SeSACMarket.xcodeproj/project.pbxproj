@@ -10,6 +10,8 @@
 		895A20AD2AACA37700173626 /* SearchFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */; };
 		895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AE2AACAD5A00173626 /* SearchFilterView.swift */; };
 		895A20B12AAD62F300173626 /* NumberFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20B02AAD62F300173626 /* NumberFormatter+.swift */; };
+		895A20B32AAD69D100173626 /* FavoriteShoppingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20B22AAD69D100173626 /* FavoriteShoppingUseCase.swift */; };
+		895A20B72AAD6AD300173626 /* LocalShoppingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20B62AAD6AD300173626 /* LocalShoppingRepository.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -36,7 +38,7 @@
 		896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */; };
 		896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4ADE2AAAF73700D8A1E9 /* Goods.swift */; };
 		896E4AE32AAAF95400D8A1E9 /* FetchShoppingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */; };
-		896E4AE82AAAFC6000D8A1E9 /* ShoopingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AE72AAAFC6000D8A1E9 /* ShoopingRepository.swift */; };
+		896E4AE82AAAFC6000D8A1E9 /* ShoppingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AE72AAAFC6000D8A1E9 /* ShoppingRepository.swift */; };
 		896E4AEC2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AEB2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift */; };
 		896E4AF12AAB00B200D8A1E9 /* NaverSearchResultDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AF02AAB00B200D8A1E9 /* NaverSearchResultDTO+Mapping.swift */; };
 		896E4AF32AAB00F300D8A1E9 /* DTOMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AF22AAB00F300D8A1E9 /* DTOMapping.swift */; };
@@ -54,6 +56,8 @@
 		895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		895A20AE2AACAD5A00173626 /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		895A20B02AAD62F300173626 /* NumberFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+.swift"; sourceTree = "<group>"; };
+		895A20B22AAD69D100173626 /* FavoriteShoppingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteShoppingUseCase.swift; sourceTree = "<group>"; };
+		895A20B62AAD6AD300173626 /* LocalShoppingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalShoppingRepository.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,7 +84,7 @@
 		896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHeader.swift; sourceTree = "<group>"; };
 		896E4ADE2AAAF73700D8A1E9 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchShoppingUseCase.swift; sourceTree = "<group>"; };
-		896E4AE72AAAFC6000D8A1E9 /* ShoopingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoopingRepository.swift; sourceTree = "<group>"; };
+		896E4AE72AAAFC6000D8A1E9 /* ShoppingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingRepository.swift; sourceTree = "<group>"; };
 		896E4AEB2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultShoppingRepository.swift; sourceTree = "<group>"; };
 		896E4AF02AAB00B200D8A1E9 /* NaverSearchResultDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NaverSearchResultDTO+Mapping.swift"; sourceTree = "<group>"; };
 		896E4AF22AAB00F300D8A1E9 /* DTOMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOMapping.swift; sourceTree = "<group>"; };
@@ -268,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */,
+				895A20B22AAD69D100173626 /* FavoriteShoppingUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -275,7 +280,8 @@
 		896E4AE42AAAFAFC00D8A1E9 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				896E4AE72AAAFC6000D8A1E9 /* ShoopingRepository.swift */,
+				896E4AE72AAAFC6000D8A1E9 /* ShoppingRepository.swift */,
+				895A20B62AAD6AD300173626 /* LocalShoppingRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -461,12 +467,13 @@
 				896E4B052AAB25AE00D8A1E9 /* AppDIContainer.swift in Sources */,
 				896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */,
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
+				895A20B72AAD6AD300173626 /* LocalShoppingRepository.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
 				896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */,
 				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
 				896E4B072AAB25C500D8A1E9 /* DIContainer.swift in Sources */,
 				896E4AF12AAB00B200D8A1E9 /* NaverSearchResultDTO+Mapping.swift in Sources */,
-				896E4AE82AAAFC6000D8A1E9 /* ShoopingRepository.swift in Sources */,
+				896E4AE82AAAFC6000D8A1E9 /* ShoppingRepository.swift in Sources */,
 				896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */,
 				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
@@ -487,6 +494,7 @@
 				895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */,
 				896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */,
 				896E4AF72AAB03DF00D8A1E9 /* NaverSearchResult.swift in Sources */,
+				895A20B32AAD69D100173626 /* FavoriteShoppingUseCase.swift in Sources */,
 				896E4B022AAB213B00D8A1E9 /* SearchViewModel.swift in Sources */,
 				896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */,
 				896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */,
