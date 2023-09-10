@@ -70,6 +70,7 @@ final class FavoriteViewController: BaseViewController {
         )
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.keyboardDismissMode = .onDrag
 
         return collectionView
     }()
@@ -161,9 +162,10 @@ private extension FavoriteViewController {
             .disposed(by: disposeBag)
     }
 
-    func searchShoppingItem(with keyword: String) {
-        viewModel.searchShoppingItem(with: keyword)
+    func dismissKeyboard() {
+        searchBar.resignFirstResponder()
     }
+
 }
 
 // MARK: - UISearchBarDelegate 구현부
@@ -178,14 +180,20 @@ extension FavoriteViewController: UISearchBarDelegate {
         searchBar.showsCancelButton = false
     }
 
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let text = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        viewModel.searchShoppingItem(with: text)
+    }
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
+        dismissKeyboard()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        searchShoppingItem(with: searchBar.text!)
+        dismissKeyboard()
+        viewModel.searchShoppingItem(with: searchBar.text!)
     }
+
 }
 
 // MARK: - UICollectionViewDataSource 구현부
@@ -238,4 +246,5 @@ extension FavoriteViewController: UICollectionViewDelegate {
             .makeGoodsDetailViewController(goods: itemList[indexPath.item])
         navigationController?.pushViewController(viewController, animated: true)
     }
+
 }

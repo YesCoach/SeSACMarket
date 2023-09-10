@@ -73,6 +73,7 @@ final class SearchViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.prefetchDataSource = self
         collectionView.refreshControl = refreshControl
+        collectionView.keyboardDismissMode = .onDrag
 
         return collectionView
     }()
@@ -287,6 +288,7 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 
 extension SearchViewController: UICollectionViewDataSourcePrefetching {
+
     func collectionView(
         _ collectionView: UICollectionView,
         prefetchItemsAt indexPaths: [IndexPath]
@@ -301,4 +303,5 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
     ) {
         print(#function)
     }
+
 }
