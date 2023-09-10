@@ -231,4 +231,11 @@ extension FavoriteViewController: UICollectionViewDataSource {
 
 extension FavoriteViewController: UICollectionViewDelegate {
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemList = try? viewModel.favoriteItemList.value() else { return }
+        let viewController = AppDIContainer()
+            .makeDIContainer()
+            .makeGoodsDetailViewController(goods: itemList[indexPath.item])
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

@@ -21,6 +21,8 @@
 		895A20CB2AAD73B100173626 /* Goods+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20CA2AAD73B100173626 /* Goods+Mapping.swift */; };
 		895A20CD2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20CC2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift */; };
 		895A20D02AADA5B400173626 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20CF2AADA5B400173626 /* FavoriteViewModel.swift */; };
+		895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */; };
+		895A20D52AADD4CC00173626 /* GoodsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -74,6 +76,8 @@
 		895A20CA2AAD73B100173626 /* Goods+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Goods+Mapping.swift"; sourceTree = "<group>"; };
 		895A20CC2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocalShoppingRepository.swift; sourceTree = "<group>"; };
 		895A20CF2AADA5B400173626 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewController.swift; sourceTree = "<group>"; };
+		895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewModel.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,6 +185,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		895A20D12AADC27300173626 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */,
+				895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		896E4A742AA99C5600D8A1E9 = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +245,7 @@
 				896E4AAC2AA9BBDE00D8A1E9 /* TabBar */,
 				896E4AB42AA9C20600D8A1E9 /* Search */,
 				896E4AB52AA9C21300D8A1E9 /* Favorite */,
+				895A20D12AADC27300173626 /* Detail */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -542,6 +556,7 @@
 			files = (
 				896E4B052AAB25AE00D8A1E9 /* AppDIContainer.swift in Sources */,
 				896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */,
+				895A20D52AADD4CC00173626 /* GoodsDetailViewModel.swift in Sources */,
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
 				895A20B72AAD6AD300173626 /* LocalShoppingRepository.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
@@ -567,6 +582,7 @@
 				895A20CD2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift in Sources */,
 				896E4AA92AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift in Sources */,
 				895A20BB2AAD6D4A00173626 /* RealmMapping.swift in Sources */,
+				895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
 				896E4AF52AAB037600D8A1E9 /* GoodsDTO+Mapping.swift in Sources */,
 				896E4AEC2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift in Sources */,

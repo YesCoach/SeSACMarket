@@ -59,6 +59,13 @@ final class DIContainer {
         return DefaultFavoriteViewModel(favoriteShoppingUseCase: makeFavoriteShoppingUseCase())
     }
 
+    func makeGoodsDetailViewModel(goods: Goods) -> GoodsDetailViewModel {
+        return DefaultGoodsDetailViewModel(
+            favoriteShoppingUseCase: makeFavoriteShoppingUseCase(),
+            goods: goods
+        )
+    }
+
     // MARK: - VIewController
 
     func makeSearchViewController() -> SearchViewController {
@@ -69,4 +76,7 @@ final class DIContainer {
         return FavoriteViewController(viewModel: makeFavoriteViewModel())
     }
 
+    func makeGoodsDetailViewController(goods: Goods) -> GoodsDetailViewController {
+        return GoodsDetailViewController(viewModel: makeGoodsDetailViewModel(goods: goods))
+    }
 }

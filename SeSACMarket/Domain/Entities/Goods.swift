@@ -21,3 +21,12 @@ struct Goods {
     let maker: String?
     var favorite: Bool = false
 }
+
+extension Goods {
+
+    /// 상품 링크 페이지입니다.
+    var productURL: URL? {
+        return URL(string: "https://msearch.shopping.naver.com/product/\(productID)")
+    }
+
+}
