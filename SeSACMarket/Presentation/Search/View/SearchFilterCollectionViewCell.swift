@@ -9,6 +9,8 @@ import UIKit
 
 final class SearchFilterCollectionViewCell: BaseCollectionViewCell {
 
+    // MARK: - UI Components
+
     private lazy var label: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14.0, weight: .regular)
@@ -17,6 +19,8 @@ final class SearchFilterCollectionViewCell: BaseCollectionViewCell {
     }()
 
     private(set) var filterType: APIEndPoint.NaverAPI.QueryType.SortType?
+
+    // MARK: - Initializer
 
     override func configureUI() {
         label.textColor = isSelected ? .black : .systemGray
@@ -45,6 +49,8 @@ final class SearchFilterCollectionViewCell: BaseCollectionViewCell {
 
 }
 
+// MARK: - Methods
+
 extension SearchFilterCollectionViewCell {
 
     func configure(with filterType: APIEndPoint.NaverAPI.QueryType.SortType) {
@@ -56,6 +62,11 @@ extension SearchFilterCollectionViewCell {
         configureUI()
     }
 
+    /// 셀의 사이즈 계산을 위한 메서드입니다.
+    /// - Parameters:
+    ///   - availableHeight: 셀의 높이
+    ///   - type: 셀을 구성할 정렬 타입값
+    /// - Returns: 정렬 타입의 텍스트를 가진 셀의 사이즈를 계산해서 반환합니다.
     static func fittingSize(
         availableHeight: CGFloat,
         type: APIEndPoint.NaverAPI.QueryType.SortType

@@ -9,10 +9,12 @@ import UIKit
 
 final class SearchFilterView: UIView {
 
+    // MARK: - UI Components
+
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 10, left: 20, bottom: 10, right: 20)
+        layout.sectionInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(
             SearchFilterCollectionViewCell.self,
@@ -25,7 +27,12 @@ final class SearchFilterView: UIView {
         return collectionView
     }()
 
+    // MARK: - Properties
+
     private let typeList = APIEndPoint.NaverAPI.QueryType.SortType.allCases
+    var completion: ((APIEndPoint.NaverAPI.QueryType.SortType) -> Void)?
+
+    // MARK: - Initializer
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,6 +57,19 @@ final class SearchFilterView: UIView {
     }
 }
 
+// MARK: - Methods
+
+extension SearchFilterView {
+
+    /// 검색시 적용되는 정렬 타입을 초기화 하기 위해 호출합니다. 초기화시 '정확도'(=sim)으로 설정됩니다.
+    func resetSortType() {
+        collectionView.reloadData()
+    }
+
+}
+
+// MARK: - UICollectionViewDataSource
+
 extension SearchFilterView: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -73,12 +93,23 @@ extension SearchFilterView: UICollectionViewDataSource {
         ) as? SearchFilterCollectionViewCell
         else { return UICollectionViewCell() }
 
+        if indexPath.item == 0 {
+            cell.isSelected = true
+            cell.didSelected()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
+        } else {
+            cell.isSelected = false
+            cell.didSelected()
+        }
+
         cell.configure(with: typeList[indexPath.item])
 
         return cell
     }
 
 }
+
+// MARK: - UICollectionViewDelegate
 
 extension SearchFilterView: UICollectionViewDelegate {
 
@@ -91,6 +122,7 @@ extension SearchFilterView: UICollectionViewDelegate {
         else { return }
 
         cell.didSelected()
+        completion?(typeList[indexPath.item])
     }
     func collectionView(
         _ collectionView: UICollectionView,
@@ -104,6 +136,8 @@ extension SearchFilterView: UICollectionViewDelegate {
     }
 
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension SearchFilterView: UICollectionViewDelegateFlowLayout {
 

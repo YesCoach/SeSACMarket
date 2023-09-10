@@ -76,17 +76,21 @@ final class SearchViewController: BaseViewController {
         return collectionView
     }()
 
-    private lazy var searchFilterView: UIView = {
-        let collectionView = SearchFilterView(frame: .zero)
-        return collectionView
+    private lazy var searchFilterView: SearchFilterView = {
+        let view = SearchFilterView(frame: .zero)
+        view.completion = { [weak self] type in
+            self?.viewModel.filterDidSelected(with: type)
+        }
+        return view
     }()
 
-    private let spacing = Constants.Design.commonInset
-
-    // MARK: - ViewModel
+    // MARK: - Properties
 
     private let viewModel: SearchViewModel
     private let disposeBag = DisposeBag()
+    private let spacing = Constants.Design.commonInset
+
+    // MARK: - Initializer
 
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
@@ -141,7 +145,7 @@ private extension SearchViewController {
 
     func bindViewModel() {
         viewModel.itemList
-            .observe(on: MainScheduler.instance)
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe { [weak self] _ in
                 guard let self else { return }
                 collectionView.reloadData()
@@ -153,6 +157,7 @@ private extension SearchViewController {
 
     func searchShoppingItem(with keyword: String) {
         viewModel.searchShoppingItem(with: keyword)
+        searchFilterView.resetSortType()
     }
 }
 
