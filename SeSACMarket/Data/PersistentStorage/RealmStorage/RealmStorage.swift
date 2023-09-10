@@ -58,7 +58,7 @@ extension RealmStorage {
         guard let realm else { throw RealmError.invalidInitialize }
         return realm
             .objects(object)
-            .sorted(byKeyPath: "date", ascending: true)
+            .sorted(byKeyPath: "date", ascending: false)
     }
 
     func readData<T: Object>(

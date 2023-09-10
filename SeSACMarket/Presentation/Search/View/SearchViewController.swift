@@ -72,14 +72,27 @@ final class SearchViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.prefetchDataSource = self
+        collectionView.refreshControl = refreshControl
 
         return collectionView
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(viewControllerDidRefresh(_:)),
+            for: .valueChanged
+        )
+        return refreshControl
     }()
 
     private lazy var searchFilterView: SearchFilterView = {
         let view = SearchFilterView(frame: .zero)
         view.completion = { [weak self] type in
-            self?.viewModel.filterDidSelected(with: type)
+            guard let self else { return }
+            viewModel.filterDidSelected(with: type)
+            collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
         }
         return view
     }()
@@ -118,7 +131,7 @@ final class SearchViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.refreshViewController()
+        viewModel.viewWillAppear()
     }
 
     override func configureUI() {
@@ -151,10 +164,6 @@ final class SearchViewController: BaseViewController {
         }
     }
 
-    @objc private func keyboardReturnButtonDidTouched() {
-
-    }
-
 }
 
 private extension SearchViewController {
@@ -173,12 +182,34 @@ private extension SearchViewController {
                 emptyLabel.isHidden = $0
             }
             .disposed(by: disposeBag)
+        viewModel.isAPICallFinished
+            .subscribe { [weak self] isFinished in
+                guard let self else { return }
+                if isFinished {
+                    refreshControl.endRefreshing()
+                } else {
+                    refreshControl.beginRefreshing()
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {
         viewModel.searchShoppingItem(with: keyword)
         searchFilterView.resetSortType()
+        collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
+
+    // MARK: - Action
+
+    @objc func keyboardReturnButtonDidTouched() {
+
+    }
+
+    @objc func viewControllerDidRefresh(_ sender: UIRefreshControl) {
+        viewModel.refreshViewController()
+    }
+
 }
 
 // MARK: - UISearchBarDelegate 구현부

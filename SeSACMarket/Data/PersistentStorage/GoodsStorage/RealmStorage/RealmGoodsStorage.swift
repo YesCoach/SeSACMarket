@@ -36,7 +36,9 @@ extension RealmGoodsStorage: GoodsStorage {
     func readGoodsData(with keyword: String) -> [GoodsEntity] {
         do {
             return try realmStorage.readData(GoodsEntity.self) { (result: Results<GoodsEntity>) in
-                return result.where { $0.title.contains(keyword, options: .caseInsensitive) }
+                return result
+                    .where { $0.title.contains(keyword, options: .caseInsensitive) }
+                    .sorted(byKeyPath: "date", ascending: false)
             }.map { $0 }
         } catch {
             print("🙅‍♂️", error)

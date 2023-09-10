@@ -15,11 +15,13 @@ protocol SearchViewModelInput {
     func filterDidSelected(with type: APIEndPoint.NaverAPI.QueryType.SortType)
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func refreshViewController()
+    func viewWillAppear()
 }
 
 protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
     var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
+    var isAPICallFinished: BehaviorRelay<Bool> { get }
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
@@ -43,6 +45,7 @@ final class DefaultSearchViewModel: SearchViewModel {
 
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
+    let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
 
     private var dataSourceItemList: [Goods] = []
 
@@ -50,7 +53,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     private var searchTotalCount: Int?
     private var searchStartIndex = 1
     private var searchKeyword: String?
-    private var sortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
+    private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
 
 }
 
@@ -65,7 +68,7 @@ extension DefaultSearchViewModel {
         self.searchKeyword = keyword
         self.dataSourceItemList = []
         self.searchStartIndex = 1
-        self.sortType = .sim
+        self.searchSortType = .sim
 
         fetchShoppingList()
     }
@@ -91,10 +94,18 @@ extension DefaultSearchViewModel {
     /// 검색의 정렬 기준이 변경될 경우 호출합니다. 매개변수로 받은 값을 통해 패칭을 진행합니다.
     /// - Parameter type: 정렬 기준 타입
     func filterDidSelected(with type: APIEndPoint.NaverAPI.QueryType.SortType) {
-        self.sortType = type
+        self.searchSortType = type
+        self.dataSourceItemList = []
+        self.searchStartIndex = 1
+
         fetchShoppingList()
     }
 
+    /// 상품에 좋아요 버튼을 누르면 호출합니다. 좋아요 선택/해제시 데이터베이스에 바로 반영합니다.
+    /// 현재 컬렉션뷰에 보여지는 데이터에도 바로 반영합니다.
+    /// - Parameters:
+    ///   - data: 좋아요를 선택/해제한 상품 정보
+    ///   - isFavorite: 좋아요 버튼의 선택값(isSelected)
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool) {
         if isFavorite {
             favoriteShoppingUseCase.enrollFavoriteGoods(goods: data)
@@ -107,7 +118,13 @@ extension DefaultSearchViewModel {
         }
     }
 
+    /// 컬렉션뷰를 refresh할 때 호출합니다.
     func refreshViewController() {
+        self.searchStartIndex = 1
+        fetchShoppingList()
+    }
+
+    func viewWillAppear() {
         fetchShoppingList()
     }
 
@@ -122,14 +139,17 @@ private extension DefaultSearchViewModel {
     /// - sort: 검색결과의 정렬 기준
     func fetchShoppingList() {
         guard let searchKeyword else { return }
+        isAPICallFinished.accept(false)
+
         fetchShoppingUseCase.fetchShoppingList(
             with: searchKeyword,
             display: searchDisplayCount,
             start: searchStartIndex,
-            sort: sortType
+            sort: searchSortType
         ) { [weak self] result in
             print(#function)
             guard let self else { return }
+            isAPICallFinished.accept(true)
 
             switch result {
             case let .success(searchResult):
@@ -138,8 +158,6 @@ private extension DefaultSearchViewModel {
                         var item = $0
                         if self.favoriteShoppingUseCase.isFavoriteEnrolled(goods: $0) {
                             item.favorite = true
-                        } else {
-                            item.favorite = false
                         }
                         return item
                     }
