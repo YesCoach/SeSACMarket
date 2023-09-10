@@ -11,6 +11,7 @@ final class DIContainer {
 
     struct Dependencies {
         let networkManager: NetworkManager
+
     }
 
     private let dependencies: Dependencies
@@ -19,10 +20,18 @@ final class DIContainer {
         self.dependencies = dependencies
     }
 
+    // MARK: - Persistentr Storage
+
+    lazy var goodsStorage: GoodsStorage = RealmGoodsStorage(realmStorage: .shared)
+
     // MARK: - Repository
 
     func makeShoppingRepository() -> ShoppingRepository {
         return DefaultShoppingRepository(networkManager: dependencies.networkManager)
+    }
+
+    func makeLocalShoppingRepository() -> LocalShoppingRepository {
+        return DefaultLocalShoppingRepository(goodsStorage: goodsStorage)
     }
 
     // MARK: - UseCase
@@ -31,10 +40,19 @@ final class DIContainer {
         return DefaultFetchShoppingUseCase(shoppingRepository: makeShoppingRepository())
     }
 
+    func makeFavoriteShoppingUseCase() -> FavoriteShoppingUseCase {
+        return DefaultFavoriteShoppingUseCase(
+            localShoppingRepository: makeLocalShoppingRepository()
+        )
+    }
+
     // MARK: - ViewModel
 
     func makeSearchViewModel() -> SearchViewModel {
-        return DefaultSearchViewModel(fetchShoppingUseCase: makeFetchShoppingUseCase())
+        return DefaultSearchViewModel(
+            fetchShoppingUseCase: makeFetchShoppingUseCase(),
+            favoriteShoppingUseCase: makeFavoriteShoppingUseCase()
+        )
     }
 
     // MARK: - VIewController
@@ -42,4 +60,5 @@ final class DIContainer {
     func makeSearchViewController() -> SearchViewController {
         return SearchViewController(viewModel: makeSearchViewModel())
     }
+
 }

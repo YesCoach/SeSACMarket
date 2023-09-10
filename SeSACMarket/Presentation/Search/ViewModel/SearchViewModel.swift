@@ -25,11 +25,16 @@ protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
 final class DefaultSearchViewModel: SearchViewModel {
 
     private let fetchShoppingUseCase: FetchShoppingUseCase
+    private let favoriteShoppingUseCase: FavoriteShoppingUseCase
 
     // MARK: - DI
 
-    init(fetchShoppingUseCase: FetchShoppingUseCase) {
+    init(
+        fetchShoppingUseCase: FetchShoppingUseCase,
+        favoriteShoppingUseCase: FavoriteShoppingUseCase
+    ) {
         self.fetchShoppingUseCase = fetchShoppingUseCase
+        self.favoriteShoppingUseCase = favoriteShoppingUseCase
     }
 
     // MARK: - SearchViewModel Output
