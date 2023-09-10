@@ -19,6 +19,12 @@ enum Constants {
     enum API {
 
         static let searchIdxLimit = 1000
+
     }
 
+    enum NotificationName {
+
+        static let viewWillAppearWithTabBar = NSNotification.Name("viewWillAppearWithTabBar")
+
+    }
 }

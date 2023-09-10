@@ -9,7 +9,7 @@ import UIKit
 
 final class TabBarController: UITabBarController {
 
-    enum ContentViewControllers: CaseIterable {
+    enum ContentViewControllers: Int, CaseIterable {
         case search
         case favorite
 
@@ -44,6 +44,18 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         configureUI()
         configureViewControllers()
+    }
+
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard let selectedViewController else { return }
+
+        if let index = viewControllers?.firstIndex(of: selectedViewController),
+           index == ContentViewControllers.favorite.rawValue {
+            NotificationCenter.default.post(
+                name: Constants.NotificationName.viewWillAppearWithTabBar,
+                object: nil
+            )
+        }
     }
 
 }

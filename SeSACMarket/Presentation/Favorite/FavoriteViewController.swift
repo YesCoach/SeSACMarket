@@ -100,16 +100,36 @@ final class FavoriteViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: Constants.NotificationName.viewWillAppearWithTabBar,
+            object: nil
+        )
+    }
+
     // MARK: - Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(collectionViewScrollToTop),
+            name: Constants.NotificationName.viewWillAppearWithTabBar,
+            object: nil
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewWillAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        dismissKeyboard()
     }
 
     override func configureUI() {
@@ -141,7 +161,13 @@ final class FavoriteViewController: BaseViewController {
 
     }
 
+    @objc private func collectionViewScrollToTop() {
+        collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
+    }
+
 }
+
+// MARK: - Private Methods
 
 private extension FavoriteViewController {
 
