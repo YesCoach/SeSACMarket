@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Goods
 
 struct Goods {
-    let productID: String?
+    let productID: String
     let title: String
     let link: String?
     let image: String?

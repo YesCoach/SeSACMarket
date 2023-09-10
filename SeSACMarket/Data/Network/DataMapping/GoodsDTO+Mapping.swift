@@ -10,7 +10,7 @@ import Foundation
 struct GoodsDTO: DTOMapping {
     typealias DomainType = Goods
 
-    let productId: String?
+    let productId: String
     let title: String
     let link: String?
     let image: String?
