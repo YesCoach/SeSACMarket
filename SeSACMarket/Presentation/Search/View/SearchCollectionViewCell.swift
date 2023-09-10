@@ -125,6 +125,14 @@ extension SearchCollectionViewCell {
         }
         mallNameLabel.text = data.mallName
         titleLabel.text = data.title
-        priceLabel.text = data.lowPrice
+        if let lowPrice = data.lowPrice, let price = Int(lowPrice) {
+            if #available(iOS 15.0, *) {
+                priceLabel.text = price.formatted()
+            } else {
+                priceLabel.text = NumberFormatter.convertData(number: price)
+            }
+        } else {
+            priceLabel.text = ""
+        }
     }
 }

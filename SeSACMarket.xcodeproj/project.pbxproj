@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		895A20AD2AACA37700173626 /* SearchFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */; };
 		895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20AE2AACAD5A00173626 /* SearchFilterView.swift */; };
+		895A20B12AAD62F300173626 /* NumberFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20B02AAD62F300173626 /* NumberFormatter+.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		895A20AE2AACAD5A00173626 /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
+		895A20B02AAD62F300173626 /* NumberFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+.swift"; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				896E4AB92AA9C97200D8A1E9 /* UIColor+.swift */,
 				896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */,
 				896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */,
+				895A20B02AAD62F300173626 /* NumberFormatter+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */,
 				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
+				895A20B12AAD62F300173626 /* NumberFormatter+.swift in Sources */,
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
 				896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */,
