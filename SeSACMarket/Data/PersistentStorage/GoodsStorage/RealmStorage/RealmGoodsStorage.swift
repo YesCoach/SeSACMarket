@@ -19,6 +19,7 @@ final class RealmGoodsStorage {
 }
 
 extension RealmGoodsStorage: GoodsStorage {
+
     func createGoodsData(goodsEntity: GoodsEntity) {
         realmStorage.createData(data: goodsEntity)
     }
@@ -30,6 +31,16 @@ extension RealmGoodsStorage: GoodsStorage {
             print("🙅‍♂️", error)
             return []
         }
+    }
+
+    func readGoodsData(with keyword: String) -> [GoodsEntity] {
+        do {
+            return try realmStorage.readData(GoodsEntity.self) { (result: Results<GoodsEntity>) in
+                return result.where { $0.title.contains(keyword, options: .caseInsensitive) }
+            }.map { $0 }
+        } catch {
+            print("🙅‍♂️", error)
+            return []        }
     }
 
     func deleteGoodsData(goodsEntity: GoodsEntity) {

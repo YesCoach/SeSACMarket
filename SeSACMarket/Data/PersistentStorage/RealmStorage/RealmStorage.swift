@@ -61,6 +61,16 @@ extension RealmStorage {
             .sorted(byKeyPath: "date", ascending: true)
     }
 
+    func readData<T: Object>(
+        _ object: T.Type,
+        completion: ((Results<T>) -> Results<T>)
+    ) throws -> Results<T> {
+        guard let realm else { throw RealmError.invalidInitialize }
+        let objects = realm.objects(object.self)
+        let targetObject = completion(objects)
+        return targetObject
+    }
+
     func contains<T: Object>(_ object: T.Type, primaryKey: String) -> Bool {
         guard let realm,
               let _ = realm.object(ofType: object, forPrimaryKey: primaryKey)

@@ -156,7 +156,7 @@ private extension SearchViewController {
 
     func bindViewModel() {
         viewModel.itemList
-            .observe(on: MainScheduler.asyncInstance)
+            .observe(on: MainScheduler.instance)
             .subscribe { [weak self] _ in
                 guard let self else { return }
                 collectionView.reloadData()

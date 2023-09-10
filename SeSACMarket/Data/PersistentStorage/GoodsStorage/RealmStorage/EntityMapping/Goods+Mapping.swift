@@ -57,7 +57,8 @@ class GoodsEntity: Object, RealmMapping {
             highPrice: highPrice,
             mallName: mallName,
             brand: brand,
-            maker: maker
+            maker: maker,
+            favorite: true
         )
     }
 }

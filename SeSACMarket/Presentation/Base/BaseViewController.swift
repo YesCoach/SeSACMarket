@@ -19,4 +19,9 @@ class BaseViewController: UIViewController {
     func configureUI() { }
 
     func configureLayout() { }
+
+    deinit {
+        print("🗑️", String(describing: self), "- deinit success")
+    }
+
 }

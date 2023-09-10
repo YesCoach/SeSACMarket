@@ -10,6 +10,7 @@ import Foundation
 protocol LocalShoppingRepository {
     func createGoodsData(goods: Goods)
     func readGoodsData() -> [Goods]
-    func deleteGoodsData(goods: Goods)
     func isFavoriteEnrolled(goods: Goods) -> Bool
+    func searchGoodsData(keyword: String) -> [Goods]
+    func deleteGoodsData(goods: Goods)
 }

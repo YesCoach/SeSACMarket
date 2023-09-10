@@ -38,7 +38,7 @@ final class DefaultSearchViewModel: SearchViewModel {
         self.favoriteShoppingUseCase = favoriteShoppingUseCase
     }
 
-    // MARK: - SearchViewModel Output
+    // MARK: - SearchViewModelOutput
 
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
@@ -53,7 +53,7 @@ final class DefaultSearchViewModel: SearchViewModel {
 
 }
 
-// MARK: - SearchViewModel Input
+// MARK: - SearchViewModelInput
 
 extension DefaultSearchViewModel {
 

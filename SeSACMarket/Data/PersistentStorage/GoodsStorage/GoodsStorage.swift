@@ -10,6 +10,7 @@ import Foundation
 protocol GoodsStorage {
     func createGoodsData(goodsEntity: GoodsEntity)
     func readGoodsData() -> [GoodsEntity]
+    func readGoodsData(with keyword: String) -> [GoodsEntity]
     func checkContains(goodsEntity: GoodsEntity) -> Bool
     func deleteGoodsData(goodsEntity: GoodsEntity)
 }

@@ -27,12 +27,16 @@ extension DefaultLocalShoppingRepository: LocalShoppingRepository {
         return goodsStorage.readGoodsData().map { $0.toDomain() }
     }
 
-    func deleteGoodsData(goods: Goods) {
-        goodsStorage.deleteGoodsData(goodsEntity: goods.toEntity())
+    func searchGoodsData(keyword: String) -> [Goods] {
+        return goodsStorage.readGoodsData(with: keyword).map { $0.toDomain() }
     }
 
     func isFavoriteEnrolled(goods: Goods) -> Bool {
         return goodsStorage.checkContains(goodsEntity: goods.toEntity())
+    }
+
+    func deleteGoodsData(goods: Goods) {
+        goodsStorage.deleteGoodsData(goodsEntity: goods.toEntity())
     }
 
 }
