@@ -84,7 +84,7 @@ extension DefaultSearchViewModel {
         else { return }
 
         for indexpath in indexPaths {
-            if itemList.count - 2 == indexpath.item {
+            if itemList.count - 1 == indexpath.item {
                 searchStartIndex += searchDisplayCount
                 fetchShoppingList()
             }
@@ -125,7 +125,7 @@ extension DefaultSearchViewModel {
     }
 
     func viewWillAppear() {
-        fetchShoppingList()
+        mappingWithLocalFavoriteData()
     }
 
 }
@@ -153,22 +153,15 @@ private extension DefaultSearchViewModel {
 
             switch result {
             case let .success(searchResult):
-                if let items = searchResult.items {
-                    let itemlist = items.map { [self] in
-                        var item = $0
-                        if self.favoriteShoppingUseCase.isFavoriteEnrolled(goods: $0) {
-                            item.favorite = true
-                        }
-                        return item
-                    }
+                if let itemlist = searchResult.items {
                     if searchStartIndex == 1 {
                         dataSourceItemList = itemlist
                     } else {
                         dataSourceItemList.append(contentsOf: itemlist)
                     }
                     searchTotalCount = searchResult.total
-                    itemList.onNext(dataSourceItemList)
                     isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
+                    mappingWithLocalFavoriteData()
                     print("✅", #function, "success!!")
                 }
             case let .failure(error):
@@ -177,5 +170,15 @@ private extension DefaultSearchViewModel {
                 return
             }
         }
+    }
+
+    /// 좋아요가 저장된 데이터인지 로컬 DB에서 탐색해 처리하고, 매핑된 데이터를 VC에 방출합니다.
+    func mappingWithLocalFavoriteData() {
+        dataSourceItemList = dataSourceItemList.map {
+            var item = $0
+            item.favorite = favoriteShoppingUseCase.isFavoriteEnrolled(goods: $0)
+            return item
+        }
+        itemList.onNext(dataSourceItemList)
     }
 }
