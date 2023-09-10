@@ -71,7 +71,6 @@ final class SearchViewController: BaseViewController {
         )
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.prefetchDataSource = self
         collectionView.refreshControl = refreshControl
         collectionView.keyboardDismissMode = .onDrag
 
@@ -193,6 +192,12 @@ private extension SearchViewController {
                 }
             }
             .disposed(by: disposeBag)
+        viewModel.currentSearchKeyword
+            .subscribe { [weak self] searchKeyword in
+                guard let self else { return }
+                searchBar.text = searchKeyword
+            }
+            .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {
@@ -227,6 +232,7 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        searchBar.text = try? viewModel.currentSearchKeyword.value()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -301,6 +307,24 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
         _ collectionView: UICollectionView,
         cancelPrefetchingForItemsAt indexPaths: [IndexPath]
     ) {
+        print(#function)
+    }
+
+}
+
+extension SearchViewController {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(#function, "is called")
+        guard let screen = view.window?.windowScene?.screen else { return }
+        let height = screen.bounds.height
+
+        if scrollView.contentSize.height - scrollView.contentOffset.y < height * 2 {
+            viewModel.fetchNextShoppingList()
+        }
+    }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         print(#function)
     }
 

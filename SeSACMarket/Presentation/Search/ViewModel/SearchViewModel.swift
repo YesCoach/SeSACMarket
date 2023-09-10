@@ -12,6 +12,7 @@ import RxRelay
 protocol SearchViewModelInput {
     func searchShoppingItem(with keyword: String)
     func prefetchItemsAt(indexPaths: [IndexPath])
+    func fetchNextShoppingList()
     func filterDidSelected(with type: APIEndPoint.NaverAPI.QueryType.SortType)
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func refreshViewController()
@@ -22,6 +23,7 @@ protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
     var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
     var isAPICallFinished: BehaviorRelay<Bool> { get }
+    var currentSearchKeyword: BehaviorSubject<String> { get }
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
@@ -46,13 +48,20 @@ final class DefaultSearchViewModel: SearchViewModel {
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
     let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
+    let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
 
     private var dataSourceItemList: [Goods] = []
 
     private var searchDisplayCount = 30
     private var searchTotalCount: Int?
     private var searchStartIndex = 1
-    private var searchKeyword: String?
+    private var searchKeyword: String? {
+        didSet {
+            if let searchKeyword {
+                currentSearchKeyword.onNext(searchKeyword)
+            }
+        }
+    }
     private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
 
 }
@@ -89,6 +98,16 @@ extension DefaultSearchViewModel {
                 fetchShoppingList()
             }
         }
+    }
+
+    func fetchNextShoppingList() {
+        let nextSearchIndex = searchStartIndex + searchDisplayCount
+        guard nextSearchIndex <= Constants.API.searchIdxLimit,
+              nextSearchIndex <= searchTotalCount ?? Constants.API.searchIdxLimit
+        else { return }
+
+        searchStartIndex += searchDisplayCount
+        fetchShoppingList()
     }
 
     /// 검색의 정렬 기준이 변경될 경우 호출합니다. 매개변수로 받은 값을 통해 패칭을 진행합니다.
@@ -138,8 +157,10 @@ private extension DefaultSearchViewModel {
     /// - start: 검색의 시작점
     /// - sort: 검색결과의 정렬 기준
     func fetchShoppingList() {
-        guard let searchKeyword else { return }
-        isAPICallFinished.accept(false)
+        guard let searchKeyword else {
+            isAPICallFinished.accept(true)
+            return
+        }
 
         fetchShoppingUseCase.fetchShoppingList(
             with: searchKeyword,
@@ -150,6 +171,7 @@ private extension DefaultSearchViewModel {
             print(#function)
             guard let self else { return }
             isAPICallFinished.accept(true)
+            currentSearchKeyword.onNext(searchKeyword)
 
             switch result {
             case let .success(searchResult):
