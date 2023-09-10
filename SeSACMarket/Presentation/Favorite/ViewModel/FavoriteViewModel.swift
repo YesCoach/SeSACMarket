@@ -37,6 +37,7 @@ final class DefaultFavoriteViewModel: FavoriteViewModel {
     let favoriteItemList: BehaviorSubject<[Goods]> = .init(value: [])
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
 
+    private var keyword: String?
 }
 
 // MARK: - FavoriteViewModelInput
@@ -51,10 +52,11 @@ extension DefaultFavoriteViewModel {
     }
 
     func viewWillAppear() {
-        loadFavoriteShoppingItems()
+        searchShoppingItem(with: keyword ?? "")
     }
 
     func searchShoppingItem(with keyword: String) {
+        self.keyword = keyword
         guard keyword != "" else {
             loadFavoriteShoppingItems()
             return
