@@ -23,6 +23,7 @@
 		895A20D02AADA5B400173626 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20CF2AADA5B400173626 /* FavoriteViewModel.swift */; };
 		895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */; };
 		895A20D52AADD4CC00173626 /* GoodsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */; };
+		895A20D72AAE35A900173626 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D62AAE35A800173626 /* UIViewController+.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -78,6 +79,7 @@
 		895A20CF2AADA5B400173626 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewController.swift; sourceTree = "<group>"; };
 		895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewModel.swift; sourceTree = "<group>"; };
+		895A20D62AAE35A800173626 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				896E4AC02AA9FA6500D8A1E9 /* URLSession+.swift */,
 				896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */,
 				895A20B02AAD62F300173626 /* NumberFormatter+.swift */,
+				895A20D62AAE35A800173626 /* UIViewController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				895A20BB2AAD6D4A00173626 /* RealmMapping.swift in Sources */,
 				895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
+				895A20D72AAE35A900173626 /* UIViewController+.swift in Sources */,
 				896E4AF52AAB037600D8A1E9 /* GoodsDTO+Mapping.swift in Sources */,
 				896E4AEC2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift in Sources */,
 				895A20C52AAD72B900173626 /* GoodsStorage.swift in Sources */,

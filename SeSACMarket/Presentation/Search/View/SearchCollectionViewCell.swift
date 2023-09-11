@@ -39,8 +39,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     private lazy var mallNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .tertiaryLabel
-        label.backgroundColor = .systemBackground
+        label.textColor = .secondaryLabel
         label.text = "새싹몰"
         return label
     }()
@@ -48,8 +47,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .secondaryLabel
-        label.backgroundColor = .systemBackground
+        label.textColor = .label
         label.numberOfLines = 2
         label.text = "맥북"
         return label
@@ -57,7 +55,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
 
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         label.textColor = .label
         label.backgroundColor = .systemBackground
         label.text = "10000000원"
@@ -99,15 +97,15 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         }
         mallNameLabel.snp.makeConstraints {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(Constants.Design.cornerRadius)
         }
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(mallNameLabel.snp.bottom).offset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(mallNameLabel.snp.bottom)
+            $0.horizontalEdges.equalToSuperview().inset(Constants.Design.cornerRadius)
         }
         priceLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.horizontalEdges.equalToSuperview().inset(Constants.Design.cornerRadius)
             $0.bottom.lessThanOrEqualTo(contentView)
         }
     }

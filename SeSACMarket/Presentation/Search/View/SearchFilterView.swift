@@ -15,6 +15,7 @@ final class SearchFilterView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = .init(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumInteritemSpacing = 6.0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(
             SearchFilterCollectionViewCell.self,

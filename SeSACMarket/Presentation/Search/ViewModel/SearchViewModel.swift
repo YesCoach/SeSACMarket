@@ -23,6 +23,7 @@ protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
     var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
     var isAPICallFinished: BehaviorRelay<Bool> { get }
+    var isAlertCalled: BehaviorRelay<Bool> { get }
     var currentSearchKeyword: BehaviorSubject<String> { get }
 }
 
@@ -49,6 +50,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
     let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
     let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
+    let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
 
     private var dataSourceItemList: [Goods] = []
 
@@ -73,6 +75,13 @@ extension DefaultSearchViewModel {
     /// 새로운 검색어로 검색시 호출합니다.
     /// - Parameter keyword: 검색할 키워드 문자열
     func searchShoppingItem(with keyword: String) {
+        let keyword = keyword.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard keyword != "" else {
+            isAlertCalled.accept(true)
+            return
+        }
+
         // 검색어, 데이터소스 데이터 초기화
         self.searchKeyword = keyword
         self.dataSourceItemList = []

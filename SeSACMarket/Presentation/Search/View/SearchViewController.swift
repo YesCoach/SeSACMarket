@@ -37,7 +37,7 @@ final class SearchViewController: BaseViewController {
             )
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(0.5)
+                heightDimension: .fractionalHeight(0.55)
             )
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -171,9 +171,10 @@ private extension SearchViewController {
     func bindViewModel() {
         viewModel.itemList
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] _ in
+            .subscribe { [weak self] item in
                 guard let self else { return }
                 collectionView.reloadData()
+                updateFilterViewHeight(isHidden: item.isEmpty)
             }
             .disposed(by: disposeBag)
         viewModel.isEmptyLabelHidden
@@ -198,12 +199,39 @@ private extension SearchViewController {
                 searchBar.text = searchKeyword
             }
             .disposed(by: disposeBag)
+        viewModel.isAlertCalled
+            .subscribe { [weak self] isAlertCalled in
+                guard let self else { return }
+                if isAlertCalled {
+                    presentAlert(title: nil, message: "검색어는 최소 한글자 이상이여야 해요.")
+                    searchBar.text = ""
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {
         viewModel.searchShoppingItem(with: keyword)
         searchFilterView.resetSortType()
         collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
+    }
+
+    func updateFilterViewHeight(isHidden: Bool) {
+        var heightConstant = 0
+
+        if let itemList = try? viewModel.itemList.value(),
+           !itemList.isEmpty,
+           !isHidden {
+            heightConstant = 60
+        }
+
+        searchFilterView.snp.updateConstraints {
+            $0.height.equalTo(heightConstant)
+        }
+
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.searchFilterView.layoutIfNeeded()
+        }
     }
 
     // MARK: - Action
@@ -316,16 +344,13 @@ extension SearchViewController {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(#function, "is called")
+
         guard let screen = view.window?.windowScene?.screen else { return }
         let height = screen.bounds.height
 
         if scrollView.contentSize.height - scrollView.contentOffset.y < height * 2 {
             viewModel.fetchNextShoppingList()
         }
-    }
-
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print(#function)
     }
 
 }
