@@ -16,10 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         RealmStorage.shared.checkSchemaVersion()
+        NetworkCheckManager.shared.startMonitoring()
         return true
     }
 
     // MARK: UISceneSession Lifecycle
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        NetworkCheckManager.shared.stopMonitoring()
+    }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

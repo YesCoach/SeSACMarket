@@ -33,6 +33,7 @@
 		895A211F2AAEC0EB00173626 /* SearchHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A211E2AAEC0EB00173626 /* SearchHistoryUseCase.swift */; };
 		895A21212AAECA7200173626 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21202AAECA7200173626 /* SearchHistoryCell.swift */; };
 		895A21232AAECA8100173626 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21222AAECA8100173626 /* BaseTableViewCell.swift */; };
+		895A21292AAF32D200173626 /* NetworkCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21282AAF32D200173626 /* NetworkCheckManager.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -98,6 +99,7 @@
 		895A211E2AAEC0EB00173626 /* SearchHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryUseCase.swift; sourceTree = "<group>"; };
 		895A21202AAECA7200173626 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
 		895A21222AAECA8100173626 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		895A21282AAF32D200173626 /* NetworkCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheckManager.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -249,6 +251,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		895A21272AAF32BC00173626 /* NetworkCheckManager */ = {
+			isa = PBXGroup;
+			children = (
+				895A21282AAF32D200173626 /* NetworkCheckManager.swift */,
+			);
+			path = NetworkCheckManager;
+			sourceTree = "<group>";
+		};
 		896E4A742AA99C5600D8A1E9 = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +398,7 @@
 				896E4AD92AAAEBC200D8A1E9 /* APIHeader.swift */,
 				896E4AD32AAAE12500D8A1E9 /* APIKey.swift */,
 				896E4AD52AAAE1AD00D8A1E9 /* APIEndPoint.swift */,
+				895A21272AAF32BC00173626 /* NetworkCheckManager */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -669,6 +680,7 @@
 				896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */,
 				895A21142AAEB94000173626 /* SearchHistoryRepository.swift in Sources */,
 				895A20CB2AAD73B100173626 /* Goods+Mapping.swift in Sources */,
+				895A21292AAF32D200173626 /* NetworkCheckManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

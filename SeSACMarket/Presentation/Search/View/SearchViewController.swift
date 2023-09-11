@@ -233,6 +233,7 @@ private extension SearchViewController {
 
     func searchShoppingItem(with keyword: String) {
         viewModel.searchShoppingItem(with: keyword)
+        emptyLabel.isHidden = true
         searchFilterView.resetSortType()
         collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
