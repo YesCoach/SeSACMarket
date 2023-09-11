@@ -27,7 +27,6 @@ extension NetworkManager {
 
         var request = URLRequest(
             url: url,
-            cachePolicy: .returnCacheDataElseLoad,
             timeoutInterval: 10
         )
         request.httpHeader = APIHeader.NaverAPI.header
