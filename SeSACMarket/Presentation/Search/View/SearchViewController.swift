@@ -77,6 +77,18 @@ final class SearchViewController: BaseViewController {
         return collectionView
     }()
 
+    private lazy var searchHistoryView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(
+            SearchHistoryCell.self,
+            forCellReuseIdentifier: SearchHistoryCell.reuseIdentifier
+        )
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        return tableView
+    }()
+
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(
@@ -144,7 +156,7 @@ final class SearchViewController: BaseViewController {
         super.configureLayout()
 
         [
-            searchBar, searchFilterView, collectionView, emptyLabel
+            searchBar, searchFilterView, collectionView, emptyLabel, searchHistoryView
         ].forEach { view.addSubview($0) }
 
         searchBar.snp.makeConstraints {
@@ -158,6 +170,9 @@ final class SearchViewController: BaseViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchFilterView.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        searchHistoryView.snp.makeConstraints {
+            $0.edges.equalTo(collectionView)
         }
         emptyLabel.snp.makeConstraints {
             $0.center.equalTo(collectionView)
@@ -175,6 +190,8 @@ private extension SearchViewController {
                 guard let self else { return }
                 collectionView.reloadData()
                 updateFilterViewHeight(isHidden: item.isEmpty)
+                searchHistoryView.isHidden = !item.isEmpty
+                view.layoutIfNeeded()
             }
             .disposed(by: disposeBag)
         viewModel.isEmptyLabelHidden
@@ -206,6 +223,12 @@ private extension SearchViewController {
                     presentAlert(title: nil, message: "검색어는 최소 한글자 이상이여야 해요.")
                     searchBar.text = ""
                 }
+            }
+            .disposed(by: disposeBag)
+        viewModel.searchHistoryList
+            .subscribe { [weak self] _ in
+                guard let self else { return }
+                searchHistoryView.reloadData()
             }
             .disposed(by: disposeBag)
     }
@@ -353,4 +376,61 @@ extension SearchViewController {
         }
     }
 
+}
+
+// MARK: - UITableViewDataSource(Search History)
+
+extension SearchViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let historyList = try? viewModel.searchHistoryList.value() {
+            return historyList.count
+        } else { return 0 }
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: SearchHistoryCell.reuseIdentifier,
+            for: indexPath
+        ) as? SearchHistoryCell
+        else { return UITableViewCell() }
+
+        guard let keyword = try? viewModel.searchHistoryList.value()[indexPath.row]
+        else { return UITableViewCell() }
+        cell.configure(with: keyword)
+
+        return cell
+    }
+
+}
+
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(
+        _ tableView: UITableView,
+        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(
+            style: .destructive,
+            title: nil
+        ) { action, view, completion in
+            self.viewModel.searchHistoryDelete(index: indexPath.row)
+        }
+
+        delete.backgroundColor = .systemRed
+        delete.image = .init(systemName: "trash")
+
+        return .init(actions: [delete])
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.searchHistoryDidSelect(index: indexPath.row)
+    }
 }

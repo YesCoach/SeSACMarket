@@ -23,6 +23,7 @@ final class DIContainer {
     // MARK: - Persistentr Storage
 
     lazy var goodsStorage: GoodsStorage = RealmGoodsStorage(realmStorage: .shared)
+    lazy var searchHistoryStorage: SearchHistoryStorage = UserDefaultsSearchHistoryStorage()
 
     // MARK: - Repository
 
@@ -32,6 +33,15 @@ final class DIContainer {
 
     func makeLocalShoppingRepository() -> LocalShoppingRepository {
         return DefaultLocalShoppingRepository(goodsStorage: goodsStorage)
+    }
+
+    func makeSearchHistoryRepository(
+        type: UserDefaultsKey.SearchHistory
+    ) -> SearchHistoryRepository {
+        return DefaultSearchHistoryRepository(
+            historyKey: type,
+            searchHistoryStorage: searchHistoryStorage
+        )
     }
 
     // MARK: - UseCase
@@ -46,12 +56,19 @@ final class DIContainer {
         )
     }
 
+    func makeSearchHistoryUseCase(type: UserDefaultsKey.SearchHistory) -> SearchHistoryUseCase {
+        return DefaultSearchHistoryUseCase(
+            searchHistroyRepository: makeSearchHistoryRepository(type: type)
+        )
+    }
+
     // MARK: - ViewModel
 
     func makeSearchViewModel() -> SearchViewModel {
         return DefaultSearchViewModel(
             fetchShoppingUseCase: makeFetchShoppingUseCase(),
-            favoriteShoppingUseCase: makeFavoriteShoppingUseCase()
+            favoriteShoppingUseCase: makeFavoriteShoppingUseCase(),
+            searchHistoryUseCase: makeSearchHistoryUseCase(type: .search)
         )
     }
 

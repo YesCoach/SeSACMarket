@@ -24,6 +24,15 @@
 		895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */; };
 		895A20D52AADD4CC00173626 /* GoodsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */; };
 		895A20D72AAE35A900173626 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20D62AAE35A800173626 /* UIViewController+.swift */; };
+		895A20FE2AAEA59600173626 /* SearchHistoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A20FD2AAEA59600173626 /* SearchHistoryStorage.swift */; };
+		895A21012AAEA8C000173626 /* UserDefaultsSearchHistoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21002AAEA8C000173626 /* UserDefaultsSearchHistoryStorage.swift */; };
+		895A21072AAEABC500173626 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21062AAEABC500173626 /* UserDefaultsWrapper.swift */; };
+		895A21092AAEABDA00173626 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21082AAEABDA00173626 /* UserDefaultsManager.swift */; };
+		895A21122AAEB91B00173626 /* DefaultSearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21112AAEB91B00173626 /* DefaultSearchHistoryRepository.swift */; };
+		895A21142AAEB94000173626 /* SearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21132AAEB94000173626 /* SearchHistoryRepository.swift */; };
+		895A211F2AAEC0EB00173626 /* SearchHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A211E2AAEC0EB00173626 /* SearchHistoryUseCase.swift */; };
+		895A21212AAECA7200173626 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21202AAECA7200173626 /* SearchHistoryCell.swift */; };
+		895A21232AAECA8100173626 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21222AAECA8100173626 /* BaseTableViewCell.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -80,6 +89,15 @@
 		895A20D22AADC28E00173626 /* GoodsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewController.swift; sourceTree = "<group>"; };
 		895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailViewModel.swift; sourceTree = "<group>"; };
 		895A20D62AAE35A800173626 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		895A20FD2AAEA59600173626 /* SearchHistoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryStorage.swift; sourceTree = "<group>"; };
+		895A21002AAEA8C000173626 /* UserDefaultsSearchHistoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSearchHistoryStorage.swift; sourceTree = "<group>"; };
+		895A21062AAEABC500173626 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		895A21082AAEABDA00173626 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		895A21112AAEB91B00173626 /* DefaultSearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchHistoryRepository.swift; sourceTree = "<group>"; };
+		895A21132AAEB94000173626 /* SearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryRepository.swift; sourceTree = "<group>"; };
+		895A211E2AAEC0EB00173626 /* SearchHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryUseCase.swift; sourceTree = "<group>"; };
+		895A21202AAECA7200173626 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
+		895A21222AAECA8100173626 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +158,7 @@
 			children = (
 				895A20B92AAD6D2F00173626 /* RealmStorage */,
 				895A20C32AAD726700173626 /* GoodsStorage */,
+				895A20FC2AAEA53600173626 /* SearchHistoryStorage */,
 			);
 			path = PersistentStorage;
 			sourceTree = "<group>";
@@ -194,6 +213,32 @@
 				895A20D42AADD4CC00173626 /* GoodsDetailViewModel.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		895A20FC2AAEA53600173626 /* SearchHistoryStorage */ = {
+			isa = PBXGroup;
+			children = (
+				895A20FD2AAEA59600173626 /* SearchHistoryStorage.swift */,
+				895A20FF2AAEA8A100173626 /* UserDefaultsStorage */,
+			);
+			path = SearchHistoryStorage;
+			sourceTree = "<group>";
+		};
+		895A20FF2AAEA8A100173626 /* UserDefaultsStorage */ = {
+			isa = PBXGroup;
+			children = (
+				895A21002AAEA8C000173626 /* UserDefaultsSearchHistoryStorage.swift */,
+			);
+			path = UserDefaultsStorage;
+			sourceTree = "<group>";
+		};
+		895A21052AAEABAC00173626 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				895A21062AAEABC500173626 /* UserDefaultsWrapper.swift */,
+				895A21082AAEABDA00173626 /* UserDefaultsManager.swift */,
+			);
+			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		896E4A742AA99C5600D8A1E9 = {
@@ -258,6 +303,7 @@
 				896E4AA42AA9B6DC00D8A1E9 /* ReusableProtocol.swift */,
 				896E4AA22AA9B65C00D8A1E9 /* BaseViewController.swift */,
 				896E4AA82AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift */,
+				895A21222AAECA8100173626 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -320,6 +366,7 @@
 		896E4ABD2AA9F9ED00D8A1E9 /* InfraStructure */ = {
 			isa = PBXGroup;
 			children = (
+				895A21052AAEABAC00173626 /* UserDefaults */,
 				896E4ABF2AA9FA1000D8A1E9 /* Network */,
 			);
 			path = InfraStructure;
@@ -361,6 +408,7 @@
 			children = (
 				896E4AE22AAAF95400D8A1E9 /* FetchShoppingUseCase.swift */,
 				895A20B22AAD69D100173626 /* FavoriteShoppingUseCase.swift */,
+				895A211E2AAEC0EB00173626 /* SearchHistoryUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -370,6 +418,7 @@
 			children = (
 				896E4AE72AAAFC6000D8A1E9 /* ShoppingRepository.swift */,
 				895A20B62AAD6AD300173626 /* LocalShoppingRepository.swift */,
+				895A21132AAEB94000173626 /* SearchHistoryRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -405,6 +454,7 @@
 			children = (
 				896E4AEB2AAAFD2200D8A1E9 /* DefaultShoppingRepository.swift */,
 				895A20CC2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift */,
+				895A21112AAEB91B00173626 /* DefaultSearchHistoryRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -426,6 +476,7 @@
 				896E4ABB2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift */,
 				895A20AE2AACAD5A00173626 /* SearchFilterView.swift */,
 				895A20AC2AACA37700173626 /* SearchFilterCollectionViewCell.swift */,
+				895A21202AAECA7200173626 /* SearchHistoryCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -560,6 +611,7 @@
 				896E4B052AAB25AE00D8A1E9 /* AppDIContainer.swift in Sources */,
 				896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */,
 				895A20D52AADD4CC00173626 /* GoodsDetailViewModel.swift in Sources */,
+				895A21012AAEA8C000173626 /* UserDefaultsSearchHistoryStorage.swift in Sources */,
 				896E4AA32AA9B65C00D8A1E9 /* BaseViewController.swift in Sources */,
 				895A20B72AAD6AD300173626 /* LocalShoppingRepository.swift in Sources */,
 				896E4AC12AA9FA6500D8A1E9 /* URLSession+.swift in Sources */,
@@ -570,11 +622,13 @@
 				896E4AE82AAAFC6000D8A1E9 /* ShoppingRepository.swift in Sources */,
 				896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */,
 				895A20BD2AAD6DA700173626 /* RealmStorage.swift in Sources */,
+				895A21122AAEB91B00173626 /* DefaultSearchHistoryRepository.swift in Sources */,
 				896E4AD42AAAE12500D8A1E9 /* APIKey.swift in Sources */,
 				896E4AA52AA9B6DC00D8A1E9 /* ReusableProtocol.swift in Sources */,
 				895A20B12AAD62F300173626 /* NumberFormatter+.swift in Sources */,
 				896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */,
 				896E4AB72AA9C26900D8A1E9 /* FavoriteViewController.swift in Sources */,
+				895A21232AAECA8100173626 /* BaseTableViewCell.swift in Sources */,
 				896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */,
 				895A20D02AADA5B400173626 /* FavoriteViewModel.swift in Sources */,
 				896E4AD82AAAEB9900D8A1E9 /* NetworkManager.swift in Sources */,
@@ -583,9 +637,13 @@
 				896E4AE32AAAF95400D8A1E9 /* FetchShoppingUseCase.swift in Sources */,
 				896E4ABC2AA9D8E600D8A1E9 /* SearchCollectionViewCell.swift in Sources */,
 				895A20CD2AAD7A0000173626 /* DefaultLocalShoppingRepository.swift in Sources */,
+				895A21072AAEABC500173626 /* UserDefaultsWrapper.swift in Sources */,
+				895A211F2AAEC0EB00173626 /* SearchHistoryUseCase.swift in Sources */,
 				896E4AA92AA9B7F900D8A1E9 /* BaseCollectionViewCell.swift in Sources */,
 				895A20BB2AAD6D4A00173626 /* RealmMapping.swift in Sources */,
+				895A21092AAEABDA00173626 /* UserDefaultsManager.swift in Sources */,
 				895A20D32AADC28E00173626 /* GoodsDetailViewController.swift in Sources */,
+				895A21212AAECA7200173626 /* SearchHistoryCell.swift in Sources */,
 				896E4AAB2AA9BA7B00D8A1E9 /* TabBarController.swift in Sources */,
 				895A20D72AAE35A900173626 /* UIViewController+.swift in Sources */,
 				896E4AF52AAB037600D8A1E9 /* GoodsDTO+Mapping.swift in Sources */,
@@ -594,12 +652,14 @@
 				896E4AB02AA9BC8B00D8A1E9 /* Constants.swift in Sources */,
 				895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */,
 				896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */,
+				895A20FE2AAEA59600173626 /* SearchHistoryStorage.swift in Sources */,
 				896E4AF72AAB03DF00D8A1E9 /* NaverSearchResult.swift in Sources */,
 				895A20B32AAD69D100173626 /* FavoriteShoppingUseCase.swift in Sources */,
 				895A20C82AAD731500173626 /* RealmGoodsStorage.swift in Sources */,
 				896E4B022AAB213B00D8A1E9 /* SearchViewModel.swift in Sources */,
 				896E4ABA2AA9C97200D8A1E9 /* UIColor+.swift in Sources */,
 				896E4AC52AA9FB2000D8A1E9 /* APIError.swift in Sources */,
+				895A21142AAEB94000173626 /* SearchHistoryRepository.swift in Sources */,
 				895A20CB2AAD73B100173626 /* Goods+Mapping.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

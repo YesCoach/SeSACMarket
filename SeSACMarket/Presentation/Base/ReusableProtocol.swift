@@ -13,6 +13,7 @@ protocol ReusableProtocol: AnyObject {
 
 extension BaseViewController: ReusableProtocol { }
 extension BaseCollectionViewCell: ReusableProtocol { }
+extension BaseTableViewCell: ReusableProtocol { }
 
 extension ReusableProtocol {
     static var reuseIdentifier: String {

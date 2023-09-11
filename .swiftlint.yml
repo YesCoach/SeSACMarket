@@ -8,5 +8,6 @@ disabled_rules:
 - legacy_constructor
 - nesting
 - todo
+- file_length
 
 line_length: 99

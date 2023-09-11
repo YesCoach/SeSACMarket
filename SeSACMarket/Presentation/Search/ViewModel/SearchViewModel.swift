@@ -17,6 +17,9 @@ protocol SearchViewModelInput {
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func refreshViewController()
     func viewWillAppear()
+
+    func searchHistoryDelete(index: Int)
+    func searchHistoryDidSelect(index: Int)
 }
 
 protocol SearchViewModelOutput {
@@ -25,6 +28,7 @@ protocol SearchViewModelOutput {
     var isAPICallFinished: BehaviorRelay<Bool> { get }
     var isAlertCalled: BehaviorRelay<Bool> { get }
     var currentSearchKeyword: BehaviorSubject<String> { get }
+    var searchHistoryList: BehaviorSubject<[String]> { get }
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
@@ -33,15 +37,22 @@ final class DefaultSearchViewModel: SearchViewModel {
 
     private let fetchShoppingUseCase: FetchShoppingUseCase
     private let favoriteShoppingUseCase: FavoriteShoppingUseCase
+    private let searchHistoryUseCase: SearchHistoryUseCase
+
+    private let disposeBag = DisposeBag()
 
     // MARK: - DI
 
     init(
         fetchShoppingUseCase: FetchShoppingUseCase,
-        favoriteShoppingUseCase: FavoriteShoppingUseCase
+        favoriteShoppingUseCase: FavoriteShoppingUseCase,
+        searchHistoryUseCase: SearchHistoryUseCase
     ) {
         self.fetchShoppingUseCase = fetchShoppingUseCase
         self.favoriteShoppingUseCase = favoriteShoppingUseCase
+        self.searchHistoryUseCase = searchHistoryUseCase
+
+        bindOutputProperties()
     }
 
     // MARK: - SearchViewModelOutput
@@ -51,6 +62,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
     let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
     let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
+    let searchHistoryList: BehaviorSubject<[String]> = .init(value: [])
 
     private var dataSourceItemList: [Goods] = []
 
@@ -65,6 +77,17 @@ final class DefaultSearchViewModel: SearchViewModel {
         }
     }
     private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
+
+    private func bindOutputProperties() {
+        itemList.subscribe { [weak self] in
+            guard let self else { return }
+            if $0.count == 0 {
+                searchHistoryList.onNext(searchHistoryUseCase.loadSearchHisstory().reversed())
+            } else {
+                searchHistoryList.onNext([])
+            }
+        }.disposed(by: disposeBag)
+    }
 
 }
 
@@ -89,6 +112,7 @@ extension DefaultSearchViewModel {
         self.searchSortType = .sim
 
         fetchShoppingList()
+        saveSearchHistory()
     }
 
     /// 페이징을 위한 프리패칭을 진행합니다.
@@ -156,6 +180,24 @@ extension DefaultSearchViewModel {
         mappingWithLocalFavoriteData()
     }
 
+    /// 검색 기록을 삭제합니다.
+    /// - Parameter index: 삭제할 검색 기록의 인덱스
+    func searchHistoryDelete(index: Int) {
+        var searchHistory = searchHistoryUseCase.loadSearchHisstory()
+        searchHistory.remove(at: index)
+        searchHistoryUseCase.saveSearchHistory(history: searchHistory)
+        searchHistoryList.onNext(searchHistory)
+    }
+
+    /// 검색 기록을 선택할때 호출합니다.
+    /// - Parameter index: 선택한 검색 기록의 인덱스
+    func searchHistoryDidSelect(index: Int) {
+        if let searchHistoryList = try? searchHistoryList.value() {
+            let keyword = searchHistoryList[index]
+            searchShoppingItem(with: keyword)
+        }
+    }
+
 }
 
 private extension DefaultSearchViewModel {
@@ -211,5 +253,15 @@ private extension DefaultSearchViewModel {
             return item
         }
         itemList.onNext(dataSourceItemList)
+    }
+
+    /// 검색 기록을 저장합니다.
+    func saveSearchHistory() {
+        var historylist = searchHistoryUseCase.loadSearchHisstory()
+        if let searchKeyword {
+            historylist.removeAll { $0 == searchKeyword }
+            historylist.append(searchKeyword)
+        }
+        searchHistoryUseCase.saveSearchHistory(history: historylist)
     }
 }
