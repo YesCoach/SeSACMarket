@@ -6,13 +6,17 @@
 //
 
 import Foundation
+import RxSwift
+import RxRelay
 
 protocol GoodsDetailViewModelInput {
     func likeButtonDidTouched(isSelected: Bool)
+    func viewWillAppear()
 }
 
 protocol GoodsDetailViewModelOutput {
     var goods: Goods { get }
+    var isFavoriteEnrolled: BehaviorRelay<Bool> { get }
 }
 
 protocol GoodsDetailViewModel: GoodsDetailViewModelInput, GoodsDetailViewModelOutput {
@@ -29,6 +33,8 @@ final class DefaultGoodsDetailViewModel: GoodsDetailViewModel {
         self.goods = goods
     }
 
+    let isFavoriteEnrolled: BehaviorRelay<Bool> = .init(value: false)
+
 }
 
 // MARK: - GoodsDetailViewModelInput
@@ -41,5 +47,9 @@ extension DefaultGoodsDetailViewModel {
         } else {
             favoriteShoppingUseCase.removeFavoriteGoods(goods: goods)
         }
+    }
+
+    func viewWillAppear() {
+        isFavoriteEnrolled.accept(favoriteShoppingUseCase.isFavoriteEnrolled(goods: goods))
     }
 }

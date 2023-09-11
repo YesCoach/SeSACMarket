@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+import RxSwift
 
 final class GoodsDetailViewController: BaseViewController {
 
@@ -28,6 +29,7 @@ final class GoodsDetailViewController: BaseViewController {
     }()
 
     private let viewModel: GoodsDetailViewModel
+    private let disposeBag = DisposeBag()
 
     init(viewModel: GoodsDetailViewModel) {
         self.viewModel = viewModel
@@ -45,6 +47,13 @@ final class GoodsDetailViewController: BaseViewController {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+
+        bindViewModel()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.viewWillAppear()
     }
 
     override func configureUI() {
@@ -66,6 +75,18 @@ private extension GoodsDetailViewController {
     @objc func likeButtonDidTouched(_ sender: UIButton) {
         sender.isSelected.toggle()
         viewModel.likeButtonDidTouched(isSelected: sender.isSelected)
+    }
+
+    func bindViewModel() {
+        viewModel.isFavoriteEnrolled
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] isFavorite in
+                guard let self else { return }
+                if let button = likeButton.customView as? UIButton {
+                    button.isSelected = isFavorite
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
 }
