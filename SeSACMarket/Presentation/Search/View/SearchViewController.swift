@@ -106,6 +106,23 @@ final class SearchViewController: BaseViewController {
         return view
     }()
 
+    private lazy var upScrollButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(systemName: "arrow.up.circle.fill"), for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(upScrollButtonDidTouched(_:)),
+            for: .touchUpInside
+        )
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.layer.cornerRadius = 25.0
+        button.layer.masksToBounds = true
+        button.tintColor = .customBlackWhite
+        button.alpha = 0
+        return button
+    }()
+
     private lazy var emptyLabel: UILabel = {
         let label = UILabel()
         label.text = "검색 결과가 없어요!"
@@ -119,6 +136,7 @@ final class SearchViewController: BaseViewController {
     private let viewModel: SearchViewModel
     private let disposeBag = DisposeBag()
     private let spacing = Constants.Design.commonInset
+    private var upScrollButtonFlag = true
 
     // MARK: - Initializer
 
@@ -153,7 +171,8 @@ final class SearchViewController: BaseViewController {
         super.configureLayout()
 
         [
-            searchBar, searchFilterView, collectionView, emptyLabel, searchHistoryView
+            searchBar, searchFilterView, collectionView,
+            emptyLabel, searchHistoryView, upScrollButton
         ].forEach { view.addSubview($0) }
 
         searchBar.snp.makeConstraints {
@@ -171,6 +190,11 @@ final class SearchViewController: BaseViewController {
         searchHistoryView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        upScrollButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.width.height.equalTo(50)
         }
         emptyLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
@@ -244,6 +268,10 @@ private extension SearchViewController {
         viewModel.refreshViewController()
     }
 
+    @objc func upScrollButtonDidTouched(_ sender: UIButton) {
+        collectionView.setContentOffset(.init(x: 0, y: 0), animated: true)
+    }
+
 }
 
 // MARK: - UISearchBarDelegate 구현부
@@ -253,12 +281,14 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
         searchHistoryView.isHidden = false
+        upScrollButton.isHidden = true
         viewModel.searchBarDidBeginEditing()
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchHistoryView.isHidden = true
+        upScrollButton.isHidden = false
         viewModel.searchBarDidEndEditing()
     }
 
@@ -332,6 +362,24 @@ extension SearchViewController {
 
         if scrollView.contentSize.height - scrollView.contentOffset.y < height * 2 {
             viewModel.fetchNextShoppingList()
+        }
+
+        if scrollView.contentOffset.y > height {
+            if upScrollButtonFlag == true {
+                upScrollButtonFlag = false
+                UIView.animate(withDuration: 0.3) { [weak self] in
+                    guard let self else { return }
+                    upScrollButton.alpha = 1
+                }
+            }
+        } else {
+            if upScrollButtonFlag == false {
+                upScrollButtonFlag = true
+                UIView.animate(withDuration: 0.3) { [weak self] in
+                    guard let self else { return }
+                    upScrollButton.alpha = 0
+                }
+            }
         }
     }
 
