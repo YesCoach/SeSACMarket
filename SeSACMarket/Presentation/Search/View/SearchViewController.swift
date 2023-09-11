@@ -85,6 +85,7 @@ final class SearchViewController: BaseViewController {
         )
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.isHidden = true
 
         return tableView
     }()
@@ -172,7 +173,8 @@ final class SearchViewController: BaseViewController {
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         searchHistoryView.snp.makeConstraints {
-            $0.edges.equalTo(collectionView)
+            $0.top.equalTo(searchBar.snp.bottom)
+            $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         emptyLabel.snp.makeConstraints {
             $0.center.equalTo(collectionView)
@@ -188,16 +190,10 @@ private extension SearchViewController {
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] item in
                 guard let self else { return }
+                searchBar.resignFirstResponder()
                 collectionView.reloadData()
-                updateFilterViewHeight(isHidden: item.isEmpty)
-                searchHistoryView.isHidden = !item.isEmpty
-                view.layoutIfNeeded()
-            }
-            .disposed(by: disposeBag)
-        viewModel.isEmptyLabelHidden
-            .subscribe { [weak self] in
-                guard let self else { return }
-                emptyLabel.isHidden = $0
+                searchFilterView.isHidden = item.isEmpty
+                emptyLabel.isHidden = !item.isEmpty
             }
             .disposed(by: disposeBag)
         viewModel.isAPICallFinished
@@ -239,24 +235,6 @@ private extension SearchViewController {
         collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 
-    func updateFilterViewHeight(isHidden: Bool) {
-        var heightConstant = 0
-
-        if let itemList = try? viewModel.itemList.value(),
-           !itemList.isEmpty,
-           !isHidden {
-            heightConstant = 60
-        }
-
-        searchFilterView.snp.updateConstraints {
-            $0.height.equalTo(heightConstant)
-        }
-
-        UIView.animate(withDuration: 0.1) { [weak self] in
-            self?.searchFilterView.layoutIfNeeded()
-        }
-    }
-
     // MARK: - Action
 
     @objc func keyboardReturnButtonDidTouched() {
@@ -275,15 +253,18 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
+        searchHistoryView.isHidden = false
+        viewModel.searchBarDidBeginEditing()
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
+        searchHistoryView.isHidden = true
+        viewModel.searchBarDidEndEditing()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        searchBar.text = try? viewModel.currentSearchKeyword.value()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -344,25 +325,6 @@ extension SearchViewController: UICollectionViewDelegate {
     }
 }
 
-extension SearchViewController: UICollectionViewDataSourcePrefetching {
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        prefetchItemsAt indexPaths: [IndexPath]
-    ) {
-        print(#function)
-        viewModel.prefetchItemsAt(indexPaths: indexPaths)
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cancelPrefetchingForItemsAt indexPaths: [IndexPath]
-    ) {
-        print(#function)
-    }
-
-}
-
 extension SearchViewController {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -411,6 +373,8 @@ extension SearchViewController: UITableViewDataSource {
 
 }
 
+// MARK: - UITableViewDelegate(Search History)
+
 extension SearchViewController: UITableViewDelegate {
 
     func tableView(
@@ -420,8 +384,9 @@ extension SearchViewController: UITableViewDelegate {
         let delete = UIContextualAction(
             style: .destructive,
             title: nil
-        ) { action, view, completion in
-            self.viewModel.searchHistoryDelete(index: indexPath.row)
+        ) { [weak self] _, _, _ in
+            guard let self else { return }
+            viewModel.searchHistoryDelete(index: indexPath.row)
         }
 
         delete.backgroundColor = .systemRed

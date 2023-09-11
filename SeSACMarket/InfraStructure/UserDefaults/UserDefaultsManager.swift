@@ -9,12 +9,11 @@ import Foundation
 
 enum UserDefaultsKey {
 
-    enum SearchHistory: String{
-
+    enum SearchHistory: String {
         case search
         case favorite
-
     }
+
 }
 
 final class UserDefaultsManager {

@@ -73,7 +73,7 @@ extension RealmStorage {
 
     func contains<T: Object>(_ object: T.Type, primaryKey: String) -> Bool {
         guard let realm,
-              let _ = realm.object(ofType: object, forPrimaryKey: primaryKey)
+              realm.object(ofType: object, forPrimaryKey: primaryKey) != nil
         else { return false }
         return true
     }

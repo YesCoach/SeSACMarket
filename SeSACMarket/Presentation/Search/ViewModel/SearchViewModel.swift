@@ -11,12 +11,14 @@ import RxRelay
 
 protocol SearchViewModelInput {
     func searchShoppingItem(with keyword: String)
-    func prefetchItemsAt(indexPaths: [IndexPath])
     func fetchNextShoppingList()
     func filterDidSelected(with type: APIEndPoint.NaverAPI.QueryType.SortType)
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func refreshViewController()
     func viewWillAppear()
+
+    func searchBarDidBeginEditing()
+    func searchBarDidEndEditing()
 
     func searchHistoryDelete(index: Int)
     func searchHistoryDidSelect(index: Int)
@@ -24,7 +26,6 @@ protocol SearchViewModelInput {
 
 protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
-    var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
     var isAPICallFinished: BehaviorRelay<Bool> { get }
     var isAlertCalled: BehaviorRelay<Bool> { get }
     var currentSearchKeyword: BehaviorSubject<String> { get }
@@ -51,14 +52,11 @@ final class DefaultSearchViewModel: SearchViewModel {
         self.fetchShoppingUseCase = fetchShoppingUseCase
         self.favoriteShoppingUseCase = favoriteShoppingUseCase
         self.searchHistoryUseCase = searchHistoryUseCase
-
-        bindOutputProperties()
     }
 
     // MARK: - SearchViewModelOutput
 
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
     let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
     let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
     let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
@@ -77,17 +75,6 @@ final class DefaultSearchViewModel: SearchViewModel {
         }
     }
     private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
-
-    private func bindOutputProperties() {
-        itemList.subscribe { [weak self] in
-            guard let self else { return }
-            if $0.count == 0 {
-                searchHistoryList.onNext(searchHistoryUseCase.loadSearchHisstory().reversed())
-            } else {
-                searchHistoryList.onNext([])
-            }
-        }.disposed(by: disposeBag)
-    }
 
 }
 
@@ -112,27 +99,12 @@ extension DefaultSearchViewModel {
         self.searchSortType = .sim
 
         fetchShoppingList()
+
+        // 검색어를 검색기록에 저장
         saveSearchHistory()
     }
 
     /// 페이징을 위한 프리패칭을 진행합니다.
-    /// - Parameter indexPaths: prefetchItemsAt에서 인자로 받는 indexPaths
-    func prefetchItemsAt(indexPaths: [IndexPath]) {
-        guard let itemList = try? itemList.value() else { return }
-
-        let nextSearchIndex = searchStartIndex + searchDisplayCount
-        guard nextSearchIndex <= Constants.API.searchIdxLimit,
-              nextSearchIndex <= searchTotalCount ?? Constants.API.searchIdxLimit
-        else { return }
-
-        for indexpath in indexPaths {
-            if itemList.count - 1 == indexpath.item {
-                searchStartIndex += searchDisplayCount
-                fetchShoppingList()
-            }
-        }
-    }
-
     func fetchNextShoppingList() {
         let nextSearchIndex = searchStartIndex + searchDisplayCount
         guard nextSearchIndex <= Constants.API.searchIdxLimit,
@@ -178,15 +150,31 @@ extension DefaultSearchViewModel {
 
     func viewWillAppear() {
         mappingWithLocalFavoriteData()
+        loadSearchHistory()
+    }
+
+    /// 검색어 입력을 시작하면, 기존의 검색 쿼리는 모두 초기화합니다.
+    func searchBarDidBeginEditing() {
+        dataSourceItemList = []
+        searchTotalCount = 0
+        searchStartIndex = 1
+        searchKeyword = nil
+    }
+
+    /// 입력이 끝났을때, 검색한 경우가 아니라면 아이템 리스트를 초기화합니다.
+    func searchBarDidEndEditing() {
+        if dataSourceItemList.isEmpty {
+            itemList.onNext([])
+        }
     }
 
     /// 검색 기록을 삭제합니다.
     /// - Parameter index: 삭제할 검색 기록의 인덱스
     func searchHistoryDelete(index: Int) {
-        var searchHistory = searchHistoryUseCase.loadSearchHisstory()
+        var searchHistory: [String] = searchHistoryUseCase.loadSearchHisstory().reversed()
         searchHistory.remove(at: index)
-        searchHistoryUseCase.saveSearchHistory(history: searchHistory)
-        searchHistoryList.onNext(searchHistory)
+        searchHistoryUseCase.saveSearchHistory(history: searchHistory.reversed())
+        loadSearchHistory()
     }
 
     /// 검색 기록을 선택할때 호출합니다.
@@ -233,7 +221,6 @@ private extension DefaultSearchViewModel {
                         dataSourceItemList.append(contentsOf: itemlist)
                     }
                     searchTotalCount = searchResult.total
-                    isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
                     mappingWithLocalFavoriteData()
                     print("✅", #function, "success!!")
                 }
@@ -255,7 +242,7 @@ private extension DefaultSearchViewModel {
         itemList.onNext(dataSourceItemList)
     }
 
-    /// 검색 기록을 저장합니다.
+    /// 현재 검색어를 검색 기록에 저장합니다.
     func saveSearchHistory() {
         var historylist = searchHistoryUseCase.loadSearchHisstory()
         if let searchKeyword {
@@ -263,5 +250,12 @@ private extension DefaultSearchViewModel {
             historylist.append(searchKeyword)
         }
         searchHistoryUseCase.saveSearchHistory(history: historylist)
+        loadSearchHistory()
+    }
+
+    /// 검색 기록을 불러옵니다.
+    /// 최근 검색순으로 정렬하기 위해 UserDefaults의 배열을 뒤집어서 방출합니다.
+    func loadSearchHistory() {
+        searchHistoryList.onNext(searchHistoryUseCase.loadSearchHisstory().reversed())
     }
 }

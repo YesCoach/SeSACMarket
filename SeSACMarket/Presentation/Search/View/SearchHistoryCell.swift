@@ -41,7 +41,7 @@ final class SearchHistoryCell: BaseTableViewCell {
         }
         recentLabel.snp.makeConstraints {
             $0.leading.equalTo(recentImage.snp.trailing).offset(commonInset)
-            $0.top.trailing.bottom.equalToSuperview().inset(5.0)
+            $0.top.trailing.bottom.equalToSuperview().inset(commonInset)
         }
     }
 

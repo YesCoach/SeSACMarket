@@ -57,13 +57,7 @@ extension DefaultFavoriteViewModel {
 
     func searchShoppingItem(with keyword: String) {
         self.keyword = keyword
-        guard keyword != "" else {
-            loadFavoriteShoppingItems()
-            return
-        }
-        let itemList = favoriteShoppingUseCase.searchFavoriteGoods(keyword: keyword)
-        isEmptyLabelHidden.accept(!itemList.isEmpty)
-        favoriteItemList.onNext(itemList)
+        loadFavoriteShoppingItems()
     }
 
 }
@@ -73,7 +67,13 @@ extension DefaultFavoriteViewModel {
 private extension DefaultFavoriteViewModel {
 
     func loadFavoriteShoppingItems() {
-        let itemList = favoriteShoppingUseCase.readFavoriteGoodsData()
+        guard let keyword, keyword != "" else {
+            let itemList = favoriteShoppingUseCase.readFavoriteGoodsData()
+            isEmptyLabelHidden.accept(!itemList.isEmpty)
+            favoriteItemList.onNext(itemList)
+            return
+        }
+        let itemList = favoriteShoppingUseCase.searchFavoriteGoods(keyword: keyword)
         isEmptyLabelHidden.accept(!itemList.isEmpty)
         favoriteItemList.onNext(itemList)
     }
