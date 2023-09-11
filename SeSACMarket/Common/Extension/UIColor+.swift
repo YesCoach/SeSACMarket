@@ -8,7 +8,11 @@
 import UIKit
 
 extension UIColor {
-    class var systemBlack: UIColor? {
-        return .init(named: "systemBlack")
+    class var systemWhiteBlack: UIColor? {
+        return .init(named: "systemWhiteBlack")
+    }
+
+    class var systemBlackWhite: UIColor {
+        return .init(named: "systemBlackWhite")
     }
 }
