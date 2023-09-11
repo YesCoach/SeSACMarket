@@ -77,6 +77,7 @@ final class DefaultSearchViewModel: SearchViewModel {
         }
     }
     private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
+    private var isPagingEnabled = false
 
 }
 
@@ -108,12 +109,17 @@ extension DefaultSearchViewModel {
 
     /// 페이징을 위한 프리패칭을 진행합니다.
     func fetchNextShoppingList() {
+        guard isPagingEnabled else { return }
         let nextSearchIndex = searchStartIndex + searchDisplayCount
         guard nextSearchIndex <= Constants.API.searchIdxLimit,
               nextSearchIndex <= searchTotalCount ?? Constants.API.searchIdxLimit
         else { return }
 
         searchStartIndex += searchDisplayCount
+        isPagingEnabled = false
+        print("")
+        print(#function, ":: is called!!")
+        print("=========================")
         fetchShoppingList()
     }
 
@@ -209,7 +215,11 @@ private extension DefaultSearchViewModel {
             start: searchStartIndex,
             sort: searchSortType
         ) { [weak self] result in
-            print(#function)
+
+            print("")
+            print(#function, ":: is called!!")
+            print("=========================")
+
             guard let self else { return }
             isAPICallFinished.accept(true)
             currentSearchKeyword.onNext(searchKeyword)
@@ -224,11 +234,15 @@ private extension DefaultSearchViewModel {
                     }
                     searchTotalCount = searchResult.total
                     mappingWithLocalFavoriteData()
-                    print("✅", #function, "success!!")
+                    isPagingEnabled = true
+                    print("")
+                    print("✅", #function, ":: is succeed!!")
+                    print("=========================")
                 }
+
             case let .failure(error):
-                // TODO: - Network Error Handling
                 debugPrint(error)
+                isPagingEnabled = true
                 handleError(error: error)
                 return
             }

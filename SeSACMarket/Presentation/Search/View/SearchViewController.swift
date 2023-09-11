@@ -326,8 +326,6 @@ extension SearchViewController: UICollectionViewDelegate {
 extension SearchViewController {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(#function, "is called")
-
         guard let screen = view.window?.windowScene?.screen else { return }
         let height = screen.bounds.height
 
