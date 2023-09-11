@@ -30,6 +30,7 @@ protocol SearchViewModelOutput {
     var isAlertCalled: BehaviorRelay<Bool> { get }
     var currentSearchKeyword: BehaviorSubject<String> { get }
     var searchHistoryList: BehaviorSubject<[String]> { get }
+    var error: PublishSubject<(String, String)> { get }
 }
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
@@ -61,6 +62,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
     let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
     let searchHistoryList: BehaviorSubject<[String]> = .init(value: [])
+    let error: PublishSubject<(String, String)> = .init()
 
     private var dataSourceItemList: [Goods] = []
 
@@ -227,6 +229,7 @@ private extension DefaultSearchViewModel {
             case let .failure(error):
                 // TODO: - Network Error Handling
                 debugPrint(error)
+                handleError(error: error)
                 return
             }
         }
@@ -258,4 +261,16 @@ private extension DefaultSearchViewModel {
     func loadSearchHistory() {
         searchHistoryList.onNext(searchHistoryUseCase.loadSearchHisstory().reversed())
     }
+
+    func handleError(error: APIError) {
+        switch error {
+        case .failedRequest, .invalidResponse, .invalidURL:
+            let errorTitle = "요청에 실패했습니다"
+            let errorMessage = "잠시 후 다시 시도해주세요"
+            self.error.onNext((errorTitle, errorMessage))
+        case .invalidData, .noData:
+            return
+        }
+    }
+
 }

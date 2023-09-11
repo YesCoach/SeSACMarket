@@ -223,6 +223,12 @@ private extension SearchViewController {
                 searchHistoryView.reloadData()
             }
             .disposed(by: disposeBag)
+        viewModel.error
+            .subscribe { [weak self] (title, message) in
+                guard let self else { return }
+                presentAlert(title: title, message: message)
+            }
+            .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {

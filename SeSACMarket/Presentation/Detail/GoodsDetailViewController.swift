@@ -16,6 +16,7 @@ final class GoodsDetailViewController: BaseViewController {
     private lazy var webView: WKWebView = {
         let config = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: config)
+        webView.navigationDelegate = self
         return webView
     }()
 
@@ -26,6 +27,13 @@ final class GoodsDetailViewController: BaseViewController {
         button.isSelected = viewModel.goods.favorite
         button.addTarget(self, action: #selector(likeButtonDidTouched(_:)), for: .touchUpInside)
         return UIBarButtonItem(customView: button)
+    }()
+
+    private lazy var indicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.hidesWhenStopped = true
+        view.style = .medium
+        return view
     }()
 
     // MARK: - Properties
@@ -66,10 +74,37 @@ final class GoodsDetailViewController: BaseViewController {
     }
 
     override func configureLayout() {
-        view.addSubview(webView)
+        [
+            webView, indicatorView
+        ].forEach { view.addSubview($0) }
         webView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        indicatorView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+
+}
+
+extension GoodsDetailViewController: WKNavigationDelegate {
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        indicatorView.startAnimating()
+    }
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        indicatorView.stopAnimating()
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        didFailProvisionalNavigation navigation: WKNavigation!,
+        withError error: Error
+    ) {
+        print(error.localizedDescription)
+        indicatorView.stopAnimating()
+        presentAlert(title: "페이지 로드 오류", message: "연결 상태를 확인해주세요!")
     }
 
 }
