@@ -3,4 +3,54 @@
    uuid = "98E5F0BE-1CCC-45A9-BAE2-DF6FFFF3B6AB"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "021F8659-7C82-4BD1-B9EF-5B9370201E1E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SeSACMarket/Presentation/Search/View/SearchViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "searchBarSearchButtonClicked(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "021F8659-7C82-4BD1-B9EF-5B9370201E1E - b206912b95c9f4b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SeSACMarket.SearchViewController.searchBarTextDidEndEditing(__C.UISearchBar) -&gt; ()"
+                  moduleName = "SeSACMarket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yescoach/SeSAC/SeSACMarket/SeSACMarket/Presentation/Search/View/SearchViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
+                  offsetFromSymbolStart = "68">
+               </Location>
+               <Location
+                  uuid = "021F8659-7C82-4BD1-B9EF-5B9370201E1E - 10d3c2e2d651f0a6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SeSACMarket.SearchViewController.searchBarSearchButtonClicked(__C.UISearchBar) -&gt; ()"
+                  moduleName = "SeSACMarket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yescoach/SeSAC/SeSACMarket/SeSACMarket/Presentation/Search/View/SearchViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

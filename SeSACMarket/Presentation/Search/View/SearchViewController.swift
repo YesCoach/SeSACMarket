@@ -15,12 +15,8 @@ final class SearchViewController: BaseViewController {
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "검색어를 입력하세요."
-        searchBar.searchTextField.addTarget(
-            self,
-            action: #selector(keyboardReturnButtonDidTouched),
-            for: .editingDidEndOnExit
-        )
         searchBar.setValue("취소", forKey: "cancelButtonText")
         searchBar.delegate = self
         return searchBar
@@ -177,7 +173,7 @@ final class SearchViewController: BaseViewController {
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         emptyLabel.snp.makeConstraints {
-            $0.center.equalTo(collectionView)
+            $0.center.equalToSuperview()
         }
     }
 
@@ -236,10 +232,6 @@ private extension SearchViewController {
     }
 
     // MARK: - Action
-
-    @objc func keyboardReturnButtonDidTouched() {
-
-    }
 
     @objc func viewControllerDidRefresh(_ sender: UIRefreshControl) {
         viewModel.refreshViewController()

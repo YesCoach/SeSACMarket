@@ -15,11 +15,7 @@ final class FavoriteViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색어를 입력하세요."
-        searchBar.searchTextField.addTarget(
-            self,
-            action: #selector(keyboardReturnButtonDidTouched),
-            for: .editingDidEndOnExit
-        )
+        searchBar.searchBarStyle = .minimal
         searchBar.setValue("취소", forKey: "cancelButtonText")
         searchBar.delegate = self
         return searchBar
@@ -153,12 +149,8 @@ final class FavoriteViewController: BaseViewController {
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         emptyLabel.snp.makeConstraints {
-            $0.center.equalTo(collectionView)
+            $0.center.equalToSuperview()
         }
-    }
-
-    @objc private func keyboardReturnButtonDidTouched() {
-
     }
 
     @objc private func collectionViewScrollToTop() {

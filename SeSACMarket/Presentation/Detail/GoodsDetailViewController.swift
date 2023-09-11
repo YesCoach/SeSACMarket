@@ -28,8 +28,12 @@ final class GoodsDetailViewController: BaseViewController {
         return UIBarButtonItem(customView: button)
     }()
 
+    // MARK: - Properties
+
     private let viewModel: GoodsDetailViewModel
     private let disposeBag = DisposeBag()
+
+    // MARK: - Initializer
 
     init(viewModel: GoodsDetailViewModel) {
         self.viewModel = viewModel
