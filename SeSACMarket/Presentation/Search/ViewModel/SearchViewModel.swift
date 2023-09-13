@@ -47,6 +47,7 @@ protocol SearchViewModelOutput {
     var isAlertCalled: BehaviorRelay<Bool> { get }
     var resignKeyboard: BehaviorRelay<Bool> { get }
     var scrollToTopWithAnimation: PublishRelay<Bool> { get }
+    var searchBarText: BehaviorRelay<String?> { get }
 }
 
 // MARK: -
@@ -92,6 +93,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
     let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
     let scrollToTopWithAnimation: PublishRelay<Bool> = .init()
+    let searchBarText: BehaviorRelay<String?> = .init(value: nil)
 
     // MARK: Property
 
@@ -124,6 +126,7 @@ extension DefaultSearchViewModel {
 
         isEmptyLabelHidden.accept(true)
         isFilterTypeReset.accept(true)
+        searchBarText.accept(keyword)
 
         // 검색어, 데이터소스 데이터 초기화
         clearData()

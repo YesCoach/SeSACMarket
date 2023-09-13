@@ -91,9 +91,21 @@ final class SearchViewController: BaseViewController {
             SearchHistoryCell.self,
             forCellReuseIdentifier: SearchHistoryCell.reuseIdentifier
         )
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.isHidden = true
+
+        tableView.rx.itemSelected
+            .bind { [weak self] indexPath in
+                guard let self else { return }
+                viewModel.searchHistoryDidSelect(index: indexPath.row)
+            }
+            .disposed(by: disposeBag)
+
+        tableView.rx.itemDeleted
+            .bind { [weak self] indexPath in
+                guard let self else { return }
+                viewModel.searchHistoryDelete(index: indexPath.row)
+            }
+            .disposed(by: disposeBag)
 
         return tableView
     }()
@@ -245,9 +257,15 @@ private extension SearchViewController {
             .disposed(by: disposeBag)
 
         viewModel.searchHistoryList
-            .subscribe { [weak self] _ in
-                guard let self else { return }
-                searchHistoryView.reloadData()
+            .observe(on: MainScheduler.instance)
+            .bind(to: searchHistoryView
+                .rx
+                .items(
+                    cellIdentifier: SearchHistoryCell.reuseIdentifier,
+                    cellType: SearchHistoryCell.self
+                )
+            ) { _, history, cell in
+                cell.configure(with: history)
             }
             .disposed(by: disposeBag)
 
@@ -294,6 +312,11 @@ private extension SearchViewController {
             .asSignal()
             .emit(to: collectionView.rx.topToWithAnimation)
             .disposed(by: disposeBag)
+
+        viewModel.searchBarText
+            .asDriver()
+            .drive(searchBar.rx.text)
+            .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {
@@ -336,7 +359,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
-extension SearchViewController {
+extension SearchViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let screen = view.window?.windowScene?.screen else { return }
@@ -367,62 +390,23 @@ extension SearchViewController {
 
 }
 
-// MARK: - UITableViewDataSource(Search History)
-
-extension SearchViewController: UITableViewDataSource {
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let historyList = try? viewModel.searchHistoryList.value() {
-            return historyList.count
-        } else { return 0 }
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: SearchHistoryCell.reuseIdentifier,
-            for: indexPath
-        ) as? SearchHistoryCell
-        else { return UITableViewCell() }
-
-        guard let keyword = try? viewModel.searchHistoryList.value()[indexPath.row]
-        else { return UITableViewCell() }
-        cell.configure(with: keyword)
-
-        return cell
-    }
-
-}
-
-// MARK: - UITableViewDelegate(Search History)
-
-extension SearchViewController: UITableViewDelegate {
-
-    func tableView(
-        _ tableView: UITableView,
-        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(
-            style: .destructive,
-            title: nil
-        ) { [weak self] _, _, _ in
-            guard let self else { return }
-            viewModel.searchHistoryDelete(index: indexPath.row)
-        }
-
-        delete.backgroundColor = .systemRed
-        delete.image = .init(systemName: "trash")
-
-        return .init(actions: [delete])
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.searchHistoryDidSelect(index: indexPath.row)
-    }
-}
+//extension SearchViewController: UITableViewDelegate {
+//
+//    func tableView(
+//        _ tableView: UITableView,
+//        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+//    ) -> UISwipeActionsConfiguration? {
+//        let delete = UIContextualAction(
+//            style: .destructive,
+//            title: nil
+//        ) { [weak self] _, _, _ in
+//            guard let self else { return }
+//            viewModel.searchHistoryDelete(index: indexPath.row)
+//        }
+//
+//        delete.backgroundColor = .systemRed
+//        delete.image = .init(systemName: "trash")
+//
+//        return .init(actions: [delete])
+//    }
+//}
