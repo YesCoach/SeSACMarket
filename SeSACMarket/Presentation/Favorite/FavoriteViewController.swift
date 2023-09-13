@@ -28,7 +28,7 @@ final class FavoriteViewController: BaseViewController {
 
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.5),
-                heightDimension: .fractionalHeight(1.0)
+                heightDimension: .estimated(1.0)
             )
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
