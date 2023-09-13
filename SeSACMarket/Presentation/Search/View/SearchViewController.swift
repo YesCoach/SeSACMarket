@@ -66,10 +66,21 @@ final class SearchViewController: BaseViewController {
             SearchCollectionViewCell.self,
             forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier
         )
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.refreshControl = refreshControl
         collectionView.keyboardDismissMode = .onDrag
+
+        collectionView.rx.modelSelected(Goods.self)
+            .bind { [weak self] goods in
+                guard let self else { return }
+                let viewController = AppDIContainer()
+                    .makeDIContainer()
+                    .makeGoodsDetailViewController(goods: goods)
+                navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: disposeBag)
+
+        collectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
 
         return collectionView
     }()
@@ -210,7 +221,6 @@ private extension SearchViewController {
     // MARK: - Bind
 
     func bindViewModel() {
-
         searchBar.rx.text
             .orEmpty
             .subscribe { text in
@@ -220,9 +230,17 @@ private extension SearchViewController {
 
         viewModel.itemList
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] _ in
-                guard let self else { return }
-                collectionView.reloadData()
+            .bind(to: collectionView
+                .rx
+                .items(
+                    cellIdentifier: SearchCollectionViewCell.reuseIdentifier,
+                    cellType: SearchCollectionViewCell.self
+                )
+            ) { _, goods, cell in
+                cell.configure(with: goods) { [weak self] (data, isFavorite) in
+                    guard let self else { return }
+                    viewModel.likeButtonDidTouched(with: data, isFavorite: isFavorite)
+                }
             }
             .disposed(by: disposeBag)
 
@@ -315,58 +333,6 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         viewModel.searchBarSearchButtonClicked(text: searchBar.text!)
-    }
-}
-
-// MARK: - UICollectionViewDataSource 구현부
-
-extension SearchViewController: UICollectionViewDataSource {
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        let count = try? viewModel.itemList.value().count
-        return count ?? 0
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier,
-            for: indexPath
-        ) as? SearchCollectionViewCell
-        else { return UICollectionViewCell() }
-
-        guard let data = try? viewModel.itemList.value()
-        else { return UICollectionViewCell() }
-
-        cell.configure(with: data[indexPath.item]) { [weak self] (data, isFavorite) in
-            guard let self else { return }
-            viewModel.likeButtonDidTouched(with: data, isFavorite: isFavorite)
-        }
-
-        return cell
-    }
-
-}
-
-// MARK: - UICollectionViewDelegate 구현부
-
-extension SearchViewController: UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let itemList = try? viewModel.itemList.value() else { return }
-        let viewController = AppDIContainer()
-            .makeDIContainer()
-            .makeGoodsDetailViewController(goods: itemList[indexPath.item])
-        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
