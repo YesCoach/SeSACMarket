@@ -30,11 +30,11 @@ final class SearchViewController: BaseViewController {
 
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.5),
-                heightDimension: .estimated(1.0)
+                heightDimension: .estimated(300)
             )
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(0.55)
+                heightDimension: .estimated(300)
             )
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -56,7 +56,7 @@ final class SearchViewController: BaseViewController {
             )
 
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 0
+            section.interGroupSpacing = spacing
 
             return section
         }
@@ -210,6 +210,14 @@ private extension SearchViewController {
     // MARK: - Bind
 
     func bindViewModel() {
+
+        searchBar.rx.text
+            .orEmpty
+            .subscribe { text in
+                print(text)
+            }
+            .disposed(by: disposeBag)
+
         viewModel.itemList
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] _ in

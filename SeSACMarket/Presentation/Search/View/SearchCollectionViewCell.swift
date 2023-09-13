@@ -106,7 +106,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         priceLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom)
             $0.horizontalEdges.equalToSuperview().inset(Constants.Design.cornerRadius)
-            $0.bottom.lessThanOrEqualTo(contentView)
+            $0.bottom.equalTo(contentView)
         }
     }
 

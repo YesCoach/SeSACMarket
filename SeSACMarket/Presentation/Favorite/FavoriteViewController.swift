@@ -23,16 +23,15 @@ final class FavoriteViewController: BaseViewController {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewCompositionalLayout { _, _ in
-
             let spacing = Constants.Design.commonInset
 
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(0.5),
-                heightDimension: .estimated(1.0)
+                heightDimension: .estimated(300)
             )
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(0.5)
+                heightDimension: .estimated(300)
             )
 
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -54,7 +53,7 @@ final class FavoriteViewController: BaseViewController {
             )
 
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 0
+            section.interGroupSpacing = spacing
 
             return section
         }
