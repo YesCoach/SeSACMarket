@@ -12,12 +12,17 @@ import RxRelay
 protocol FavoriteViewModelInput {
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func viewWillAppear()
+    func viewWillDisappear()
     func searchShoppingItem(with keyword: String)
+    func searchBarCancleButtonClicked()
+    func searchBarSearchButtonClicked()
+    func searchBarTextDidChange(with text: String)
 }
 
 protocol FavoriteViewModelOutput {
     var favoriteItemList: BehaviorSubject<[Goods]> { get }
     var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
+    var resignKeyboard: BehaviorRelay<Bool> { get }
 }
 
 protocol FavoriteViewModel: FavoriteViewModelInput, FavoriteViewModelOutput { }
@@ -36,6 +41,7 @@ final class DefaultFavoriteViewModel: FavoriteViewModel {
 
     let favoriteItemList: BehaviorSubject<[Goods]> = .init(value: [])
     let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
 
     private var keyword: String?
 }
@@ -55,11 +61,29 @@ extension DefaultFavoriteViewModel {
         searchShoppingItem(with: keyword ?? "")
     }
 
+    func viewWillDisappear() {
+        resignKeyboard.accept(true)
+    }
+
     func searchShoppingItem(with keyword: String) {
         self.keyword = keyword
         loadFavoriteShoppingItems()
     }
 
+    func searchBarCancleButtonClicked() {
+        resignKeyboard.accept(true)
+    }
+
+    func searchBarSearchButtonClicked() {
+        resignKeyboard.accept(true)
+    }
+
+    func searchBarTextDidChange(with text: String) {
+        let trimmedText = text
+            .lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        searchShoppingItem(with: trimmedText)
+    }
 }
 
 // MARK: - Private Methods

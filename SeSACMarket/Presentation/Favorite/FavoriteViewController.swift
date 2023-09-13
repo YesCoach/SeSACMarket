@@ -124,7 +124,7 @@ final class FavoriteViewController: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        dismissKeyboard()
+        viewModel.viewWillDisappear()
     }
 
     override func configureUI() {
@@ -172,15 +172,14 @@ private extension FavoriteViewController {
             .disposed(by: disposeBag)
 
         viewModel.isEmptyLabelHidden
-            .subscribe { [weak self] in
-                guard let self else { return }
-                emptyLabel.isHidden = $0
-            }
+            .asDriver()
+            .drive(emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)
-    }
 
-    func dismissKeyboard() {
-        searchBar.resignFirstResponder()
+        viewModel.resignKeyboard
+            .asDriver()
+            .drive(searchBar.rx.resignFirstResponder)
+            .disposed(by: disposeBag)
     }
 
 }
@@ -198,17 +197,15 @@ extension FavoriteViewController: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let text = searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        viewModel.searchShoppingItem(with: text)
+        viewModel.searchBarTextDidChange(with: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        dismissKeyboard()
+        viewModel.searchBarCancleButtonClicked()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        dismissKeyboard()
-        viewModel.searchShoppingItem(with: searchBar.text!)
+        viewModel.searchBarSearchButtonClicked()
     }
 
 }
