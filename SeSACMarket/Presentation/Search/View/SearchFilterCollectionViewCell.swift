@@ -23,6 +23,7 @@ final class SearchFilterCollectionViewCell: BaseCollectionViewCell {
     // MARK: - Initializer
 
     override func configureUI() {
+        super.configureUI()
         label.textColor = isSelected ? .customWhiteBlack : .systemGray
         self.backgroundColor = isSelected ? .customBlackWhite : .systemBackground
         self.layer.borderWidth = isSelected ? .zero : 1.0

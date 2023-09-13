@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 import RxRelay
 
+// MARK: - Input
+
 protocol SearchViewModelInput {
     func searchShoppingItem(with keyword: String)
     func fetchNextShoppingList()
@@ -16,26 +18,44 @@ protocol SearchViewModelInput {
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func refreshViewController()
     func viewWillAppear()
+    func upScrollButtonDidTouched()
 
-    func searchBarDidBeginEditing()
-    func searchBarDidEndEditing()
+    // MARK: SearchBar
+
+    func searchBarTextDidBeginEditing()
+    func searchBarTextDidEndEditing()
+    func searchBarSearchButtonClicked(text: String)
+
+    // MARK: SearchHistory
 
     func searchHistoryDelete(index: Int)
     func searchHistoryDidSelect(index: Int)
 }
 
+// MARK: - Output
+
 protocol SearchViewModelOutput {
     var itemList: BehaviorSubject<[Goods]> { get }
-    var isAPICallFinished: BehaviorRelay<Bool> { get }
-    var isAlertCalled: BehaviorRelay<Bool> { get }
-    var currentSearchKeyword: BehaviorSubject<String> { get }
     var searchHistoryList: BehaviorSubject<[String]> { get }
-    var error: PublishSubject<(String, String)> { get }
+    var error: PublishRelay<(String?, String?)> { get }
+    var isRefreshControlRefreshing: BehaviorRelay<Bool> { get }
+    var isFilterViewHidden: BehaviorRelay<Bool> { get }
+    var isFilterTypeReset: BehaviorRelay<Bool> { get }
+    var isSearchHistoryHidden: BehaviorRelay<Bool> { get }
+    var isUpScrollButtonHidden: BehaviorRelay<Bool> { get }
+    var isEmptyLabelHidden: BehaviorRelay<Bool> { get }
+    var isAlertCalled: BehaviorRelay<Bool> { get }
+    var resignKeyboard: BehaviorRelay<Bool> { get }
+    var scrollToTopWithAnimation: PublishRelay<Bool> { get }
 }
+
+// MARK: -
 
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
 
 final class DefaultSearchViewModel: SearchViewModel {
+
+    // MARK: - UseCase
 
     private let fetchShoppingUseCase: FetchShoppingUseCase
     private let favoriteShoppingUseCase: FavoriteShoppingUseCase
@@ -43,7 +63,7 @@ final class DefaultSearchViewModel: SearchViewModel {
 
     private let disposeBag = DisposeBag()
 
-    // MARK: - DI
+    // MARK: DI
 
     init(
         fetchShoppingUseCase: FetchShoppingUseCase,
@@ -55,27 +75,32 @@ final class DefaultSearchViewModel: SearchViewModel {
         self.searchHistoryUseCase = searchHistoryUseCase
     }
 
-    // MARK: - SearchViewModelOutput
+    // MARK: SearchViewModelOutput
 
     let itemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let isAPICallFinished: BehaviorRelay<Bool> = .init(value: true)
-    let currentSearchKeyword: BehaviorSubject<String> = .init(value: "")
-    let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
     let searchHistoryList: BehaviorSubject<[String]> = .init(value: [])
-    let error: PublishSubject<(String, String)> = .init()
+    let error: PublishRelay<(String?, String?)> = .init()
+
+    // MARK: SearchViewModelUIOutput
+
+    let isRefreshControlRefreshing: BehaviorRelay<Bool> = .init(value: false)
+    let isSearchHistoryHidden: BehaviorRelay<Bool> = .init(value: true)
+    let isUpScrollButtonHidden: BehaviorRelay<Bool> = .init(value: true)
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
+    let isFilterViewHidden: BehaviorRelay<Bool> = .init(value: true)
+    let isFilterTypeReset: BehaviorRelay<Bool> = .init(value: false)
+    let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
+    let scrollToTopWithAnimation: PublishRelay<Bool> = .init()
+
+    // MARK: Property
 
     private var dataSourceItemList: [Goods] = []
 
     private var searchDisplayCount = 30
     private var searchTotalCount: Int?
     private var searchStartIndex = 1
-    private var searchKeyword: String? {
-        didSet {
-            if let searchKeyword {
-                currentSearchKeyword.onNext(searchKeyword)
-            }
-        }
-    }
+    private var searchKeyword: String?
     private var searchSortType: APIEndPoint.NaverAPI.QueryType.SortType = .sim
     private var isPagingEnabled = false
 
@@ -85,29 +110,35 @@ final class DefaultSearchViewModel: SearchViewModel {
 
 extension DefaultSearchViewModel {
 
+    // MARK: Search Logic
+
     /// 새로운 검색어로 검색시 호출합니다.
     /// - Parameter keyword: 검색할 키워드 문자열
     func searchShoppingItem(with keyword: String) {
         let keyword = keyword.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard keyword != "" else {
-            isAlertCalled.accept(true)
+            error.accept((nil, "검색어는 최소 한글자 이상이여야 해요."))
             return
         }
 
-        // 검색어, 데이터소스 데이터 초기화
-        self.searchKeyword = keyword
-        self.dataSourceItemList = []
-        self.searchStartIndex = 1
-        self.searchSortType = .sim
+        isEmptyLabelHidden.accept(true)
+        isFilterTypeReset.accept(true)
 
-        fetchShoppingList()
+        // 검색어, 데이터소스 데이터 초기화
+        clearData()
+        searchKeyword = keyword
 
         // 검색어를 검색기록에 저장
         saveSearchHistory()
+        fetchShoppingList()
     }
 
     /// 페이징을 위한 프리패칭을 진행합니다.
+    /// - 프리패칭 로직
+    /// 1. 페이징 플래그 확인
+    /// 2. 검색 인덱스가 검색 최대 인덱스를 초과하는지
+    /// 3. 검색 인덱스가 검색 결과의 최대 갯수를 초과하는지
     func fetchNextShoppingList() {
         guard isPagingEnabled else { return }
         let nextSearchIndex = searchStartIndex + searchDisplayCount
@@ -117,11 +148,15 @@ extension DefaultSearchViewModel {
 
         searchStartIndex += searchDisplayCount
         isPagingEnabled = false
+
         print("")
         print(#function, ":: is called!!")
         print("=========================")
+
         fetchShoppingList()
     }
+
+    // MARK: -
 
     /// 검색의 정렬 기준이 변경될 경우 호출합니다. 매개변수로 받은 값을 통해 패칭을 진행합니다.
     /// - Parameter type: 정렬 기준 타입
@@ -130,6 +165,7 @@ extension DefaultSearchViewModel {
         self.dataSourceItemList = []
         self.searchStartIndex = 1
 
+        scrollToTopWithAnimation.accept(false)
         fetchShoppingList()
     }
 
@@ -161,19 +197,32 @@ extension DefaultSearchViewModel {
         loadSearchHistory()
     }
 
-    /// 검색어 입력을 시작하면, 기존의 검색 쿼리는 모두 초기화합니다.
-    func searchBarDidBeginEditing() {
-        dataSourceItemList = []
-        searchTotalCount = 0
-        searchStartIndex = 1
-        searchKeyword = nil
+    // MARK: - SearchBar
+
+    /// 서치바의 입력이 시작될 때 호출합니다.
+    func searchBarTextDidBeginEditing() {
+        // 입력 상태에 진입하면 검색기록을 보여줘야함
+        isSearchHistoryHidden.accept(false)
+        isUpScrollButtonHidden.accept(true)
     }
 
-    /// 입력이 끝났을때, 검색한 경우가 아니라면 아이템 리스트를 초기화합니다.
-    func searchBarDidEndEditing() {
-        if dataSourceItemList.isEmpty {
-            itemList.onNext([])
-        }
+    /// 서치바의 입력이 끝났을때 호출합니다.
+    func searchBarTextDidEndEditing() {
+        // 입력이 종료되는 케이스
+        // 1. 검색하다가 아 검색안해 하고 취소하는 경우
+        // 2. 검색 버튼 눌렀을때도 호출된다
+
+        // 해야되는거
+        // 검색 상태일때 보여줬던 검색기록 화면 숨기기
+        isSearchHistoryHidden.accept(true)
+        isUpScrollButtonHidden.accept(false)
+    }
+
+    /// 검색 버튼을 클릭하면, 필터타입을 초기화하고 api 콜을 수행합니다.
+    /// - Parameter text: 서치바의 텍스트
+    func searchBarSearchButtonClicked(text: String) {
+        searchShoppingItem(with: text)
+        scrollToTopWithAnimation.accept(false)
     }
 
     /// 검색 기록을 삭제합니다.
@@ -192,9 +241,17 @@ extension DefaultSearchViewModel {
             let keyword = searchHistoryList[index]
             searchShoppingItem(with: keyword)
         }
+        resignKeyboard.accept(true)
+    }
+
+    /// 스크롤 버튼을 탭했을때 최상단으로 스크롤합니다.
+    func upScrollButtonDidTouched() {
+        scrollToTopWithAnimation.accept(true)
     }
 
 }
+
+// MARK: - Private Methods
 
 private extension DefaultSearchViewModel {
 
@@ -205,10 +262,10 @@ private extension DefaultSearchViewModel {
     /// - sort: 검색결과의 정렬 기준
     func fetchShoppingList() {
         guard let searchKeyword else {
-            isAPICallFinished.accept(true)
+            isRefreshControlRefreshing.accept(false)
             return
         }
-
+        isRefreshControlRefreshing.accept(true)
         fetchShoppingUseCase.fetchShoppingList(
             with: searchKeyword,
             display: searchDisplayCount,
@@ -221,8 +278,7 @@ private extension DefaultSearchViewModel {
             print("=========================")
 
             guard let self else { return }
-            isAPICallFinished.accept(true)
-            currentSearchKeyword.onNext(searchKeyword)
+            isRefreshControlRefreshing.accept(false)
 
             switch result {
             case let .success(searchResult):
@@ -232,14 +288,19 @@ private extension DefaultSearchViewModel {
                     } else {
                         dataSourceItemList.append(contentsOf: itemlist)
                     }
+
                     searchTotalCount = searchResult.total
                     mappingWithLocalFavoriteData()
+
                     isPagingEnabled = true
+                    isFilterViewHidden.accept(dataSourceItemList.isEmpty)
+                    isUpScrollButtonHidden.accept(dataSourceItemList.isEmpty)
+                    isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
+
                     print("")
                     print("✅", #function, ":: is succeed!!")
                     print("=========================")
                 }
-
             case let .failure(error):
                 debugPrint(error)
                 isPagingEnabled = true
@@ -276,15 +337,26 @@ private extension DefaultSearchViewModel {
         searchHistoryList.onNext(searchHistoryUseCase.loadSearchHisstory().reversed())
     }
 
+    /// APIError를 얼럿으로 생성하여 방출합니다.
     func handleError(error: APIError) {
         switch error {
         case .failedRequest, .invalidResponse, .invalidURL:
             let errorTitle = "요청에 실패했습니다"
             let errorMessage = "잠시 후 다시 시도해주세요"
-            self.error.onNext((errorTitle, errorMessage))
+            self.error.accept((errorTitle, errorMessage))
         case .invalidData, .noData:
             return
         }
+    }
+
+    /// 뷰모델의 데이터를 초기화합니다.
+    /// dataSourceItemList, searchTotalCount, startIndex, keyword, sortType이 초기화됩니다.
+    func clearData() {
+        dataSourceItemList = []
+        searchTotalCount = 0
+        searchStartIndex = 1
+        searchKeyword = nil
+        searchSortType = .sim
     }
 
 }

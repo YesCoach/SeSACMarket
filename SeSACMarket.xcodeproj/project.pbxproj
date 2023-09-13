@@ -34,6 +34,10 @@
 		895A21212AAECA7200173626 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21202AAECA7200173626 /* SearchHistoryCell.swift */; };
 		895A21232AAECA8100173626 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21222AAECA8100173626 /* BaseTableViewCell.swift */; };
 		895A21292AAF32D200173626 /* NetworkCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A21282AAF32D200173626 /* NetworkCheckManager.swift */; };
+		895A21492AB0494400173626 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 895A21482AB0494400173626 /* RxCocoa */; };
+		895A214B2AB0494400173626 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 895A214A2AB0494400173626 /* RxRelay */; };
+		895A214D2AB0494400173626 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 895A214C2AB0494400173626 /* RxSwift */; };
+		895A214F2AB0971700173626 /* Reactive+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A214E2AB0971700173626 /* Reactive+.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -66,9 +70,6 @@
 		896E4AF32AAB00F300D8A1E9 /* DTOMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AF22AAB00F300D8A1E9 /* DTOMapping.swift */; };
 		896E4AF52AAB037600D8A1E9 /* GoodsDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AF42AAB037600D8A1E9 /* GoodsDTO+Mapping.swift */; };
 		896E4AF72AAB03DF00D8A1E9 /* NaverSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4AF62AAB03DF00D8A1E9 /* NaverSearchResult.swift */; };
-		896E4AFA2AAB20DD00D8A1E9 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 896E4AF92AAB20DD00D8A1E9 /* RxCocoa */; };
-		896E4AFC2AAB20DD00D8A1E9 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 896E4AFB2AAB20DD00D8A1E9 /* RxRelay */; };
-		896E4AFE2AAB20DD00D8A1E9 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 896E4AFD2AAB20DD00D8A1E9 /* RxSwift */; };
 		896E4B022AAB213B00D8A1E9 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4B012AAB213B00D8A1E9 /* SearchViewModel.swift */; };
 		896E4B052AAB25AE00D8A1E9 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4B042AAB25AE00D8A1E9 /* AppDIContainer.swift */; };
 		896E4B072AAB25C500D8A1E9 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4B062AAB25C500D8A1E9 /* DIContainer.swift */; };
@@ -100,6 +101,7 @@
 		895A21202AAECA7200173626 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
 		895A21222AAECA8100173626 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		895A21282AAF32D200173626 /* NetworkCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheckManager.swift; sourceTree = "<group>"; };
+		895A214E2AB0971700173626 /* Reactive+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+.swift"; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,13 +144,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				895A214B2AB0494400173626 /* RxRelay in Frameworks */,
 				895A20C02AAD6E5B00173626 /* Realm in Frameworks */,
-				896E4AFA2AAB20DD00D8A1E9 /* RxCocoa in Frameworks */,
 				895A20C22AAD6E5B00173626 /* RealmSwift in Frameworks */,
+				895A21492AB0494400173626 /* RxCocoa in Frameworks */,
 				896E4A9A2AA9B41200D8A1E9 /* Kingfisher in Frameworks */,
-				896E4AFE2AAB20DD00D8A1E9 /* RxSwift in Frameworks */,
-				896E4AFC2AAB20DD00D8A1E9 /* RxRelay in Frameworks */,
 				896E4A9D2AA9B41E00D8A1E9 /* SnapKit in Frameworks */,
+				895A214D2AB0494400173626 /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +379,7 @@
 				896E4AC22AA9FACA00D8A1E9 /* URLRequest+.swift */,
 				895A20B02AAD62F300173626 /* NumberFormatter+.swift */,
 				895A20D62AAE35A800173626 /* UIViewController+.swift */,
+				895A214E2AB0971700173626 /* Reactive+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -537,11 +540,11 @@
 			packageProductDependencies = (
 				896E4A992AA9B41200D8A1E9 /* Kingfisher */,
 				896E4A9C2AA9B41E00D8A1E9 /* SnapKit */,
-				896E4AF92AAB20DD00D8A1E9 /* RxCocoa */,
-				896E4AFB2AAB20DD00D8A1E9 /* RxRelay */,
-				896E4AFD2AAB20DD00D8A1E9 /* RxSwift */,
 				895A20BF2AAD6E5B00173626 /* Realm */,
 				895A20C12AAD6E5B00173626 /* RealmSwift */,
+				895A21482AB0494400173626 /* RxCocoa */,
+				895A214A2AB0494400173626 /* RxRelay */,
+				895A214C2AB0494400173626 /* RxSwift */,
 			);
 			productName = SeSACMarket;
 			productReference = 896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */;
@@ -574,8 +577,8 @@
 			packageReferences = (
 				896E4A982AA9B41200D8A1E9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				896E4A9B2AA9B41E00D8A1E9 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				896E4AF82AAB20DC00D8A1E9 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				895A20BE2AAD6E5B00173626 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				895A21472AB0494400173626 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 896E4A7E2AA99C5600D8A1E9 /* Products */;
 			projectDirPath = "";
@@ -637,6 +640,7 @@
 				896E4ADF2AAAF73700D8A1E9 /* Goods.swift in Sources */,
 				896E4AC32AA9FACA00D8A1E9 /* URLRequest+.swift in Sources */,
 				896E4B072AAB25C500D8A1E9 /* DIContainer.swift in Sources */,
+				895A214F2AB0971700173626 /* Reactive+.swift in Sources */,
 				896E4AF12AAB00B200D8A1E9 /* NaverSearchResultDTO+Mapping.swift in Sources */,
 				896E4AE82AAAFC6000D8A1E9 /* ShoppingRepository.swift in Sources */,
 				896E4AD62AAAE1AD00D8A1E9 /* APIEndPoint.swift in Sources */,
@@ -822,6 +826,7 @@
 				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SeSACMarket/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "박태현";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -852,6 +857,7 @@
 				DEVELOPMENT_TEAM = 67D46DJNPH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SeSACMarket/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "박태현";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -904,6 +910,14 @@
 				minimumVersion = 10.42.1;
 			};
 		};
+		895A21472AB0494400173626 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		896E4A982AA9B41200D8A1E9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -920,14 +934,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		896E4AF82AAB20DC00D8A1E9 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -941,6 +947,21 @@
 			package = 895A20BE2AAD6E5B00173626 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
+		895A21482AB0494400173626 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 895A21472AB0494400173626 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		895A214A2AB0494400173626 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 895A21472AB0494400173626 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		895A214C2AB0494400173626 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 895A21472AB0494400173626 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		896E4A992AA9B41200D8A1E9 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 896E4A982AA9B41200D8A1E9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
@@ -950,21 +971,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 896E4A9B2AA9B41E00D8A1E9 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		896E4AF92AAB20DD00D8A1E9 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 896E4AF82AAB20DC00D8A1E9 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		896E4AFB2AAB20DD00D8A1E9 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 896E4AF82AAB20DC00D8A1E9 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		896E4AFD2AAB20DD00D8A1E9 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 896E4AF82AAB20DC00D8A1E9 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

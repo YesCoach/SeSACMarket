@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxRelay
+import RxCocoa
 
 final class SearchViewController: BaseViewController {
 
@@ -101,7 +102,6 @@ final class SearchViewController: BaseViewController {
         view.completion = { [weak self] type in
             guard let self else { return }
             viewModel.filterDidSelected(with: type)
-            collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
         }
         return view
     }()
@@ -203,63 +203,76 @@ final class SearchViewController: BaseViewController {
 
 }
 
+// MARK: - Private Methods
+
 private extension SearchViewController {
+
+    // MARK: - Bind
 
     func bindViewModel() {
         viewModel.itemList
             .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] item in
+            .subscribe { [weak self] _ in
                 guard let self else { return }
-                searchBar.resignFirstResponder()
                 collectionView.reloadData()
-                searchFilterView.isHidden = item.isEmpty
-                emptyLabel.isHidden = !item.isEmpty
             }
             .disposed(by: disposeBag)
-        viewModel.isAPICallFinished
-            .subscribe { [weak self] isFinished in
-                guard let self else { return }
-                if isFinished {
-                    refreshControl.endRefreshing()
-                } else {
-                    refreshControl.beginRefreshing()
-                }
-            }
-            .disposed(by: disposeBag)
-        viewModel.currentSearchKeyword
-            .subscribe { [weak self] searchKeyword in
-                guard let self else { return }
-                searchBar.text = searchKeyword
-            }
-            .disposed(by: disposeBag)
-        viewModel.isAlertCalled
-            .subscribe { [weak self] isAlertCalled in
-                guard let self else { return }
-                if isAlertCalled {
-                    presentAlert(title: nil, message: "검색어는 최소 한글자 이상이여야 해요.")
-                    searchBar.text = ""
-                }
-            }
-            .disposed(by: disposeBag)
+
         viewModel.searchHistoryList
             .subscribe { [weak self] _ in
                 guard let self else { return }
                 searchHistoryView.reloadData()
             }
             .disposed(by: disposeBag)
+
+        viewModel.isRefreshControlRefreshing
+            .asDriver()
+            .drive(refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+
         viewModel.error
-            .subscribe { [weak self] (title, message) in
-                guard let self else { return }
-                presentAlert(title: title, message: message)
-            }
+            .asSignal()
+            .emit(to: self.rx.presentAlertController)
+            .disposed(by: disposeBag)
+
+
+        viewModel.isSearchHistoryHidden
+            .asDriver()
+            .drive(searchHistoryView.rx.isHidden)
+            .disposed(by: disposeBag)
+
+        viewModel.isUpScrollButtonHidden
+            .asDriver()
+            .drive(upScrollButton.rx.isHidden)
+            .disposed(by: disposeBag)
+
+        viewModel.isEmptyLabelHidden
+            .asDriver()
+            .drive(emptyLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+
+        viewModel.isFilterViewHidden
+            .bind(to: searchFilterView.rx.isHidden)
+            .disposed(by: disposeBag)
+
+        viewModel.isFilterTypeReset
+            .asDriver()
+            .drive(searchFilterView.rx.resetSortType)
+            .disposed(by: disposeBag)
+
+        viewModel.resignKeyboard
+            .asDriver()
+            .drive(searchBar.rx.resignFirstResponder)
+            .disposed(by: disposeBag)
+
+        viewModel.scrollToTopWithAnimation
+            .asSignal()
+            .emit(to: collectionView.rx.topToWithAnimation)
             .disposed(by: disposeBag)
     }
 
     func searchShoppingItem(with keyword: String) {
         viewModel.searchShoppingItem(with: keyword)
-        emptyLabel.isHidden = true
-        searchFilterView.resetSortType()
-        collectionView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 
     // MARK: - Action
@@ -269,7 +282,7 @@ private extension SearchViewController {
     }
 
     @objc func upScrollButtonDidTouched(_ sender: UIButton) {
-        collectionView.setContentOffset(.init(x: 0, y: 0), animated: true)
+        viewModel.upScrollButtonDidTouched()
     }
 
 }
@@ -280,16 +293,12 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
-        searchHistoryView.isHidden = false
-        upScrollButton.isHidden = true
-        viewModel.searchBarDidBeginEditing()
+        viewModel.searchBarTextDidBeginEditing()
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
-        searchHistoryView.isHidden = true
-        upScrollButton.isHidden = false
-        viewModel.searchBarDidEndEditing()
+        viewModel.searchBarTextDidEndEditing()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -298,7 +307,7 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        searchShoppingItem(with: searchBar.text!)
+        viewModel.searchBarSearchButtonClicked(text: searchBar.text!)
     }
 }
 
