@@ -100,13 +100,6 @@ final class SearchViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
 
-        tableView.rx.itemDeleted
-            .bind { [weak self] indexPath in
-                guard let self else { return }
-                viewModel.searchHistoryDelete(index: indexPath.row)
-            }
-            .disposed(by: disposeBag)
-
         return tableView
     }()
 
@@ -233,6 +226,8 @@ private extension SearchViewController {
     // MARK: - Bind
 
     func bindViewModel() {
+        searchHistoryView.rx.setDelegate(self)
+
         searchBar.rx.text
             .orEmpty
             .subscribe { text in
@@ -390,23 +385,23 @@ extension SearchViewController: UIScrollViewDelegate {
 
 }
 
-//extension SearchViewController: UITableViewDelegate {
-//
-//    func tableView(
-//        _ tableView: UITableView,
-//        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-//    ) -> UISwipeActionsConfiguration? {
-//        let delete = UIContextualAction(
-//            style: .destructive,
-//            title: nil
-//        ) { [weak self] _, _, _ in
-//            guard let self else { return }
-//            viewModel.searchHistoryDelete(index: indexPath.row)
-//        }
-//
-//        delete.backgroundColor = .systemRed
-//        delete.image = .init(systemName: "trash")
-//
-//        return .init(actions: [delete])
-//    }
-//}
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(
+        _ tableView: UITableView,
+        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(
+            style: .destructive,
+            title: nil
+        ) { [weak self] _, _, _ in
+            guard let self else { return }
+            viewModel.searchHistoryDelete(index: indexPath.row)
+        }
+
+        delete.backgroundColor = .systemRed
+        delete.image = .init(systemName: "trash")
+
+        return .init(actions: [delete])
+    }
+}
