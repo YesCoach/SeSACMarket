@@ -39,3 +39,13 @@ extension Reactive where Base: UISearchBar {
         }
     }
 }
+
+extension Reactive where Base: UIBarButtonItem {
+    var isSelected: Binder<Bool> {
+        return Binder(self.base) { barButtonItem, isSelected in
+            if let button = barButtonItem.customView as? UIButton {
+                button.isSelected = isSelected
+            }
+        }
+    }
+}

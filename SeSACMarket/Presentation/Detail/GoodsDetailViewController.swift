@@ -118,13 +118,8 @@ private extension GoodsDetailViewController {
 
     func bindViewModel() {
         viewModel.isFavoriteEnrolled
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] isFavorite in
-                guard let self else { return }
-                if let button = likeButton.customView as? UIButton {
-                    button.isSelected = isFavorite
-                }
-            }
+            .asDriver()
+            .drive(likeButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
 
