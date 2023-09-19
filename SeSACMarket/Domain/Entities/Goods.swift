@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Goods
 
-struct Goods {
+struct Goods: Hashable {
     let productID: String
     let title: String
     let link: String?

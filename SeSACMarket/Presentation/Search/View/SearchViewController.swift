@@ -68,19 +68,7 @@ final class SearchViewController: BaseViewController {
         )
         collectionView.refreshControl = refreshControl
         collectionView.keyboardDismissMode = .onDrag
-
-        collectionView.rx.modelSelected(Goods.self)
-            .bind { [weak self] goods in
-                guard let self else { return }
-                let viewController = AppDIContainer()
-                    .makeDIContainer()
-                    .makeGoodsDetailViewController(goods: goods)
-                navigationController?.pushViewController(viewController, animated: true)
-            }
-            .disposed(by: disposeBag)
-
-        collectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
+        collectionView.delegate = self
 
         return collectionView
     }()
@@ -153,6 +141,27 @@ final class SearchViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let spacing = Constants.Design.commonInset
     private var upScrollButtonFlag = true
+    private lazy var dataSource: UICollectionViewDiffableDataSource<Int, Goods> = {
+        let dataSource = UICollectionViewDiffableDataSource<Int, Goods>(
+            collectionView: collectionView, cellProvider: {
+                collectionView, indexPath, itemIdentifier in
+
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as? SearchCollectionViewCell
+                else { return UICollectionViewCell() }
+
+                cell.configure(with: itemIdentifier) { [weak self] (data, isFavorite) in
+                    guard let self else { return }
+                    viewModel.likeButtonDidTouched(with: data, isFavorite: isFavorite)
+                }
+
+                return cell
+            }
+        )
+        return dataSource
+    }()
 
     // MARK: - Initializer
 
@@ -226,7 +235,9 @@ private extension SearchViewController {
     // MARK: - Bind
 
     func bindViewModel() {
-        searchHistoryView.rx.setDelegate(self)
+        searchHistoryView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
 
         searchBar.rx.text
             .orEmpty
@@ -237,17 +248,9 @@ private extension SearchViewController {
 
         viewModel.itemList
             .observe(on: MainScheduler.instance)
-            .bind(to: collectionView
-                .rx
-                .items(
-                    cellIdentifier: SearchCollectionViewCell.reuseIdentifier,
-                    cellType: SearchCollectionViewCell.self
-                )
-            ) { _, goods, cell in
-                cell.configure(with: goods) { [weak self] (data, isFavorite) in
-                    guard let self else { return }
-                    viewModel.likeButtonDidTouched(with: data, isFavorite: isFavorite)
-                }
+            .bind { [weak self] goods in
+                guard let self else { return }
+                updateSnapshot(data: goods)
             }
             .disposed(by: disposeBag)
 
@@ -318,6 +321,15 @@ private extension SearchViewController {
         viewModel.searchShoppingItem(with: keyword)
     }
 
+    func updateSnapshot(data: [Goods]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Goods>()
+
+        snapshot.appendSections([1])
+        snapshot.appendItems(data, toSection: 1)
+
+        dataSource.apply(snapshot)
+    }
+
     // MARK: - Action
 
     @objc func viewControllerDidRefresh(_ sender: UIRefreshControl) {
@@ -381,6 +393,20 @@ extension SearchViewController: UIScrollViewDelegate {
                 }
             }
         }
+    }
+
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let goods = dataSource.itemIdentifier(for: indexPath)
+        else { return }
+
+        let viewController = AppDIContainer()
+            .makeDIContainer()
+            .makeGoodsDetailViewController(goods: goods)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
 }
