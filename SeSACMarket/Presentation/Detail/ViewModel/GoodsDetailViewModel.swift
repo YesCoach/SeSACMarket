@@ -33,7 +33,7 @@ final class DefaultGoodsDetailViewModel: GoodsDetailViewModel {
         self.goods = goods
     }
 
-    let isFavoriteEnrolled: BehaviorRelay<Bool> = .init(value: false)
+    let isFavoriteEnrolled: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 
 }
 

@@ -39,9 +39,9 @@ final class DefaultFavoriteViewModel: FavoriteViewModel {
 
     // MARK: - FavoriteViewModelOutput
 
-    let favoriteItemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
-    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
+    let favoriteItemList: BehaviorSubject<[Goods]> = BehaviorSubject(value: [])
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 
     private var keyword: String?
 }

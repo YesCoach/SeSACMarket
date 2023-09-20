@@ -78,22 +78,22 @@ final class DefaultSearchViewModel: SearchViewModel {
 
     // MARK: SearchViewModelOutput
 
-    let itemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let searchHistoryList: BehaviorSubject<[String]> = .init(value: [])
-    let error: PublishRelay<(String?, String?)> = .init()
+    let itemList: BehaviorSubject<[Goods]> = BehaviorSubject<[Goods]>(value: [])
+    let searchHistoryList: BehaviorSubject<[String]> = BehaviorSubject<[String]>(value: [])
+    let error: PublishRelay<(String?, String?)> = PublishRelay<(String?, String?)>()
 
     // MARK: SearchViewModelUIOutput
 
-    let isRefreshControlRefreshing: BehaviorRelay<Bool> = .init(value: false)
-    let isSearchHistoryHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isUpScrollButtonHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
-    let isFilterViewHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isFilterTypeReset: BehaviorRelay<Bool> = .init(value: false)
-    let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
-    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
-    let scrollToTopWithAnimation: PublishRelay<Bool> = .init()
-    let searchBarText: BehaviorRelay<String?> = .init(value: nil)
+    let isRefreshControlRefreshing: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isSearchHistoryHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isUpScrollButtonHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isFilterViewHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isFilterTypeReset: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isAlertCalled: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let scrollToTopWithAnimation: PublishRelay<Bool> = PublishRelay()
+    let searchBarText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
 
     // MARK: Property
 

@@ -25,7 +25,7 @@ struct GoodsDTO: DTOMapping {
             .replacingOccurrences(of: "<b>", with: "")
             .replacingOccurrences(of: "</b>", with: "")
 
-        return .init(
+        return DomainType(
             productID: productId,
             title: adjustedTitle,
             link: link,

@@ -17,7 +17,7 @@ struct NaverSearchResultDTO<T: DTOMapping>: DTOMapping {
     var items: [T]
 
     func toDomain() -> DomainType<T.DomainType> {
-        return .init(
+        return DomainType(
             lastBuildDate: lastBuildDate,
             total: total,
             start: start,

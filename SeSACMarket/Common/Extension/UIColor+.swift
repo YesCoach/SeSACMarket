@@ -9,10 +9,10 @@ import UIKit
 
 extension UIColor {
     class var customWhiteBlack: UIColor? {
-        return .init(named: "customWhiteBlack")
+        return UIColor(named: "customWhiteBlack")
     }
 
     class var customBlackWhite: UIColor? {
-        return .init(named: "customBlackWhite")
+        return UIColor(named: "customBlackWhite")
     }
 }
