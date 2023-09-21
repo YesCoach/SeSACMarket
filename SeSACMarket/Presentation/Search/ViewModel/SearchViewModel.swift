@@ -40,6 +40,7 @@ protocol SearchViewModelOutput {
     var searchHistoryList: BehaviorSubject<[String]> { get }
     var error: PublishRelay<(String?, String?)> { get }
     var isRefreshControlRefreshing: BehaviorRelay<Bool> { get }
+    var isActivityControllerAnimating: BehaviorRelay<Bool> { get }
     var isFilterViewHidden: BehaviorRelay<Bool> { get }
     var isFilterTypeReset: BehaviorRelay<Bool> { get }
     var isSearchHistoryHidden: BehaviorRelay<Bool> { get }
@@ -86,6 +87,7 @@ final class DefaultSearchViewModel: SearchViewModel {
     // MARK: SearchViewModelUIOutput
 
     let isRefreshControlRefreshing: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isActivityControllerAnimating: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     let isSearchHistoryHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
     let isUpScrollButtonHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
     let isEmptyLabelHidden: BehaviorRelay<Bool> = BehaviorRelay(value: false)
@@ -255,7 +257,7 @@ extension DefaultSearchViewModel {
     }
 
     func prefetchItemAt(indexPath: IndexPath) {
-        if dataSourceItemList.count - 6 == indexPath.item {
+        if dataSourceItemList.count - 16 == indexPath.item {
             print(#function)
             fetchNextShoppingList()
         }
@@ -274,23 +276,21 @@ private extension DefaultSearchViewModel {
     /// - sort: 검색결과의 정렬 기준
     func fetchShoppingList() {
         guard let searchKeyword else {
-            isRefreshControlRefreshing.accept(false)
+            isActivityControllerAnimating.accept(false)
             return
         }
-        isRefreshControlRefreshing.accept(true)
+        isActivityControllerAnimating.accept(true)
         fetchShoppingUseCase.fetchShoppingList(
             with: searchKeyword,
             display: searchDisplayCount,
             start: searchStartIndex,
             sort: searchSortType
         ) { [weak self] result in
-
-            print("")
             print(#function, ":: is called!!")
             print("=========================")
 
             guard let self else { return }
-            isRefreshControlRefreshing.accept(false)
+            isActivityControllerAnimating.accept(false)
 
             switch result {
             case let .success(searchResult):

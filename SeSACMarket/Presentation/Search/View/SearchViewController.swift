@@ -102,6 +102,12 @@ final class SearchViewController: BaseViewController {
         return refreshControl
     }()
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+
     private lazy var searchFilterView: SearchFilterView = {
         let view = SearchFilterView(frame: .zero)
         view.completion = { [weak self] type in
@@ -197,7 +203,7 @@ final class SearchViewController: BaseViewController {
 
         [
             searchBar, searchFilterView, collectionView,
-            emptyLabel, searchHistoryView, upScrollButton
+            emptyLabel, searchHistoryView, upScrollButton, activityIndicator
         ].forEach { view.addSubview($0) }
 
         searchBar.snp.makeConstraints {
@@ -227,6 +233,10 @@ final class SearchViewController: BaseViewController {
         }
 
         emptyLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+
+        activityIndicator.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
     }
@@ -276,6 +286,11 @@ private extension SearchViewController {
         viewModel.isRefreshControlRefreshing
             .asDriver()
             .drive(refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+
+        viewModel.isActivityControllerAnimating
+            .asDriver()
+            .drive(activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
 
         viewModel.error
