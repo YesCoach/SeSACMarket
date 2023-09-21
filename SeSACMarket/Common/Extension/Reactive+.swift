@@ -11,7 +11,7 @@ import RxSwift
 extension Reactive where Base: UICollectionView {
     var topToWithAnimation: Binder<Bool> {
         return Binder(self.base) { collectionView, isAnimation in
-            collectionView.setContentOffset(.zero, animated: isAnimation)
+            collectionView.scrollToItem(at: IndexPath(row: -1, section: 0), at: .top, animated: true)
         }
     }
 }

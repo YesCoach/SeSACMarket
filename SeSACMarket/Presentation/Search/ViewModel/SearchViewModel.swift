@@ -19,6 +19,7 @@ protocol SearchViewModelInput {
     func refreshViewController()
     func viewWillAppear()
     func upScrollButtonDidTouched()
+    func prefetchItemAt(indexPath: IndexPath)
 
     // MARK: SearchBar
 
@@ -141,22 +142,23 @@ extension DefaultSearchViewModel {
     /// - 프리패칭 로직
     /// 1. 페이징 플래그 확인
     /// 2. 검색 인덱스가 검색 최대 인덱스를 초과하는지
-    /// 3. 검색 인덱스가 검색 결과의 최대 갯수를 초과하는지
+    /// 3. 현재 가지고 있는 데이터 수가 검색 상품의 총 데이터 수보다 적은지
     func fetchNextShoppingList() {
         guard isPagingEnabled else { return }
-        let nextSearchIndex = searchStartIndex + searchDisplayCount
-        guard nextSearchIndex <= Constants.API.searchIdxLimit,
-              nextSearchIndex <= searchTotalCount ?? Constants.API.searchIdxLimit
+
+        guard searchStartIndex < Constants.API.searchIdxLimit,
+              let searchTotalCount,
+              dataSourceItemList.count < searchTotalCount
         else { return }
 
-        searchStartIndex += searchDisplayCount
+        searchStartIndex += 1
         isPagingEnabled = false
 
         print("")
         print(#function, ":: is called!!")
         print("=========================")
 
-        fetchShoppingList()
+        self.fetchShoppingList()
     }
 
     // MARK: -
@@ -250,6 +252,13 @@ extension DefaultSearchViewModel {
     /// 스크롤 버튼을 탭했을때 최상단으로 스크롤합니다.
     func upScrollButtonDidTouched() {
         scrollToTopWithAnimation.accept(true)
+    }
+
+    func prefetchItemAt(indexPath: IndexPath) {
+        if dataSourceItemList.count - 6 == indexPath.item {
+            print(#function)
+            fetchNextShoppingList()
+        }
     }
 
 }

@@ -69,6 +69,7 @@ final class SearchViewController: BaseViewController {
         collectionView.refreshControl = refreshControl
         collectionView.keyboardDismissMode = .onDrag
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
 
         return collectionView
     }()
@@ -145,7 +146,6 @@ final class SearchViewController: BaseViewController {
         let dataSource = UICollectionViewDiffableDataSource<Int, Goods>(
             collectionView: collectionView, cellProvider: {
                 collectionView, indexPath, itemIdentifier in
-
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier,
                     for: indexPath
@@ -203,24 +203,29 @@ final class SearchViewController: BaseViewController {
         searchBar.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
+
         searchFilterView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(60)
         }
+
         collectionView.snp.makeConstraints {
             $0.top.equalTo(searchFilterView.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+
         searchHistoryView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
             $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+
         upScrollButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.width.height.equalTo(50)
         }
+
         emptyLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
@@ -250,6 +255,7 @@ private extension SearchViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] goods in
                 guard let self else { return }
+                print("goods: \(goods)")
                 updateSnapshot(data: goods)
             }
             .disposed(by: disposeBag)
@@ -327,7 +333,7 @@ private extension SearchViewController {
         snapshot.appendSections([1])
         snapshot.appendItems(data, toSection: 1)
 
-        dataSource.apply(snapshot)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     // MARK: - Action
@@ -366,15 +372,24 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+extension SearchViewController: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        prefetchItemsAt indexPaths: [IndexPath]
+    ) {
+        for indexPath in indexPaths {
+            viewModel.prefetchItemAt(indexPath: indexPath)
+        }
+    }
+
+}
+
 extension SearchViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let screen = view.window?.windowScene?.screen else { return }
         let height = screen.bounds.height
-
-        if scrollView.contentSize.height - scrollView.contentOffset.y < height * 2 {
-            viewModel.fetchNextShoppingList()
-        }
 
         if scrollView.contentOffset.y > height {
             if upScrollButtonFlag == true {

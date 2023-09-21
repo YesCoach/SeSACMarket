@@ -83,7 +83,7 @@ final class DIContainer {
         )
     }
 
-    // MARK: - VIewController
+    // MARK: - ViewController
 
     func makeSearchViewController() -> SearchViewController {
         return SearchViewController(viewModel: makeSearchViewModel())
