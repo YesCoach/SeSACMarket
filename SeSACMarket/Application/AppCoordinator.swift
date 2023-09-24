@@ -38,7 +38,9 @@ final class AppCoordinator: Coordinator {
         let searchViewController = searchCoordinator.startPush()
         searchViewController.tabBarItem = ContentViewControllers.search.tabBarItem
 
-        let favoriteCoordinator = FavoriteCoordinator()
+        let favoriteCoordinator = FavoriteCoordinator(
+            dependencies: appDIContainer.makeFavoriteScneneDIContainer()
+        )
         favoriteCoordinator.parentCoordinator = self
         childCoordinators.append(favoriteCoordinator)
 

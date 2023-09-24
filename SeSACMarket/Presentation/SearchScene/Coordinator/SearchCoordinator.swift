@@ -43,11 +43,10 @@ final class SearchCoordinator: Coordinator {
 
     // 본인이 담당하는 ViewController 객체를 생성하여 반환
     func startPush() -> UINavigationController {
-        var viewModel = dependencies.makeSearchViewModel()
         viewModel.coordinator = self
 
         let viewController = SearchViewController(viewModel: viewModel)
-    
+
         navigationController.setViewControllers([viewController], animated: false)
         return navigationController
     }

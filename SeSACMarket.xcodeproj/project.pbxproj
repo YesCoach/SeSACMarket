@@ -45,6 +45,7 @@
 		895A214D2AB0494400173626 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 895A214C2AB0494400173626 /* RxSwift */; };
 		895A214F2AB0971700173626 /* Reactive+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A214E2AB0971700173626 /* Reactive+.swift */; };
 		896A48222AC07E9F001E8FA3 /* SearchSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */; };
+		896A48242AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -115,6 +116,7 @@
 		895A21282AAF32D200173626 /* NetworkCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCheckManager.swift; sourceTree = "<group>"; };
 		895A214E2AB0971700173626 /* Reactive+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+.swift"; sourceTree = "<group>"; };
 		896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSceneDIContainer.swift; sourceTree = "<group>"; };
+		896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSceneDIContainer.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 			children = (
 				896E4B042AAB25AE00D8A1E9 /* AppDIContainer.swift */,
 				896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */,
+				896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */,
 				896E4B062AAB25C500D8A1E9 /* DIContainer.swift */,
 			);
 			path = DIContainer;
@@ -739,6 +742,7 @@
 				895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */,
 				896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */,
 				895A20FE2AAEA59600173626 /* SearchHistoryStorage.swift in Sources */,
+				896A48242AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift in Sources */,
 				896E4AF72AAB03DF00D8A1E9 /* NaverSearchResult.swift in Sources */,
 				895A20B32AAD69D100173626 /* FavoriteShoppingUseCase.swift in Sources */,
 				895A20C82AAD731500173626 /* RealmGoodsStorage.swift in Sources */,

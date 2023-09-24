@@ -8,16 +8,26 @@
 import UIKit
 import OSLog
 
+protocol FavoriteCoordinatorDependencies {
+    func makeFavoriteViewController() -> FavoriteViewController
+    func makeFavoriteViewModel() -> FavoriteViewModel
+}
+
 final class FavoriteCoordinator: Coordinator {
 
     weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = []
 
-    // for depth
-    var navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    private let dependencies: FavoriteCoordinatorDependencies
+    private lazy var viewModel = dependencies.makeFavoriteViewModel()
 
-    init(navigationController: UINavigationController = UINavigationController()) {
+    init(
+        navigationController: UINavigationController = UINavigationController(),
+        dependencies: FavoriteCoordinatorDependencies
+    ) {
         self.navigationController = navigationController
+        self.dependencies = dependencies
     }
 
     deinit {
@@ -46,9 +56,9 @@ final class FavoriteCoordinator: Coordinator {
 
     // 본인이 담당하는 ViewController 객체를 생성하여 반환
     func startPush() -> UINavigationController {
-        let viewController = AppDIContainer.shared.makeDIContainer().makeFavoriteViewController()
-        // todo: DI 여기서 구현해주기
-        viewController.coordinator = self
+        viewModel.coordinator = self
+
+        let viewController = FavoriteViewController(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: false)
 
         return navigationController

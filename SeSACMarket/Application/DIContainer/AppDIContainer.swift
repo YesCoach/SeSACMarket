@@ -27,4 +27,10 @@ final class AppDIContainer {
 
         return SearchSceneDIContainer(dependencies: dependencies)
     }
+
+    func makeFavoriteScneneDIContainer() -> FavoriteSceneDIContainer {
+        let dependencies = FavoriteSceneDIContainer.Dependencies(networkManager: .shared)
+
+        return FavoriteSceneDIContainer(dependencies: dependencies)
+    }
 }
