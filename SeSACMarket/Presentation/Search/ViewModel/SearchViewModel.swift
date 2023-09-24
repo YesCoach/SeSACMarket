@@ -20,6 +20,7 @@ protocol SearchViewModelInput {
     func viewWillAppear()
     func upScrollButtonDidTouched()
     func prefetchItemAt(indexPath: IndexPath)
+    func didSelectItemAt(indexPath: IndexPath)
 
     // MARK: SearchBar
 
@@ -57,6 +58,10 @@ protocol SearchViewModelOutput {
 protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
 
 final class DefaultSearchViewModel: SearchViewModel {
+
+    // MARK: - Coordinator
+
+    weak var coordinator: Coordinator?
 
     // MARK: - UseCase
 
@@ -156,10 +161,6 @@ extension DefaultSearchViewModel {
         searchStartIndex += 1
         isPagingEnabled = false
 
-        print("")
-        print(#function, ":: is called!!")
-        print("=========================")
-
         self.fetchShoppingList()
     }
 
@@ -202,6 +203,14 @@ extension DefaultSearchViewModel {
     func viewWillAppear() {
         mappingWithLocalFavoriteData()
         loadSearchHistory()
+    }
+
+    func didSelectItemAt(indexPath: IndexPath) {
+        let goods = dataSourceItemList[indexPath.row]
+        let viewController = AppDIContainer.shared
+            .makeDIContainer()
+            .makeGoodsDetailViewController(goods: goods)
+        coordinator?.eventOccurred(with: .deinited)
     }
 
     // MARK: - SearchBar
@@ -258,7 +267,6 @@ extension DefaultSearchViewModel {
 
     func prefetchItemAt(indexPath: IndexPath) {
         if dataSourceItemList.count - 16 == indexPath.item {
-            print(#function)
             fetchNextShoppingList()
         }
     }
@@ -286,9 +294,6 @@ private extension DefaultSearchViewModel {
             start: searchStartIndex,
             sort: searchSortType
         ) { [weak self] result in
-            print(#function, ":: is called!!")
-            print("=========================")
-
             guard let self else { return }
             isActivityControllerAnimating.accept(false)
 
@@ -308,10 +313,6 @@ private extension DefaultSearchViewModel {
                     isFilterViewHidden.accept(dataSourceItemList.isEmpty)
                     isUpScrollButtonHidden.accept(dataSourceItemList.isEmpty)
                     isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
-
-                    print("")
-                    print("✅", #function, ":: is succeed!!")
-                    print("=========================")
                 }
             case let .failure(error):
                 debugPrint(error)

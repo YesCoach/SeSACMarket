@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import OSLog
 import RxSwift
 import RxRelay
 import RxCocoa
 
-final class SearchViewController: BaseViewController {
+final class SearchViewController: BaseViewController, Coordinating {
 
     // MARK: - UI Components
 
@@ -169,6 +170,9 @@ final class SearchViewController: BaseViewController {
         return dataSource
     }()
 
+    // MARK: - Coordinator
+    weak var coordinator: Coordinator?
+
     // MARK: - Initializer
 
     init(viewModel: SearchViewModel) {
@@ -257,7 +261,11 @@ private extension SearchViewController {
         searchBar.rx.text
             .orEmpty
             .subscribe { text in
-                print(text)
+                if #available(iOS 14.0, *) {
+                    Logger.uiLogger.log("🔎\(text) is SearchKeyword")
+                } else {
+                    os_log("🔎 %@ is SearchKeyword", log: .uiLogger, text)
+                }
             }
             .disposed(by: disposeBag)
 
@@ -265,7 +273,6 @@ private extension SearchViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] goods in
                 guard let self else { return }
-                print("goods: \(goods)")
                 updateSnapshot(data: goods)
             }
             .disposed(by: disposeBag)
@@ -433,10 +440,7 @@ extension SearchViewController: UICollectionViewDelegate {
         guard let goods = dataSource.itemIdentifier(for: indexPath)
         else { return }
 
-        let viewController = AppDIContainer()
-            .makeDIContainer()
-            .makeGoodsDetailViewController(goods: goods)
-        navigationController?.pushViewController(viewController, animated: true)
+        coordinator?.eventOccurred(with: .itemSelected(item: goods))
     }
 
 }

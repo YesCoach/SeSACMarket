@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-final class FavoriteViewController: BaseViewController {
+final class FavoriteViewController: BaseViewController, Coordinating {
 
     // MARK: - UI Components
 
@@ -84,6 +84,10 @@ final class FavoriteViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let spacing = Constants.Design.commonInset
 
+    // MARK: - Coordinator
+
+    weak var coordinator: Coordinator?
+
     // MARK: - Initializer
 
     init(viewModel: FavoriteViewModel) {
@@ -101,6 +105,7 @@ final class FavoriteViewController: BaseViewController {
             name: Constants.NotificationName.viewWillAppearWithTabBar,
             object: nil
         )
+        coordinator?.eventOccurred(with: .deinited)
     }
 
     // MARK: - Methods
@@ -255,7 +260,7 @@ extension FavoriteViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let itemList = try? viewModel.favoriteItemList.value() else { return }
-        let viewController = AppDIContainer()
+        let viewController = AppDIContainer.shared
             .makeDIContainer()
             .makeGoodsDetailViewController(goods: itemList[indexPath.item])
         navigationController?.pushViewController(viewController, animated: true)

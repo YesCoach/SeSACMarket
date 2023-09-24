@@ -9,6 +9,10 @@ import Foundation
 
 final class AppDIContainer {
 
+    static let shared = AppDIContainer()
+
+    private init() { }
+
     // MARK: - DIContainers
     func makeDIContainer() -> DIContainer {
         let dependencies = DIContainer.Dependencies(networkManager: .shared)

@@ -11,7 +11,6 @@ final class DIContainer {
 
     struct Dependencies {
         let networkManager: NetworkManager
-
     }
 
     private let dependencies: Dependencies
