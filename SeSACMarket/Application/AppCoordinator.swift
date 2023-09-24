@@ -29,7 +29,9 @@ final class AppCoordinator: Coordinator {
     // 탭바 컨트롤러 구성 with coordinators
     private func setTabBarController() {
 
-        let searchCoordinator = SearchCoordinator()
+        let searchCoordinator = SearchCoordinator(
+            dependencies: appDIContainer.makeSearchSceneDIContainer()
+        )
         searchCoordinator.parentCoordinator = self
         childCoordinators.append(searchCoordinator)
 

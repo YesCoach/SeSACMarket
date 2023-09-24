@@ -8,17 +8,27 @@
 import UIKit
 import OSLog
 
+protocol SearchCoordinatorDependencies {
+    func makeSearchViewController() -> SearchViewController
+    func makeSearchViewModel() -> SearchViewModel
+}
+
 final class SearchCoordinator: Coordinator {
 
     // 부모 코디네이터
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
 
-    // for depth
     private let navigationController: UINavigationController
+    private let dependencies: SearchCoordinatorDependencies
+    private lazy var viewModel = dependencies.makeSearchViewModel()
 
-    init(navigationController: UINavigationController = UINavigationController()) {
+    init(
+        navigationController: UINavigationController = UINavigationController(),
+        dependencies: SearchCoordinatorDependencies
+    ) {
         self.navigationController = navigationController
+        self.dependencies = dependencies
     }
 
     deinit {
@@ -33,9 +43,11 @@ final class SearchCoordinator: Coordinator {
 
     // 본인이 담당하는 ViewController 객체를 생성하여 반환
     func startPush() -> UINavigationController {
-        let viewController = AppDIContainer.shared.makeDIContainer().makeSearchViewController()
-        // todo: DI 여기서 구현해주기
-        viewController.coordinator = self
+        var viewModel = dependencies.makeSearchViewModel()
+        viewModel.coordinator = self
+
+        let viewController = SearchViewController(viewModel: viewModel)
+    
         navigationController.setViewControllers([viewController], animated: false)
         return navigationController
     }

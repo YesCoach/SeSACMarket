@@ -55,7 +55,7 @@ protocol SearchViewModelOutput {
 
 // MARK: -
 
-protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
+protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput, Coordinating { }
 
 final class DefaultSearchViewModel: SearchViewModel {
 
@@ -207,10 +207,7 @@ extension DefaultSearchViewModel {
 
     func didSelectItemAt(indexPath: IndexPath) {
         let goods = dataSourceItemList[indexPath.row]
-        let viewController = AppDIContainer.shared
-            .makeDIContainer()
-            .makeGoodsDetailViewController(goods: goods)
-        coordinator?.eventOccurred(with: .deinited)
+        coordinator?.eventOccurred(with: .itemSelected(item: goods))
     }
 
     // MARK: - SearchBar

@@ -11,7 +11,7 @@ import RxSwift
 import RxRelay
 import RxCocoa
 
-final class SearchViewController: BaseViewController, Coordinating {
+final class SearchViewController: BaseViewController {
 
     // MARK: - UI Components
 
@@ -170,9 +170,6 @@ final class SearchViewController: BaseViewController, Coordinating {
         return dataSource
     }()
 
-    // MARK: - Coordinator
-    weak var coordinator: Coordinator?
-
     // MARK: - Initializer
 
     init(viewModel: SearchViewModel) {
@@ -199,6 +196,7 @@ final class SearchViewController: BaseViewController, Coordinating {
     override func configureUI() {
         super.configureUI()
         view.backgroundColor = .systemBackground
+        navigationItem.backButtonTitle = ""
         self.title = "쇼핑 검색"
     }
 
@@ -440,7 +438,7 @@ extension SearchViewController: UICollectionViewDelegate {
         guard let goods = dataSource.itemIdentifier(for: indexPath)
         else { return }
 
-        coordinator?.eventOccurred(with: .itemSelected(item: goods))
+        viewModel.didSelectItemAt(indexPath: indexPath)
     }
 
 }

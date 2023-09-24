@@ -20,4 +20,11 @@ final class AppDIContainer {
         return DIContainer(dependencies: dependencies)
     }
 
+    // MARK: - DIContainers of scenes
+
+    func makeSearchSceneDIContainer() -> SearchSceneDIContainer {
+        let dependencies = SearchSceneDIContainer.Dependencies(networkManager: .shared)
+
+        return SearchSceneDIContainer(dependencies: dependencies)
+    }
 }
