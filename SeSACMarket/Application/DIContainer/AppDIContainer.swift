@@ -33,4 +33,11 @@ final class AppDIContainer {
 
         return FavoriteSceneDIContainer(dependencies: dependencies)
     }
+
+    func makeGoodsDetailSceneDIContainer() -> GoodsDetailSceneDIContainer {
+        let dependencies = GoodsDetailSceneDIContainer.Dependencies(networkManager: .shared)
+
+        return GoodsDetailSceneDIContainer(dependencies: dependencies)
+    }
+
 }

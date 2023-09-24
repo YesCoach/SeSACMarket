@@ -1,5 +1,5 @@
 //
-//  FavoriteSceneDIContainer.swift
+//  GoodsDetailSceneDIContainer.swift
 //  SeSACMarket
 //
 //  Created by 박태현 on 2023/09/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class FavoriteSceneDIContainer: FavoriteCoordinatorDependencies {
+final class GoodsDetailSceneDIContainer: GoodsDetailCoordinatorDependencies {
 
     struct Dependencies {
         let networkManager: NetworkManager
@@ -39,16 +39,17 @@ final class FavoriteSceneDIContainer: FavoriteCoordinatorDependencies {
 
     // MARK: - ViewModel
 
-    func makeFavoriteViewModel() -> FavoriteViewModel {
-        return DefaultFavoriteViewModel(
-            favoriteShoppingUseCase: makeFavoriteShoppingUseCase()
+    func makeGoodsDetailViewModel(goods: Goods) -> GoodsDetailViewModel {
+        return DefaultGoodsDetailViewModel(
+            favoriteShoppingUseCase: makeFavoriteShoppingUseCase(),
+            goods: goods
         )
     }
 
     // MARK: - ViewController
 
-    func makeFavoriteViewController() -> FavoriteViewController {
-        return FavoriteViewController(viewModel: makeFavoriteViewModel())
+    func makeGoodsDetailViewController(goods: Goods) -> GoodsDetailViewController {
+        return GoodsDetailViewController(viewModel: makeGoodsDetailViewModel(goods: goods))
     }
 
 }

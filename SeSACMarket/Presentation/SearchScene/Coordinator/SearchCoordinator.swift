@@ -57,7 +57,8 @@ final class SearchCoordinator: Coordinator {
         case .itemSelected(let item):
             let goodsDetailCoordinator = GoodsDetailCoordinator(
                 goods: item,
-                navigationController: navigationController
+                navigationController: navigationController,
+                dependencies: AppDIContainer.shared.makeGoodsDetailSceneDIContainer()
             )
             goodsDetailCoordinator.parentCoordinator = self
             childCoordinators.append(goodsDetailCoordinator)

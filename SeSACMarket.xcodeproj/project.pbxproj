@@ -46,6 +46,7 @@
 		895A214F2AB0971700173626 /* Reactive+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A214E2AB0971700173626 /* Reactive+.swift */; };
 		896A48222AC07E9F001E8FA3 /* SearchSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */; };
 		896A48242AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */; };
+		896A48262AC08C8B001E8FA3 /* GoodsDetailSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896A48252AC08C8B001E8FA3 /* GoodsDetailSceneDIContainer.swift */; };
 		896E4A812AA99C5600D8A1E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */; };
 		896E4A832AA99C5600D8A1E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */; };
 		896E4A852AA99C5600D8A1E9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896E4A842AA99C5600D8A1E9 /* SearchViewController.swift */; };
@@ -117,6 +118,7 @@
 		895A214E2AB0971700173626 /* Reactive+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reactive+.swift"; sourceTree = "<group>"; };
 		896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSceneDIContainer.swift; sourceTree = "<group>"; };
 		896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSceneDIContainer.swift; sourceTree = "<group>"; };
+		896A48252AC08C8B001E8FA3 /* GoodsDetailSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailSceneDIContainer.swift; sourceTree = "<group>"; };
 		896E4A7D2AA99C5600D8A1E9 /* SeSACMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSACMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		896E4A802AA99C5600D8A1E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		896E4A822AA99C5600D8A1E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -272,14 +274,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		895A20D12AADC27300173626 /* Detail */ = {
+		895A20D12AADC27300173626 /* GoodsDetailScene */ = {
 			isa = PBXGroup;
 			children = (
 				893290272ABCB40A00255043 /* Coordinator */,
 				893290282ABCB40C00255043 /* View */,
 				895A21262AAEFFA200173626 /* ViewModel */,
 			);
-			path = Detail;
+			path = GoodsDetailScene;
 			sourceTree = "<group>";
 		};
 		895A20FC2AAEA53600173626 /* SearchHistoryStorage */ = {
@@ -375,8 +377,8 @@
 				8932901F2ABC59EE00255043 /* Interfaces */,
 				896E4A9F2AA9B64200D8A1E9 /* Base */,
 				896E4AB42AA9C20600D8A1E9 /* SearchScene */,
-				896E4AB52AA9C21300D8A1E9 /* Favorite */,
-				895A20D12AADC27300173626 /* Detail */,
+				896E4AB52AA9C21300D8A1E9 /* FavoriteScene */,
+				895A20D12AADC27300173626 /* GoodsDetailScene */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -419,14 +421,14 @@
 			path = SearchScene;
 			sourceTree = "<group>";
 		};
-		896E4AB52AA9C21300D8A1E9 /* Favorite */ = {
+		896E4AB52AA9C21300D8A1E9 /* FavoriteScene */ = {
 			isa = PBXGroup;
 			children = (
 				8932902B2ABDFD9500255043 /* Coordinator */,
 				8932902C2ABDFD9900255043 /* View */,
 				895A20CE2AADA5A800173626 /* ViewModel */,
 			);
-			path = Favorite;
+			path = FavoriteScene;
 			sourceTree = "<group>";
 		};
 		896E4AB82AA9C95D00D8A1E9 /* Extension */ = {
@@ -576,6 +578,7 @@
 				896E4B042AAB25AE00D8A1E9 /* AppDIContainer.swift */,
 				896A48212AC07E9F001E8FA3 /* SearchSceneDIContainer.swift */,
 				896A48232AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift */,
+				896A48252AC08C8B001E8FA3 /* GoodsDetailSceneDIContainer.swift */,
 				896E4B062AAB25C500D8A1E9 /* DIContainer.swift */,
 			);
 			path = DIContainer;
@@ -740,6 +743,7 @@
 				896A48222AC07E9F001E8FA3 /* SearchSceneDIContainer.swift in Sources */,
 				893290212ABC5A1000255043 /* Coordinator.swift in Sources */,
 				895A20AF2AACAD5A00173626 /* SearchFilterView.swift in Sources */,
+				896A48262AC08C8B001E8FA3 /* GoodsDetailSceneDIContainer.swift in Sources */,
 				896E4ADA2AAAEBC200D8A1E9 /* APIHeader.swift in Sources */,
 				895A20FE2AAEA59600173626 /* SearchHistoryStorage.swift in Sources */,
 				896A48242AC088E1001E8FA3 /* FavoriteSceneDIContainer.swift in Sources */,

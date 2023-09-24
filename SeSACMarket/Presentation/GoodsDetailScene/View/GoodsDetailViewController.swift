@@ -41,10 +41,6 @@ final class GoodsDetailViewController: BaseViewController {
     private let viewModel: GoodsDetailViewModel
     private let disposeBag = DisposeBag()
 
-    // MARK: - Coordinator
-
-    weak var coordinator: Coordinator?
-
     // MARK: - Initializer
 
     init(viewModel: GoodsDetailViewModel) {
@@ -73,7 +69,7 @@ final class GoodsDetailViewController: BaseViewController {
     }
 
     deinit {
-        coordinator?.eventOccurred(with: .deinited)
+        viewModel.willDeinit()
     }
 
     override func configureUI() {

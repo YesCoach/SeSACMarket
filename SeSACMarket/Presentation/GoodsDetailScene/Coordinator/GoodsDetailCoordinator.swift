@@ -8,16 +8,28 @@
 import UIKit
 import OSLog
 
+protocol GoodsDetailCoordinatorDependencies {
+    func makeGoodsDetailViewController(goods: Goods) -> GoodsDetailViewController
+    func makeGoodsDetailViewModel(goods: Goods) -> GoodsDetailViewModel
+}
+
 final class GoodsDetailCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
 
-    private var goods: Goods
-    var navigationController: UINavigationController
+    private let goods: Goods
+    private let navigationController: UINavigationController
+    private let dependencies: GoodsDetailCoordinatorDependencies
+    private lazy var viewModel = dependencies.makeGoodsDetailViewModel(goods: goods)
 
-    init(goods: Goods, navigationController: UINavigationController) {
+    init(
+        goods: Goods,
+        navigationController: UINavigationController,
+        dependencies: GoodsDetailCoordinatorDependencies
+    ) {
         self.goods = goods
         self.navigationController = navigationController
+        self.dependencies = dependencies
     }
 
     deinit {
@@ -29,11 +41,11 @@ final class GoodsDetailCoordinator: Coordinator {
     }
 
     func start() {
-        let goodsDetailViewController = AppDIContainer.shared
-            .makeDIContainer()
-            .makeGoodsDetailViewController(goods: goods)
-        goodsDetailViewController.coordinator = self
-        navigationController.pushViewController(goodsDetailViewController, animated: true)
+        viewModel.coordinator = self
+
+        let viewController = GoodsDetailViewController(viewModel: viewModel)
+
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     func eventOccurred(with type: Event) {
