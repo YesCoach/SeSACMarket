@@ -1,13 +1,13 @@
 //
-//  DIContainer.swift
+//  SearchSceneDIContainer.swift
 //  SeSACMarket
 //
-//  Created by 박태현 on 2023/09/08.
+//  Created by 박태현 on 2023/09/24.
 //
 
 import Foundation
 
-final class DIContainer {
+final class SearchSceneDIContainer: SearchCoordinatorDependencies {
 
     struct Dependencies {
         let networkManager: NetworkManager
@@ -71,28 +71,10 @@ final class DIContainer {
         )
     }
 
-    func makeFavoriteViewModel() -> FavoriteViewModel {
-        return DefaultFavoriteViewModel(favoriteShoppingUseCase: makeFavoriteShoppingUseCase())
-    }
-
-    func makeGoodsDetailViewModel(goods: Goods) -> GoodsDetailViewModel {
-        return DefaultGoodsDetailViewModel(
-            favoriteShoppingUseCase: makeFavoriteShoppingUseCase(),
-            goods: goods
-        )
-    }
-
     // MARK: - ViewController
 
     func makeSearchViewController() -> SearchViewController {
         return SearchViewController(viewModel: makeSearchViewModel())
     }
 
-    func makeFavoriteViewController() -> FavoriteViewController {
-        return FavoriteViewController(viewModel: makeFavoriteViewModel())
-    }
-
-    func makeGoodsDetailViewController(goods: Goods) -> GoodsDetailViewController {
-        return GoodsDetailViewController(viewModel: makeGoodsDetailViewModel(goods: goods))
-    }
 }

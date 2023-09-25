@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var appCoordinator: AppCoordinator?
 
     func scene(
         _ scene: UIScene,
@@ -19,14 +19,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
         window = UIWindow(windowScene: windowScene)
 
-        let rootViewController = TabBarController()
+        let rootViewController = UITabBarController()
+
+        appCoordinator = AppCoordinator(
+            appDIContainer: AppDIContainer.shared,
+            tabBarController: rootViewController
+        )
+        appCoordinator?.start()
 
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
-
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

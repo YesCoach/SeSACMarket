@@ -7,8 +7,22 @@
 
 import UIKit
 import SnapKit
+import OSLog
 
 class BaseViewController: UIViewController {
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+        if #available(iOS 14.0, *) {
+            Logger.uiLogger.log("✅ \(String(describing: self)) init success")
+        } else {
+            os_log("✅ %@ init success", log: .uiLogger, String(describing: self))
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +51,11 @@ class BaseViewController: UIViewController {
     func configureLayout() { }
 
     deinit {
-        print("🗑️", String(describing: self), "- deinit success")
+        if #available(iOS 14.0, *) {
+            Logger.uiLogger.log("🗑️ \(String(describing: self)) deinit success")
+        } else {
+            os_log("🗑️ %@ deinit success", log: .uiLogger, String(describing: self))
+        }
     }
 
 }

@@ -13,6 +13,7 @@ protocol FavoriteViewModelInput {
     func likeButtonDidTouched(with data: Goods, isFavorite: Bool)
     func viewWillAppear()
     func viewWillDisappear()
+    func didSelectItemAt(indexPath: IndexPath)
     func searchShoppingItem(with keyword: String)
     func searchBarCancleButtonClicked()
     func searchBarSearchButtonClicked()
@@ -25,9 +26,15 @@ protocol FavoriteViewModelOutput {
     var resignKeyboard: BehaviorRelay<Bool> { get }
 }
 
-protocol FavoriteViewModel: FavoriteViewModelInput, FavoriteViewModelOutput { }
+protocol FavoriteViewModel: FavoriteViewModelInput, FavoriteViewModelOutput, Coordinating { }
 
 final class DefaultFavoriteViewModel: FavoriteViewModel {
+
+    // MARK: - Coordinator
+
+    weak var coordinator: Coordinator?
+
+    // MARK: - Usecase
 
     private let favoriteShoppingUseCase: FavoriteShoppingUseCase
 
@@ -39,9 +46,9 @@ final class DefaultFavoriteViewModel: FavoriteViewModel {
 
     // MARK: - FavoriteViewModelOutput
 
-    let favoriteItemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
-    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
+    let favoriteItemList: BehaviorSubject<[Goods]> = BehaviorSubject(value: [])
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 
     private var keyword: String?
 }
@@ -63,6 +70,13 @@ extension DefaultFavoriteViewModel {
 
     func viewWillDisappear() {
         resignKeyboard.accept(true)
+    }
+
+    func didSelectItemAt(indexPath: IndexPath) {
+        guard let itemList = try? favoriteItemList.value() else { return }
+        let goods = itemList[indexPath.item]
+
+        coordinator?.eventOccurred(with: .itemSelected(item: goods))
     }
 
     func searchShoppingItem(with keyword: String) {

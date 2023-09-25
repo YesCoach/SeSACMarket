@@ -10,6 +10,7 @@ import Foundation
 // MARK: - Goods
 
 struct Goods: Hashable {
+    let uuid: String = UUID().uuidString
     let productID: String
     let title: String
     let link: String?

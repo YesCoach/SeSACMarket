@@ -19,6 +19,8 @@ protocol SearchViewModelInput {
     func refreshViewController()
     func viewWillAppear()
     func upScrollButtonDidTouched()
+    func prefetchItemAt(indexPath: IndexPath)
+    func didSelectItemAt(indexPath: IndexPath)
 
     // MARK: SearchBar
 
@@ -39,6 +41,7 @@ protocol SearchViewModelOutput {
     var searchHistoryList: BehaviorSubject<[String]> { get }
     var error: PublishRelay<(String?, String?)> { get }
     var isRefreshControlRefreshing: BehaviorRelay<Bool> { get }
+    var isActivityControllerAnimating: BehaviorRelay<Bool> { get }
     var isFilterViewHidden: BehaviorRelay<Bool> { get }
     var isFilterTypeReset: BehaviorRelay<Bool> { get }
     var isSearchHistoryHidden: BehaviorRelay<Bool> { get }
@@ -52,9 +55,13 @@ protocol SearchViewModelOutput {
 
 // MARK: -
 
-protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput { }
+protocol SearchViewModel: SearchViewModelInput, SearchViewModelOutput, Coordinating { }
 
 final class DefaultSearchViewModel: SearchViewModel {
+
+    // MARK: - Coordinator
+
+    weak var coordinator: Coordinator?
 
     // MARK: - UseCase
 
@@ -78,22 +85,23 @@ final class DefaultSearchViewModel: SearchViewModel {
 
     // MARK: SearchViewModelOutput
 
-    let itemList: BehaviorSubject<[Goods]> = .init(value: [])
-    let searchHistoryList: BehaviorSubject<[String]> = .init(value: [])
-    let error: PublishRelay<(String?, String?)> = .init()
+    let itemList: BehaviorSubject<[Goods]> = BehaviorSubject<[Goods]>(value: [])
+    let searchHistoryList: BehaviorSubject<[String]> = BehaviorSubject<[String]>(value: [])
+    let error: PublishRelay<(String?, String?)> = PublishRelay<(String?, String?)>()
 
     // MARK: SearchViewModelUIOutput
 
-    let isRefreshControlRefreshing: BehaviorRelay<Bool> = .init(value: false)
-    let isSearchHistoryHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isUpScrollButtonHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isEmptyLabelHidden: BehaviorRelay<Bool> = .init(value: false)
-    let isFilterViewHidden: BehaviorRelay<Bool> = .init(value: true)
-    let isFilterTypeReset: BehaviorRelay<Bool> = .init(value: false)
-    let isAlertCalled: BehaviorRelay<Bool> = .init(value: false)
-    let resignKeyboard: BehaviorRelay<Bool> = .init(value: false)
-    let scrollToTopWithAnimation: PublishRelay<Bool> = .init()
-    let searchBarText: BehaviorRelay<String?> = .init(value: nil)
+    let isRefreshControlRefreshing: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isActivityControllerAnimating: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isSearchHistoryHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isUpScrollButtonHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isEmptyLabelHidden: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isFilterViewHidden: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    let isFilterTypeReset: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let isAlertCalled: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let resignKeyboard: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    let scrollToTopWithAnimation: PublishRelay<Bool> = PublishRelay()
+    let searchBarText: BehaviorRelay<String?> = BehaviorRelay(value: nil)
 
     // MARK: Property
 
@@ -141,22 +149,19 @@ extension DefaultSearchViewModel {
     /// - 프리패칭 로직
     /// 1. 페이징 플래그 확인
     /// 2. 검색 인덱스가 검색 최대 인덱스를 초과하는지
-    /// 3. 검색 인덱스가 검색 결과의 최대 갯수를 초과하는지
+    /// 3. 현재 가지고 있는 데이터 수가 검색 상품의 총 데이터 수보다 적은지
     func fetchNextShoppingList() {
         guard isPagingEnabled else { return }
-        let nextSearchIndex = searchStartIndex + searchDisplayCount
-        guard nextSearchIndex <= Constants.API.searchIdxLimit,
-              nextSearchIndex <= searchTotalCount ?? Constants.API.searchIdxLimit
+
+        guard searchStartIndex < Constants.API.searchIdxLimit,
+              let searchTotalCount,
+              dataSourceItemList.count < searchTotalCount
         else { return }
 
-        searchStartIndex += searchDisplayCount
+        searchStartIndex += 1
         isPagingEnabled = false
 
-        print("")
-        print(#function, ":: is called!!")
-        print("=========================")
-
-        fetchShoppingList()
+        self.fetchShoppingList()
     }
 
     // MARK: -
@@ -198,6 +203,11 @@ extension DefaultSearchViewModel {
     func viewWillAppear() {
         mappingWithLocalFavoriteData()
         loadSearchHistory()
+    }
+
+    func didSelectItemAt(indexPath: IndexPath) {
+        let goods = dataSourceItemList[indexPath.row]
+        coordinator?.eventOccurred(with: .itemSelected(item: goods))
     }
 
     // MARK: - SearchBar
@@ -252,6 +262,12 @@ extension DefaultSearchViewModel {
         scrollToTopWithAnimation.accept(true)
     }
 
+    func prefetchItemAt(indexPath: IndexPath) {
+        if dataSourceItemList.count - 16 == indexPath.item {
+            fetchNextShoppingList()
+        }
+    }
+
 }
 
 // MARK: - Private Methods
@@ -265,23 +281,18 @@ private extension DefaultSearchViewModel {
     /// - sort: 검색결과의 정렬 기준
     func fetchShoppingList() {
         guard let searchKeyword else {
-            isRefreshControlRefreshing.accept(false)
+            isActivityControllerAnimating.accept(false)
             return
         }
-        isRefreshControlRefreshing.accept(true)
+        isActivityControllerAnimating.accept(true)
         fetchShoppingUseCase.fetchShoppingList(
             with: searchKeyword,
             display: searchDisplayCount,
             start: searchStartIndex,
             sort: searchSortType
         ) { [weak self] result in
-
-            print("")
-            print(#function, ":: is called!!")
-            print("=========================")
-
             guard let self else { return }
-            isRefreshControlRefreshing.accept(false)
+            isActivityControllerAnimating.accept(false)
 
             switch result {
             case let .success(searchResult):
@@ -299,10 +310,6 @@ private extension DefaultSearchViewModel {
                     isFilterViewHidden.accept(dataSourceItemList.isEmpty)
                     isUpScrollButtonHidden.accept(dataSourceItemList.isEmpty)
                     isEmptyLabelHidden.accept(!dataSourceItemList.isEmpty)
-
-                    print("")
-                    print("✅", #function, ":: is succeed!!")
-                    print("=========================")
                 }
             case let .failure(error):
                 debugPrint(error)

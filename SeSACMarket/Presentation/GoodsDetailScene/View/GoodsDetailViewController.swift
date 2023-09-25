@@ -68,6 +68,10 @@ final class GoodsDetailViewController: BaseViewController {
         viewModel.viewWillAppear()
     }
 
+    deinit {
+        viewModel.willDeinit()
+    }
+
     override func configureUI() {
         self.title = viewModel.goods.title
         navigationItem.rightBarButtonItem = likeButton

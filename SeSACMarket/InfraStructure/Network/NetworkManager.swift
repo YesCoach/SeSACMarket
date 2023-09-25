@@ -33,8 +33,6 @@ extension NetworkManager {
         request.httpMethod = "GET"
 
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: .main)
-
-        dump(request)
         URLSession.request(session, endpoint: request) { (data: T?, error) in
             if let error {
                 debugPrint(error)
